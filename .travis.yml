@@ -24,6 +24,7 @@ before_script:
   - mysql < docs/structure.sql && mysql pivot < docs/records.sql
 
 script:
+  - cp tests/.env.example tests/.env
   - mkdir -p build/tests/
   - vendor/bin/parallel-lint src/ tests/
   - vendor/bin/phpcs -sp src/ tests/
