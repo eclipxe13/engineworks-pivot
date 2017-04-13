@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<pivot>
+  <source>records</source>
+  <sourcefield fieldname="period" caption="Customer" type="TEXT"/>
+  <sourcefield fieldname="customerid" caption="Customer ID" type="TEXT"/>
+  <sourcefield fieldname="customername" caption="Customer" type="TEXT"/>
+  <sourcefield fieldname="salesid" caption="Agent ID" type="TEXT"/>
+  <sourcefield fieldname="salesname" caption="Sales Agent" type="TEXT"/>
+  <sourcefield fieldname="zoneid" caption="Zone ID" type="TEXT"/>
+  <sourcefield fieldname="zonename" caption="Zone" type="TEXT"/>
+  <sourcefield fieldname="partnumber" caption="SKU" type="TEXT"/>
+  <sourcefield fieldname="description" caption="Product" type="TEXT"/>
+  <sourcefield fieldname="quantity" caption="Quantity" type="INT"/>
+  <sourcefield fieldname="unitprice" caption="Price" type="NUMBER"/>
+  <sourcefield fieldname="unitcost" caption="Unit Cost" type="NUMBER"/>
+  <sourcefield fieldname="totalsale" caption="Sale" type="NUMBER"/>
+  <sourcefield fieldname="totalcost" caption="Cost" type="NUMBER"/>
+  <column fieldname="period"/>
+  <row fieldname="zonename"/>
+  <row fieldname="salesname"/>
+  <aggregate asname="sum_totalcost" fieldname="totalcost" caption="Costs" group="SUM" decimals="2" order=""/>
+  <aggregate asname="sum_totalsale" fieldname="totalsale" caption="Sales" group="SUM" decimals="2" order="DESC"/>
+  <info name="description">A test for save</info>
+  <info name="author">Mr Foo Bar</info>
+  <info name="created">2017-04-12 16:54:58</info>
+</pivot>

@@ -1,0 +1,142 @@
+{
+    "rows": {
+        "group": "",
+        "values": [
+            "454,177,761.14"
+        ],
+        "rows": [
+            {
+                "group": "Beko",
+                "values": [
+                    "47,009,359.51"
+                ]
+            },
+            {
+                "group": "Cisco Systems, Inc.",
+                "values": [
+                    "3,463,865.52"
+                ]
+            },
+            {
+                "group": "Coca-Cola",
+                "values": [
+                    "2,883,156.21"
+                ]
+            },
+            {
+                "group": "Corona",
+                "values": [
+                    "1,806,751.84"
+                ]
+            },
+            {
+                "group": "eBay",
+                "values": [
+                    "1,921,820.38"
+                ]
+            },
+            {
+                "group": "Gap Inc.",
+                "values": [
+                    "5,790,118.85"
+                ]
+            },
+            {
+                "group": "Home Depot",
+                "values": [
+                    "4,511,981.02"
+                ]
+            },
+            {
+                "group": "Honda Motor Company, Ltd",
+                "values": [
+                    "4,622,052.08"
+                ]
+            },
+            {
+                "group": "Hyundai",
+                "values": [
+                    "8,609,920.62"
+                ]
+            },
+            {
+                "group": "Kellogg Company",
+                "values": [
+                    "9,992,153.02"
+                ]
+            },
+            {
+                "group": "Kia Motors",
+                "values": [
+                    "4,530,554.18"
+                ]
+            },
+            {
+                "group": "L'Or\u00e9al",
+                "values": [
+                    "635,509.45"
+                ]
+            },
+            {
+                "group": "Louis Vuitton",
+                "values": [
+                    "1,043,824.87"
+                ]
+            },
+            {
+                "group": "McDonald's",
+                "values": [
+                    "1,145,139.69"
+                ]
+            },
+            {
+                "group": "Mitsubishi",
+                "values": [
+                    "36,418,944.33"
+                ]
+            },
+            {
+                "group": "Mo\u00ebt et Chandon",
+                "values": [
+                    "2,728,191.99"
+                ]
+            },
+            {
+                "group": "Nescaf\u00e9",
+                "values": [
+                    "7,743,869.14"
+                ]
+            },
+            {
+                "group": "Pizza Hut",
+                "values": [
+                    "1,335,858.35"
+                ]
+            },
+            {
+                "group": "Sony",
+                "values": [
+                    "268,657,032.35"
+                ]
+            },
+            {
+                "group": "Starbucks",
+                "values": [
+                    "6,697,241.66"
+                ]
+            },
+            {
+                "group": "Tesco Corporation",
+                "values": [
+                    "16,057,856.00"
+                ]
+            },
+            {
+                "group": "Volkswagen Group",
+                "values": [
+                    "16,572,560.08"
+                ]
+            }
+        ]
+    }
+}

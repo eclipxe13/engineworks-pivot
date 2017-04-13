@@ -1,0 +1,964 @@
+{
+    "rows": {
+        "group": "",
+        "values": [
+            "1,371,764,867.26"
+        ],
+        "rows": [
+            {
+                "group": "Americas",
+                "values": [
+                    "34,320,025.66"
+                ],
+                "rows": [
+                    {
+                        "group": "Ariella Moore",
+                        "values": [
+                            "34,320,025.66"
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "Main Office",
+                "values": [
+                    "463,006,046.19"
+                ],
+                "rows": [
+                    {
+                        "group": "Cyrus Christensen",
+                        "values": [
+                            "81,947,182.84"
+                        ]
+                    },
+                    {
+                        "group": "Elliott Bautista",
+                        "values": [
+                            "11,321,547.64"
+                        ]
+                    },
+                    {
+                        "group": "Emelia Schneider",
+                        "values": [
+                            "11,614,195.15"
+                        ]
+                    },
+                    {
+                        "group": "Esperanza Wolfe",
+                        "values": [
+                            "174,220,883.85"
+                        ]
+                    },
+                    {
+                        "group": "Jadon Waters",
+                        "values": [
+                            "12,113,062.64"
+                        ]
+                    },
+                    {
+                        "group": "Jadyn Esparza",
+                        "values": [
+                            "16,129,980.72"
+                        ]
+                    },
+                    {
+                        "group": "Juliette Hobbs",
+                        "values": [
+                            "7,570,706.35"
+                        ]
+                    },
+                    {
+                        "group": "Kelsie Macias",
+                        "values": [
+                            "12,142,546.01"
+                        ]
+                    },
+                    {
+                        "group": "Kyler White",
+                        "values": [
+                            "85,655,637.69"
+                        ]
+                    },
+                    {
+                        "group": "Rosa Sellers",
+                        "values": [
+                            "48,448,085.70"
+                        ]
+                    },
+                    {
+                        "group": "Wade Krueger",
+                        "values": [
+                            "87,666.95"
+                        ]
+                    },
+                    {
+                        "group": "Zane Boyd",
+                        "values": [
+                            "1,754,550.65"
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "No Branch",
+                "values": [
+                    "324,788,044.82"
+                ],
+                "rows": [
+                    {
+                        "group": "Jocelynn Gomez",
+                        "values": [
+                            "3,873,331.68"
+                        ]
+                    },
+                    {
+                        "group": "Miriam Myers",
+                        "values": [
+                            "4,622,052.08"
+                        ]
+                    },
+                    {
+                        "group": "Niko Mayo",
+                        "values": [
+                            "16,572,560.08"
+                        ]
+                    },
+                    {
+                        "group": "Rosa Sellers",
+                        "values": [
+                            "10,796,616.63"
+                        ]
+                    },
+                    {
+                        "group": "Tyrell Larsen",
+                        "values": [
+                            "8,609,920.62"
+                        ]
+                    },
+                    {
+                        "group": "Wade Krueger",
+                        "values": [
+                            "274,523,444.88"
+                        ]
+                    },
+                    {
+                        "group": "Zane Boyd",
+                        "values": [
+                            "5,790,118.85"
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "North Banch",
+                "values": [
+                    "129,389,716.32"
+                ],
+                "rows": [
+                    {
+                        "group": "Cyrus Christensen",
+                        "values": [
+                            "47,009,359.51"
+                        ]
+                    },
+                    {
+                        "group": "Esperanza Wolfe",
+                        "values": [
+                            "36,418,944.33"
+                        ]
+                    },
+                    {
+                        "group": "Kobe Nichols",
+                        "values": [
+                            "1,921,820.38"
+                        ]
+                    },
+                    {
+                        "group": "Lilly Rogers",
+                        "values": [
+                            "16,057,856.00"
+                        ]
+                    },
+                    {
+                        "group": "Luke Rosario",
+                        "values": [
+                            "1,806,751.84"
+                        ]
+                    },
+                    {
+                        "group": "Maliyah Hartman",
+                        "values": [
+                            "1,043,824.87"
+                        ]
+                    },
+                    {
+                        "group": "Rosa Sellers",
+                        "values": [
+                            "25,131,159.39"
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "South Banch",
+                "values": [
+                    "420,261,034.27"
+                ],
+                "rows": [
+                    {
+                        "group": "Aisha Blair",
+                        "values": [
+                            "2,268,978.76"
+                        ]
+                    },
+                    {
+                        "group": "Cyrus Christensen",
+                        "values": [
+                            "74,145,806.00"
+                        ]
+                    },
+                    {
+                        "group": "Esperanza Wolfe",
+                        "values": [
+                            "139,951,885.75"
+                        ]
+                    },
+                    {
+                        "group": "Kelsie Macias",
+                        "values": [
+                            "12,580,995.52"
+                        ]
+                    },
+                    {
+                        "group": "Rosa Sellers",
+                        "values": [
+                            "93,350,080.04"
+                        ]
+                    },
+                    {
+                        "group": "Sergio Hampton",
+                        "values": [
+                            "96,296,295.07"
+                        ]
+                    },
+                    {
+                        "group": "Tiffany Leonard",
+                        "values": [
+                            "1,666,993.13"
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "columns": {
+        "group": "",
+        "values": [
+            "1,371,764,867.26"
+        ],
+        "columns": [
+            {
+                "group": "201701",
+                "values": [
+                    "539,499,800.02"
+                ],
+                "columns": [
+                    {
+                        "group": "Americas",
+                        "values": [
+                            "6,963,920.38"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Ariella Moore",
+                                "values": [
+                                    "6,963,920.38"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "Main Office",
+                        "values": [
+                            "199,199,423.76"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "28,650,252.65"
+                                ]
+                            },
+                            {
+                                "group": "Elliott Bautista",
+                                "values": [
+                                    "10,357,452.43"
+                                ]
+                            },
+                            {
+                                "group": "Emelia Schneider",
+                                "values": [
+                                    "4,557,685.69"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "75,064,135.73"
+                                ]
+                            },
+                            {
+                                "group": "Jadon Waters",
+                                "values": [
+                                    "3,090,402.36"
+                                ]
+                            },
+                            {
+                                "group": "Jadyn Esparza",
+                                "values": [
+                                    "3,918,437.23"
+                                ]
+                            },
+                            {
+                                "group": "Juliette Hobbs",
+                                "values": [
+                                    "908,545.21"
+                                ]
+                            },
+                            {
+                                "group": "Kelsie Macias",
+                                "values": [
+                                    "7,133,116.96"
+                                ]
+                            },
+                            {
+                                "group": "Kyler White",
+                                "values": [
+                                    "39,191,551.84"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "24,734,544.52"
+                                ]
+                            },
+                            {
+                                "group": "Zane Boyd",
+                                "values": [
+                                    "1,593,299.14"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "No Branch",
+                        "values": [
+                            "141,682,891.04"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Jocelynn Gomez",
+                                "values": [
+                                    "1,935,637.62"
+                                ]
+                            },
+                            {
+                                "group": "Miriam Myers",
+                                "values": [
+                                    "3,491,419.17"
+                                ]
+                            },
+                            {
+                                "group": "Niko Mayo",
+                                "values": [
+                                    "7,362,334.61"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "4,767,186.25"
+                                ]
+                            },
+                            {
+                                "group": "Tyrell Larsen",
+                                "values": [
+                                    "4,346,712.60"
+                                ]
+                            },
+                            {
+                                "group": "Wade Krueger",
+                                "values": [
+                                    "118,545,391.91"
+                                ]
+                            },
+                            {
+                                "group": "Zane Boyd",
+                                "values": [
+                                    "1,234,208.88"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "North Banch",
+                        "values": [
+                            "36,443,992.81"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "13,555,559.55"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "9,253,126.86"
+                                ]
+                            },
+                            {
+                                "group": "Kobe Nichols",
+                                "values": [
+                                    "1,000,963.67"
+                                ]
+                            },
+                            {
+                                "group": "Lilly Rogers",
+                                "values": [
+                                    "3,320,281.31"
+                                ]
+                            },
+                            {
+                                "group": "Luke Rosario",
+                                "values": [
+                                    "889,323.55"
+                                ]
+                            },
+                            {
+                                "group": "Maliyah Hartman",
+                                "values": [
+                                    "1,043,824.87"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "7,380,913.00"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "South Banch",
+                        "values": [
+                            "155,209,572.03"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Aisha Blair",
+                                "values": [
+                                    "170,086.79"
+                                ]
+                            },
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "27,392,450.83"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "37,757,539.38"
+                                ]
+                            },
+                            {
+                                "group": "Kelsie Macias",
+                                "values": [
+                                    "3,616,290.07"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "33,017,079.86"
+                                ]
+                            },
+                            {
+                                "group": "Sergio Hampton",
+                                "values": [
+                                    "52,359,290.18"
+                                ]
+                            },
+                            {
+                                "group": "Tiffany Leonard",
+                                "values": [
+                                    "896,834.92"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "201702",
+                "values": [
+                    "418,674,135.18"
+                ],
+                "columns": [
+                    {
+                        "group": "Americas",
+                        "values": [
+                            "10,120,561.75"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Ariella Moore",
+                                "values": [
+                                    "10,120,561.75"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "Main Office",
+                        "values": [
+                            "155,407,152.57"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "29,900,981.88"
+                                ]
+                            },
+                            {
+                                "group": "Elliott Bautista",
+                                "values": [
+                                    "964,095.21"
+                                ]
+                            },
+                            {
+                                "group": "Emelia Schneider",
+                                "values": [
+                                    "3,007,616.58"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "59,332,951.74"
+                                ]
+                            },
+                            {
+                                "group": "Jadon Waters",
+                                "values": [
+                                    "6,829,631.15"
+                                ]
+                            },
+                            {
+                                "group": "Jadyn Esparza",
+                                "values": [
+                                    "6,820,240.06"
+                                ]
+                            },
+                            {
+                                "group": "Juliette Hobbs",
+                                "values": [
+                                    "1,127,936.93"
+                                ]
+                            },
+                            {
+                                "group": "Kyler White",
+                                "values": [
+                                    "30,402,222.18"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "16,860,225.33"
+                                ]
+                            },
+                            {
+                                "group": "Zane Boyd",
+                                "values": [
+                                    "161,251.51"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "No Branch",
+                        "values": [
+                            "66,672,049.51"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Jocelynn Gomez",
+                                "values": [
+                                    "588,571.80"
+                                ]
+                            },
+                            {
+                                "group": "Miriam Myers",
+                                "values": [
+                                    "172,934.79"
+                                ]
+                            },
+                            {
+                                "group": "Niko Mayo",
+                                "values": [
+                                    "5,228,568.49"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "1,839,953.81"
+                                ]
+                            },
+                            {
+                                "group": "Tyrell Larsen",
+                                "values": [
+                                    "2,130,068.34"
+                                ]
+                            },
+                            {
+                                "group": "Wade Krueger",
+                                "values": [
+                                    "55,538,503.29"
+                                ]
+                            },
+                            {
+                                "group": "Zane Boyd",
+                                "values": [
+                                    "1,173,448.99"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "North Banch",
+                        "values": [
+                            "50,781,739.16"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "17,638,525.82"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "11,498,292.64"
+                                ]
+                            },
+                            {
+                                "group": "Kobe Nichols",
+                                "values": [
+                                    "434,626.51"
+                                ]
+                            },
+                            {
+                                "group": "Lilly Rogers",
+                                "values": [
+                                    "7,400,682.95"
+                                ]
+                            },
+                            {
+                                "group": "Luke Rosario",
+                                "values": [
+                                    "532,217.18"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "13,277,394.06"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "South Banch",
+                        "values": [
+                            "135,692,632.19"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "20,180,037.31"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "49,418,829.91"
+                                ]
+                            },
+                            {
+                                "group": "Kelsie Macias",
+                                "values": [
+                                    "3,984,052.42"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "36,510,048.60"
+                                ]
+                            },
+                            {
+                                "group": "Sergio Hampton",
+                                "values": [
+                                    "24,829,505.74"
+                                ]
+                            },
+                            {
+                                "group": "Tiffany Leonard",
+                                "values": [
+                                    "770,158.21"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "201703",
+                "values": [
+                    "413,590,932.06"
+                ],
+                "columns": [
+                    {
+                        "group": "Americas",
+                        "values": [
+                            "17,235,543.53"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Ariella Moore",
+                                "values": [
+                                    "17,235,543.53"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "Main Office",
+                        "values": [
+                            "108,399,469.86"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "23,395,948.31"
+                                ]
+                            },
+                            {
+                                "group": "Emelia Schneider",
+                                "values": [
+                                    "4,048,892.88"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "39,823,796.38"
+                                ]
+                            },
+                            {
+                                "group": "Jadon Waters",
+                                "values": [
+                                    "2,193,029.13"
+                                ]
+                            },
+                            {
+                                "group": "Jadyn Esparza",
+                                "values": [
+                                    "5,391,303.43"
+                                ]
+                            },
+                            {
+                                "group": "Juliette Hobbs",
+                                "values": [
+                                    "5,534,224.21"
+                                ]
+                            },
+                            {
+                                "group": "Kelsie Macias",
+                                "values": [
+                                    "5,009,429.05"
+                                ]
+                            },
+                            {
+                                "group": "Kyler White",
+                                "values": [
+                                    "16,061,863.67"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "6,853,315.85"
+                                ]
+                            },
+                            {
+                                "group": "Wade Krueger",
+                                "values": [
+                                    "87,666.95"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "No Branch",
+                        "values": [
+                            "116,433,104.27"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Jocelynn Gomez",
+                                "values": [
+                                    "1,349,122.26"
+                                ]
+                            },
+                            {
+                                "group": "Miriam Myers",
+                                "values": [
+                                    "957,698.12"
+                                ]
+                            },
+                            {
+                                "group": "Niko Mayo",
+                                "values": [
+                                    "3,981,656.98"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "4,189,476.57"
+                                ]
+                            },
+                            {
+                                "group": "Tyrell Larsen",
+                                "values": [
+                                    "2,133,139.68"
+                                ]
+                            },
+                            {
+                                "group": "Wade Krueger",
+                                "values": [
+                                    "100,439,549.68"
+                                ]
+                            },
+                            {
+                                "group": "Zane Boyd",
+                                "values": [
+                                    "3,382,460.98"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "North Banch",
+                        "values": [
+                            "42,163,984.35"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "15,815,274.14"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "15,667,524.83"
+                                ]
+                            },
+                            {
+                                "group": "Kobe Nichols",
+                                "values": [
+                                    "486,230.20"
+                                ]
+                            },
+                            {
+                                "group": "Lilly Rogers",
+                                "values": [
+                                    "5,336,891.74"
+                                ]
+                            },
+                            {
+                                "group": "Luke Rosario",
+                                "values": [
+                                    "385,211.11"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "4,472,852.33"
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "group": "South Banch",
+                        "values": [
+                            "129,358,830.05"
+                        ],
+                        "columns": [
+                            {
+                                "group": "Aisha Blair",
+                                "values": [
+                                    "2,098,891.97"
+                                ]
+                            },
+                            {
+                                "group": "Cyrus Christensen",
+                                "values": [
+                                    "26,573,317.86"
+                                ]
+                            },
+                            {
+                                "group": "Esperanza Wolfe",
+                                "values": [
+                                    "52,775,516.46"
+                                ]
+                            },
+                            {
+                                "group": "Kelsie Macias",
+                                "values": [
+                                    "4,980,653.03"
+                                ]
+                            },
+                            {
+                                "group": "Rosa Sellers",
+                                "values": [
+                                    "23,822,951.58"
+                                ]
+                            },
+                            {
+                                "group": "Sergio Hampton",
+                                "values": [
+                                    "19,107,499.15"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

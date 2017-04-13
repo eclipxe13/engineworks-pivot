@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<pivot>
+    <source>records</source>
+    <sourcefield fieldname="zonename" caption="Zone" type="TEXT"/>
+    <sourcefield fieldname="salesname" caption="Agent" type="TEXT"/>
+    <sourcefield fieldname="period" caption="Period" type="TEXT"/>
+    <sourcefield fieldname="totalsale" caption="Sale" type="NUMBER"/>
+    <column fieldname="period"/>
+    <row fieldname="zonename"/>
+    <row fieldname="salesname"/>
+    <aggregate asname="sum_totalsale" fieldname="totalsale" caption="Sales" group="SUM" decimals="2" order=""/>
+</pivot>

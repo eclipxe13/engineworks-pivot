@@ -1,0 +1,40 @@
+{
+    "rows": {
+        "group": "",
+        "values": [
+            "1,371,764,867.26"
+        ],
+        "rows": [
+            {
+                "group": "Americas",
+                "values": [
+                    "34,320,025.66"
+                ]
+            },
+            {
+                "group": "Main Office",
+                "values": [
+                    "463,006,046.19"
+                ]
+            },
+            {
+                "group": "No Branch",
+                "values": [
+                    "324,788,044.82"
+                ]
+            },
+            {
+                "group": "North Banch",
+                "values": [
+                    "129,389,716.32"
+                ]
+            },
+            {
+                "group": "South Banch",
+                "values": [
+                    "420,261,034.27"
+                ]
+            }
+        ]
+    }
+}

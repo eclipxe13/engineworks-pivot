@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<pivot>
+    <source>records</source>
+    <sourcefield fieldname="totalsale" caption="Sale" type="NUMBER"/>
+    <sourcefield fieldname="totalcost" caption="Cost" type="NUMBER"/>
+    <aggregate asname="sum_totalcost" fieldname="totalcost" caption="Costs" group="SUM" decimals="2" order=""/>
+    <aggregate asname="sum_totalsale" fieldname="totalsale" caption="Sales" group="SUM" decimals="2" order="DESC"/>
+</pivot>

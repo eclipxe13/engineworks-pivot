@@ -1,0 +1,36 @@
+{
+    "name": "eclipxe/engineworks-pivot",
+    "description": "PHP Pivot (dynamic tables)",
+    "keywords": ["pivot", "dynamic table", "data", "table"],
+    "homepage": "https://github.com/eclipxe13/engineworks-pivot",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos C Soto",
+            "email": "eclipxe13@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "eclipxe/engineworks-dbal": "@stable"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable",
+        "vlucas/phpdotenv": "@stable",
+        "jakub-onderka/php-parallel-lint": "@stable",
+        "squizlabs/php_codesniffer": "@stable",
+        "friendsofphp/php-cs-fixer": "@stable",
+        "scrutinizer/ocular": "@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "EngineWorks\\Pivot\\": "src/EngineWorks/Pivot/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EngineWorks\\PivotTests\\": "tests/EngineWorks/PivotTests/"
+        }
+    }
+}
+

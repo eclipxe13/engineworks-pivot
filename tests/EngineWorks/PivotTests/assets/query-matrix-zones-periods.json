@@ -1,0 +1,162 @@
+{
+    "rows": {
+        "group": "",
+        "values": [
+            "1,371,764,867.26"
+        ],
+        "rows": [
+            {
+                "group": "Americas",
+                "values": [
+                    "34,320,025.66"
+                ]
+            },
+            {
+                "group": "Main Office",
+                "values": [
+                    "463,006,046.19"
+                ]
+            },
+            {
+                "group": "No Branch",
+                "values": [
+                    "324,788,044.82"
+                ]
+            },
+            {
+                "group": "North Banch",
+                "values": [
+                    "129,389,716.32"
+                ]
+            },
+            {
+                "group": "South Banch",
+                "values": [
+                    "420,261,034.27"
+                ]
+            }
+        ]
+    },
+    "columns": {
+        "group": "",
+        "values": [
+            "1,371,764,867.26"
+        ],
+        "columns": [
+            {
+                "group": "201701",
+                "values": [
+                    "539,499,800.02"
+                ],
+                "columns": [
+                    {
+                        "group": "Americas",
+                        "values": [
+                            "6,963,920.38"
+                        ]
+                    },
+                    {
+                        "group": "Main Office",
+                        "values": [
+                            "199,199,423.76"
+                        ]
+                    },
+                    {
+                        "group": "No Branch",
+                        "values": [
+                            "141,682,891.04"
+                        ]
+                    },
+                    {
+                        "group": "North Banch",
+                        "values": [
+                            "36,443,992.81"
+                        ]
+                    },
+                    {
+                        "group": "South Banch",
+                        "values": [
+                            "155,209,572.03"
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "201702",
+                "values": [
+                    "418,674,135.18"
+                ],
+                "columns": [
+                    {
+                        "group": "Americas",
+                        "values": [
+                            "10,120,561.75"
+                        ]
+                    },
+                    {
+                        "group": "Main Office",
+                        "values": [
+                            "155,407,152.57"
+                        ]
+                    },
+                    {
+                        "group": "No Branch",
+                        "values": [
+                            "66,672,049.51"
+                        ]
+                    },
+                    {
+                        "group": "North Banch",
+                        "values": [
+                            "50,781,739.16"
+                        ]
+                    },
+                    {
+                        "group": "South Banch",
+                        "values": [
+                            "135,692,632.19"
+                        ]
+                    }
+                ]
+            },
+            {
+                "group": "201703",
+                "values": [
+                    "413,590,932.06"
+                ],
+                "columns": [
+                    {
+                        "group": "Americas",
+                        "values": [
+                            "17,235,543.53"
+                        ]
+                    },
+                    {
+                        "group": "Main Office",
+                        "values": [
+                            "108,399,469.86"
+                        ]
+                    },
+                    {
+                        "group": "No Branch",
+                        "values": [
+                            "116,433,104.27"
+                        ]
+                    },
+                    {
+                        "group": "North Banch",
+                        "values": [
+                            "42,163,984.35"
+                        ]
+                    },
+                    {
+                        "group": "South Banch",
+                        "values": [
+                            "129,358,830.05"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

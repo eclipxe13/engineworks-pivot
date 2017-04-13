@@ -1,0 +1,519 @@
+<?xml version="1.0"?>
+<table class="the-table-class" id="the-table-id">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th colspan="2">201701</th>
+            <th colspan="2">201702</th>
+            <th colspan="2" rowspan="1">Total Caption</th>
+        </tr>
+        <tr>
+            <th>Values Caption</th>
+            <th>Costs</th>
+            <th>Sales</th>
+            <th>Costs</th>
+            <th>Sales</th>
+            <th>Costs</th>
+            <th>Sales</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr class="the-row-class the-total-class">
+            <th>
+                <div>Row Total Caption</div>
+            </th>
+            <td>457,945,251.30</td>
+            <td>539,499,800.02</td>
+            <td>357,212,944.10</td>
+            <td>418,674,135.18</td>
+            <td>815,158,195.40</td>
+            <td>958,173,935.20</td>
+        </tr>
+    </tfoot>
+    <tbody>
+        <tr class="the-row-class the-subtotal-class">
+            <th>
+                <div>Main Office</div>
+            </th>
+            <td>168,667,224.04</td>
+            <td>199,199,423.76</td>
+            <td>132,398,563.12</td>
+            <td>155,407,152.57</td>
+            <td>301,065,787.16</td>
+            <td>354,606,576.33</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Esperanza Wolfe</div>
+                </div>
+            </th>
+            <td>63,695,389.99</td>
+            <td>75,064,135.73</td>
+            <td>50,223,505.94</td>
+            <td>59,332,951.74</td>
+            <td>113,918,895.93</td>
+            <td>134,397,087.47</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Kyler White</div>
+                </div>
+            </th>
+            <td>33,047,857.18</td>
+            <td>39,191,551.84</td>
+            <td>26,253,735.74</td>
+            <td>30,402,222.18</td>
+            <td>59,301,592.92</td>
+            <td>69,593,774.02</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Cyrus Christensen</div>
+                </div>
+            </th>
+            <td>24,063,424.29</td>
+            <td>28,650,252.65</td>
+            <td>25,494,721.27</td>
+            <td>29,900,981.88</td>
+            <td>49,558,145.56</td>
+            <td>58,551,234.53</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Rosa Sellers</div>
+                </div>
+            </th>
+            <td>21,171,489.97</td>
+            <td>24,734,544.52</td>
+            <td>14,566,403.06</td>
+            <td>16,860,225.33</td>
+            <td>35,737,893.03</td>
+            <td>41,594,769.85</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Elliott Bautista</div>
+                </div>
+            </th>
+            <td>8,681,850.79</td>
+            <td>10,357,452.43</td>
+            <td>873,871.84</td>
+            <td>964,095.21</td>
+            <td>9,555,722.63</td>
+            <td>11,321,547.64</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Jadyn Esparza</div>
+                </div>
+            </th>
+            <td>3,326,913.39</td>
+            <td>3,918,437.23</td>
+            <td>5,621,219.90</td>
+            <td>6,820,240.06</td>
+            <td>8,948,133.29</td>
+            <td>10,738,677.29</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Jadon Waters</div>
+                </div>
+            </th>
+            <td>2,571,426.57</td>
+            <td>3,090,402.36</td>
+            <td>5,768,042.63</td>
+            <td>6,829,631.15</td>
+            <td>8,339,469.20</td>
+            <td>9,920,033.51</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Emelia Schneider</div>
+                </div>
+            </th>
+            <td>4,040,327.56</td>
+            <td>4,557,685.69</td>
+            <td>2,580,610.73</td>
+            <td>3,007,616.58</td>
+            <td>6,620,938.29</td>
+            <td>7,565,302.27</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Kelsie Macias</div>
+                </div>
+            </th>
+            <td>5,907,599.27</td>
+            <td>7,133,116.96</td>
+            <td/>
+            <td/>
+            <td>5,907,599.27</td>
+            <td>7,133,116.96</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Juliette Hobbs</div>
+                </div>
+            </th>
+            <td>789,000.23</td>
+            <td>908,545.21</td>
+            <td>895,513.38</td>
+            <td>1,127,936.93</td>
+            <td>1,684,513.61</td>
+            <td>2,036,482.14</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Zane Boyd</div>
+                </div>
+            </th>
+            <td>1,371,944.80</td>
+            <td>1,593,299.14</td>
+            <td>120,938.63</td>
+            <td>161,251.51</td>
+            <td>1,492,883.43</td>
+            <td>1,754,550.65</td>
+        </tr>
+        <tr class="the-row-class the-subtotal-class">
+            <th>
+                <div>South Banch</div>
+            </th>
+            <td>132,310,969.90</td>
+            <td>155,209,572.03</td>
+            <td>115,901,415.40</td>
+            <td>135,692,632.19</td>
+            <td>248,212,385.30</td>
+            <td>290,902,204.22</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Esperanza Wolfe</div>
+                </div>
+            </th>
+            <td>32,273,345.56</td>
+            <td>37,757,539.38</td>
+            <td>42,237,690.94</td>
+            <td>49,418,829.91</td>
+            <td>74,511,036.50</td>
+            <td>87,176,369.29</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Sergio Hampton</div>
+                </div>
+            </th>
+            <td>44,684,185.66</td>
+            <td>52,359,290.18</td>
+            <td>21,434,850.88</td>
+            <td>24,829,505.74</td>
+            <td>66,119,036.54</td>
+            <td>77,188,795.92</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Rosa Sellers</div>
+                </div>
+            </th>
+            <td>28,008,893.44</td>
+            <td>33,017,079.86</td>
+            <td>30,806,007.55</td>
+            <td>36,510,048.60</td>
+            <td>58,814,900.99</td>
+            <td>69,527,128.46</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Cyrus Christensen</div>
+                </div>
+            </th>
+            <td>23,303,245.30</td>
+            <td>27,392,450.83</td>
+            <td>17,515,103.70</td>
+            <td>20,180,037.31</td>
+            <td>40,818,349.00</td>
+            <td>47,572,488.14</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Kelsie Macias</div>
+                </div>
+            </th>
+            <td>3,193,810.90</td>
+            <td>3,616,290.07</td>
+            <td>3,293,278.57</td>
+            <td>3,984,052.42</td>
+            <td>6,487,089.47</td>
+            <td>7,600,342.49</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Tiffany Leonard</div>
+                </div>
+            </th>
+            <td>713,430.57</td>
+            <td>896,834.92</td>
+            <td>614,483.76</td>
+            <td>770,158.21</td>
+            <td>1,327,914.33</td>
+            <td>1,666,993.13</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Aisha Blair</div>
+                </div>
+            </th>
+            <td>134,058.47</td>
+            <td>170,086.79</td>
+            <td/>
+            <td/>
+            <td>134,058.47</td>
+            <td>170,086.79</td>
+        </tr>
+        <tr class="the-row-class the-subtotal-class">
+            <th>
+                <div>No Branch</div>
+            </th>
+            <td>120,239,532.48</td>
+            <td>141,682,891.04</td>
+            <td>56,768,013.74</td>
+            <td>66,672,049.51</td>
+            <td>177,007,546.22</td>
+            <td>208,354,940.55</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Wade Krueger</div>
+                </div>
+            </th>
+            <td>100,471,051.16</td>
+            <td>118,545,391.91</td>
+            <td>47,388,969.13</td>
+            <td>55,538,503.29</td>
+            <td>147,860,020.29</td>
+            <td>174,083,895.20</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Niko Mayo</div>
+                </div>
+            </th>
+            <td>6,260,997.61</td>
+            <td>7,362,334.61</td>
+            <td>4,366,213.32</td>
+            <td>5,228,568.49</td>
+            <td>10,627,210.93</td>
+            <td>12,590,903.10</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Rosa Sellers</div>
+                </div>
+            </th>
+            <td>3,999,626.89</td>
+            <td>4,767,186.25</td>
+            <td>1,639,862.10</td>
+            <td>1,839,953.81</td>
+            <td>5,639,488.99</td>
+            <td>6,607,140.06</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Tyrell Larsen</div>
+                </div>
+            </th>
+            <td>3,745,384.19</td>
+            <td>4,346,712.60</td>
+            <td>1,795,536.77</td>
+            <td>2,130,068.34</td>
+            <td>5,540,920.96</td>
+            <td>6,476,780.94</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Miriam Myers</div>
+                </div>
+            </th>
+            <td>2,984,425.33</td>
+            <td>3,491,419.17</td>
+            <td>148,723.92</td>
+            <td>172,934.79</td>
+            <td>3,133,149.25</td>
+            <td>3,664,353.96</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Jocelynn Gomez</div>
+                </div>
+            </th>
+            <td>1,676,376.97</td>
+            <td>1,935,637.62</td>
+            <td>441,428.85</td>
+            <td>588,571.80</td>
+            <td>2,117,805.82</td>
+            <td>2,524,209.42</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Zane Boyd</div>
+                </div>
+            </th>
+            <td>1,101,670.33</td>
+            <td>1,234,208.88</td>
+            <td>987,279.65</td>
+            <td>1,173,448.99</td>
+            <td>2,088,949.98</td>
+            <td>2,407,657.87</td>
+        </tr>
+        <tr class="the-row-class the-subtotal-class">
+            <th>
+                <div>North Banch</div>
+            </th>
+            <td>30,614,167.79</td>
+            <td>36,443,992.81</td>
+            <td>43,122,814.98</td>
+            <td>50,781,739.16</td>
+            <td>73,736,982.77</td>
+            <td>87,225,731.97</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Cyrus Christensen</div>
+                </div>
+            </th>
+            <td>11,434,807.46</td>
+            <td>13,555,559.55</td>
+            <td>15,291,142.94</td>
+            <td>17,638,525.82</td>
+            <td>26,725,950.40</td>
+            <td>31,194,085.37</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Esperanza Wolfe</div>
+                </div>
+            </th>
+            <td>7,876,105.85</td>
+            <td>9,253,126.86</td>
+            <td>9,543,480.12</td>
+            <td>11,498,292.64</td>
+            <td>17,419,585.97</td>
+            <td>20,751,419.50</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Rosa Sellers</div>
+                </div>
+            </th>
+            <td>6,183,782.42</td>
+            <td>7,380,913.00</td>
+            <td>11,082,433.02</td>
+            <td>13,277,394.06</td>
+            <td>17,266,215.44</td>
+            <td>20,658,307.06</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Lilly Rogers</div>
+                </div>
+            </th>
+            <td>2,729,249.76</td>
+            <td>3,320,281.31</td>
+            <td>6,378,260.62</td>
+            <td>7,400,682.95</td>
+            <td>9,107,510.38</td>
+            <td>10,720,964.26</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Kobe Nichols</div>
+                </div>
+            </th>
+            <td>835,526.04</td>
+            <td>1,000,963.67</td>
+            <td>375,113.68</td>
+            <td>434,626.51</td>
+            <td>1,210,639.72</td>
+            <td>1,435,590.18</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Luke Rosario</div>
+                </div>
+            </th>
+            <td>693,672.37</td>
+            <td>889,323.55</td>
+            <td>452,384.60</td>
+            <td>532,217.18</td>
+            <td>1,146,056.97</td>
+            <td>1,421,540.73</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Maliyah Hartman</div>
+                </div>
+            </th>
+            <td>861,023.89</td>
+            <td>1,043,824.87</td>
+            <td/>
+            <td/>
+            <td>861,023.89</td>
+            <td>1,043,824.87</td>
+        </tr>
+        <tr class="the-row-class the-subtotal-class">
+            <th>
+                <div>Americas</div>
+            </th>
+            <td>6,113,357.09</td>
+            <td>6,963,920.38</td>
+            <td>9,022,136.86</td>
+            <td>10,120,561.75</td>
+            <td>15,135,493.95</td>
+            <td>17,084,482.13</td>
+        </tr>
+        <tr class="the-row-class">
+            <th>
+                <div>
+                    <div>Ariella Moore</div>
+                </div>
+            </th>
+            <td>6,113,357.09</td>
+            <td>6,963,920.38</td>
+            <td>9,022,136.86</td>
+            <td>10,120,561.75</td>
+            <td>15,135,493.95</td>
+            <td>17,084,482.13</td>
+        </tr>
+    </tbody>
+</table>

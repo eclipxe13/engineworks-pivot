@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<pivot>
+    <source>records</source>
+    <sourcefield fieldname="customername" caption="Customer" type="TEXT"/>
+    <sourcefield fieldname="zoneid" caption="ZoneID" type="TEXT"/>
+    <sourcefield fieldname="totalsale" caption="Sale" type="NUMBER"/>
+    <row fieldname="customername"/>
+    <filter fieldname="zoneid" operator="IN">
+        <argument>802</argument>
+        <argument>804</argument>
+    </filter>
+    <aggregate asname="sum_totalsale" fieldname="totalsale" caption="Sales" group="SUM" decimals="2" order=""/>
+</pivot>
