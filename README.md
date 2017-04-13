@@ -1,4 +1,4 @@
-# eclipxe13/engineworks-pivot
+# eclipxe13/engineworks-pivot - PHP Pivot (dynamic tables)
 
 [![Source Code][badge-source]][source]
 [![Latest Version][badge-release]][release]
