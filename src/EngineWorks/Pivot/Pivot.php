@@ -69,13 +69,13 @@ class Pivot
     public function __clone()
     {
         // Force a copy of this->object, otherwise  it will point to same object.
-        if ($this->fields != null) {
+        if (null !== $this->fields) {
             $this->fields = clone $this->fields;
         }
-        if ($this->filters != null) {
+        if (null !== $this->filters) {
             $this->filters = clone $this->filters;
         }
-        if ($this->aggregates != null) {
+        if (null !== $this->aggregates) {
             $this->aggregates = clone $this->aggregates;
         }
     }
@@ -414,7 +414,6 @@ class Pivot
 
     private function formatResultValues(Result $result)
     {
-        // throw new \LogicException('foo bar');
         foreach ($this->aggregates as $aggregatorName => $aggregate) {
             if (null !== $value = $result->getCurrentValue($aggregatorName)) {
                 $result->setCurrentValue($aggregatorName, number_format($value, $aggregate->getDecimals()));

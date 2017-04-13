@@ -52,7 +52,7 @@ class Result
         } elseif ('caption' == $name) {
             $this->privCaption = (string) $value;
         } elseif ('values' == $name) {
-            if (! is_null($value) and ! is_array($value)) {
+            if (! is_null($value) && ! is_array($value)) {
                 throw new PivotException('Property values must be null or array');
             } else {
                 $this->privValues = $value;
@@ -86,7 +86,7 @@ class Result
             throw new PivotException("Property $name does not exists");
         }
         // late creation of children property, created only when used
-        if ($name == 'children' and is_null($this->privChildren)) {
+        if ($name == 'children' && is_null($this->privChildren)) {
             $this->privChildren = new Results($this);
         }
         return $this->{$propname};
@@ -114,7 +114,7 @@ class Result
     public function getPath($excludeRoot = true)
     {
         // I'm the root and is required to exclude
-        if ($excludeRoot and is_null($this->privParent)) {
+        if ($excludeRoot && is_null($this->privParent)) {
             return [];
         }
         // define me as an array
@@ -128,19 +128,23 @@ class Result
 
     public function hasChildren()
     {
-        return ($this->privChildren != null && $this->privChildren->Count() > 0);
+        return (null !== $this->privChildren && $this->privChildren->Count() > 0);
     }
 
     public function setAsNotRow($childrenLevels = 0)
     {
         $this->privIsRow = false;
-        if ($this->hasChildren() and $childrenLevels > 0) {
+        if ($this->hasChildren() && $childrenLevels > 0) {
             foreach ($this->children as $child) {
                 $child->setAsNotRow($childrenLevels - 1);
             }
         }
     }
 
+    /**
+     * @param bool|null $asrows
+     * @return int
+     */
     public function getDepth($asrows = null)
     {
         if (! $this->hasChildren()) {
@@ -148,7 +152,7 @@ class Result
         }
         $level = 0;
         foreach ($this->children as $child) {
-            if ($asrows == null || $asrows == $child->isrow) {
+            if (null === $asrows || $asrows == $child->isrow) {
                 $level = max($level, $child->getDepth() + 1);
             }
         }
@@ -157,12 +161,16 @@ class Result
 
     public function getCurrentDepth()
     {
-        if ($this->parent == null) {
+        if (null === $this->parent) {
             return 0;
         }
         return $this->parent->getCurrentDepth() + 1;
     }
 
+    /**
+     * @param bool|null $asrows
+     * @return int
+     */
     public function getHorizontalDepth($asrows = null)
     {
         if (! $this->hasChildren()) {
@@ -170,7 +178,7 @@ class Result
         }
         $sum = 0;
         foreach ($this->children as $child) {
-            if ($asrows == null or $asrows == $child->isrow) {
+            if (null === $asrows || $asrows === $child->isrow) {
                 $sum += $child->getHorizontalDepth();
             }
         }
@@ -180,7 +188,7 @@ class Result
     public function copy($childrenLevels)
     {
         $tree = new self($this->fieldname, $this->caption, $this->values, $this->isrow);
-        if ($childrenLevels > 0 and $this->hasChildren()) {
+        if ($childrenLevels > 0 && $this->hasChildren()) {
             foreach ($this->children as $key => $child) {
                 $tree->children->addItem($child->copy($childrenLevels - 1), $key);
             }

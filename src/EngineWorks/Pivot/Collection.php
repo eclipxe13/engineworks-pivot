@@ -266,7 +266,7 @@ class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
     public function __clone()
     {
         foreach ($this->items as $key => $item) {
-            if ($item != null and is_object($item)) {
+            if (null !== $item && is_object($item)) {
                 $this->items[$key] = clone $item;
             }
         }

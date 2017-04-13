@@ -84,10 +84,11 @@ class XhtmlTable
         /* @var $colsLastLevel Result[] */
         $colsLastLevel = [];
         $columns = [];
-        if ($details != null) {
+        if (null !== $details) {
             // setup the columns information
             $columns = $queryResult->getColumns();
-            $colsDepth = count($columns); // $details->getDepth(false);
+            // use count of columns instead of calling $details->getDepth(false);
+            $colsDepth = count($columns);
             $colsTree = $details->copy($colsDepth);
             $colsLastLevel = $colsTree->getLastChildrenArray();
         }
@@ -113,7 +114,7 @@ class XhtmlTable
             foreach ($colsTree->children as $item) {
                 $this->xhtmlAddHeader($thead, $item, 1, $valuesCount);
             }
-            if (isset($thead->tr) and count($thead->tr) > 0) {
+            if (isset($thead->tr) && count($thead->tr) > 0) {
                 $tr = $thead->tr[0];
                 $th = $tr->addChild('th', Utils::escapeXml($this->getOption('column-total-caption')));
                 if ($valuesCount > 1) {
@@ -198,10 +199,10 @@ class XhtmlTable
         if ($this->getOption('row-class')) {
             $rowclasses[] = $this->getOption('row-class');
         }
-        if ($istotal and $this->getOption('total-class')) {
+        if ($istotal && $this->getOption('total-class')) {
             $rowclasses[] = $this->getOption('total-class');
         }
-        if (! $istotal and $this->getOption('subtotal-class') and $result->hasChildren()) {
+        if (! $istotal && $this->getOption('subtotal-class') && $result->hasChildren()) {
             $rowclasses[] = $this->getOption('subtotal-class');
         }
         if (count($rowclasses)) {
@@ -213,9 +214,8 @@ class XhtmlTable
             $currentDepth--;
             $caption = $caption->addChild('div');
         }
-        // $caption = $caption->addChild("div", Utils::escapeXml($result->caption));
         $caption->addChild('div', Utils::escapeXml($result->caption));
-        if ($details != null) {
+        if (null !== $details) {
             $rowPath = $result->getPath();
             foreach ($colsLastLevel as $column) {
                 $this->xhtmlAddCellsValues(
@@ -245,7 +245,7 @@ class XhtmlTable
         }
         foreach ($aggregates as $aggregate) {
             $value = '';
-            if (isset($values[$aggregate['asname']]) and ! is_null(isset($values[$aggregate['asname']]))) {
+            if (isset($values[$aggregate['asname']]) && ! is_null(isset($values[$aggregate['asname']]))) {
                 $value = Utils::escapeXml((string) $values[$aggregate['asname']]);
             }
             $tr->addChild('td', $value);
