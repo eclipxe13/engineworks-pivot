@@ -127,7 +127,7 @@ class XhtmlTable
         }
 
         // make the row of the details
-        if (count($aggregates) > 1 or count($columns) == 0) {
+        if (count($aggregates) > 1 || count($columns) == 0) {
             $tr = $thead->addChild('tr');
             $tr->addChild('th', Utils::escapeXml($this->getOption('values-caption')));
             $countColsLastLevel = count($colsLastLevel);
