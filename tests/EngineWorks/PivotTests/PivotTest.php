@@ -11,11 +11,11 @@ class PivotTest extends TestCase
     {
         return new Pivot($source);
     }
+
     public function testConstructor()
     {
         $pivot = new Pivot();
-        $this->assertEmpty($pivot->getSource());
-        $this->assertNotNull($pivot->getSource());
+        $this->assertSame('', $pivot->getSource());
         $this->assertSame('', $pivot->getInfo('author'));
         $this->assertNotEmpty($pivot->getInfo('created'));
         $this->assertSame('', $pivot->getInfo('description'));
