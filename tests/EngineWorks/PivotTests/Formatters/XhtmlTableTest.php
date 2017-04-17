@@ -4,6 +4,7 @@ namespace EngineWorks\PivotTests\Formatters;
 use EngineWorks\Pivot\Formatters\XhtmlTable;
 use EngineWorks\Pivot\Pivot;
 use EngineWorks\Pivot\PivotFile;
+use EngineWorks\Pivot\Query;
 use EngineWorks\PivotTests\Utils\DbConnection;
 use PHPUnit\Framework\TestCase;
 
@@ -42,9 +43,10 @@ class XhtmlTableTest extends TestCase
         $xhtmlFile = __DIR__ . '/../assets/xhtml-expected.xml';
 
         // open pivot file
-        $pivot = new Pivot(DbConnection::db());
+        $pivot = new Pivot();
         (new PivotFile($pivot))->open($pivotFile);
-        $queryResult = $pivot->query();
+        $query = new Query(DbConnection::db(), $pivot);
+        $queryResult = $query->query();
 
         $xhtmlTable = new XhtmlTable($this->getFullOptions());
         $xhtmlContent = $xhtmlTable->asXhtmlTable($queryResult);

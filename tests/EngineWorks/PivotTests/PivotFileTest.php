@@ -7,14 +7,13 @@ use EngineWorks\Pivot\Filter;
 use EngineWorks\Pivot\Pivot;
 use EngineWorks\Pivot\PivotException;
 use EngineWorks\Pivot\PivotFile;
-use EngineWorks\PivotTests\Utils\DbConnection;
 use PHPUnit\Framework\TestCase;
 
 class PivotFileTest extends TestCase
 {
     private function createPivot()
     {
-        return new Pivot(DbConnection::db());
+        return new Pivot();
     }
 
     private function createPivotWithStruct()

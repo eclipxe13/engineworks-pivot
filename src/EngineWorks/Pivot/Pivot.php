@@ -1,8 +1,6 @@
 <?php
 namespace EngineWorks\Pivot;
 
-use EngineWorks\DBAL\DBAL;
-
 class Pivot
 {
     /**
@@ -10,12 +8,6 @@ class Pivot
      * @var string
      */
     private $source;
-
-    /**
-     * Database Abstraction Layer Object
-     * @var DBAL
-     */
-    private $db;
 
     /**
      * Collection of all fields used in the source
@@ -53,9 +45,8 @@ class Pivot
      */
     private $info;
 
-    public function __construct(DBAL $db, $source = '')
+    public function __construct($source = '')
     {
-        $this->db = $db;
         $this->fields = new Fields();
         $this->aggregates = new Aggregates();
         $this->filters = new Filters();
@@ -245,7 +236,7 @@ class Pivot
     {
         $return = $this->filters->asArray();
         foreach ($return as $i => $value) {
-            $return[$i]['caption'] = $this->getFieldObject($value['fieldname'])->getCaption();
+            $return[$i]['caption'] = $this->getFieldElement($value['fieldname'])->getCaption();
         }
         return $return;
     }
@@ -254,7 +245,7 @@ class Pivot
     {
         $return = [];
         foreach ($this->columns as $column) {
-            $field = $this->getFieldObject($column);
+            $field = $this->getFieldElement($column);
             $return[] = [
                 'caption' => $field->getCaption(),
                 'fieldname' => $field->getFieldname(),
@@ -267,7 +258,7 @@ class Pivot
     {
         $return = [];
         foreach ($this->rows as $row) {
-            $field = $this->getFieldObject($row);
+            $field = $this->getFieldElement($row);
             $return[] = [
                 'caption' => $field->getCaption(),
                 'fieldname' => $field->getFieldname(),
@@ -276,174 +267,19 @@ class Pivot
         return $return;
     }
 
+    public function hasColumns()
+    {
+        return count($this->columns) > 0;
+    }
+
+    public function hasRows()
+    {
+        return count($this->rows) > 0;
+    }
+
     public function getCurrentAggregates()
     {
         return $this->aggregates->asArray();
-    }
-
-    /**
-     * Perform a query to obtain the distinct values of a fieldname
-     *
-     * @param string $fieldname
-     * @return array
-     * @throws PivotException if the fieldname does not exists in the source fields
-     */
-    public function getPossibleValues($fieldname)
-    {
-        if (! $this->fields->exists($fieldname)) {
-            throw new PivotException("Field $fieldname does not exists in the source fields");
-        }
-        $sql = 'SELECT DISTINCT ' . $this->db->sqlFieldEscape($fieldname)
-            . ' FROM ' . $this->sqlFrom()
-            . ' ORDER BY ' . $this->db->sqlFieldEscape($fieldname)
-            . ';';
-        return $this->db->queryArrayOne($sql) ? : [];
-    }
-
-    /**
-     * @return array
-     * @throws PivotException
-     * @throws PivotExceptionQuery
-     */
-    private function queryData()
-    {
-        // SQL: Selects
-        $sqlSelectFields = $this->rows;
-        $sqlSelectAggregates = [];
-        foreach ($this->aggregates as $aggregate) {
-            $sqlSelectAggregates[] = $aggregate->getSQL($this->db);
-        }
-        $sqlSelects = array_merge($sqlSelectFields, $sqlSelectAggregates);
-        if (! count($sqlSelects)) { // nothing to select
-            throw new PivotException('Nothing to query');
-        }
-
-        // SQL: Where
-        $sqlWheres = [];
-        foreach ($this->filters as $filter) {
-            $sqlWheres[] = '('
-                . $filter->getSQL($this->db, $this->getFieldObject($filter->getFieldname())->toDBAL())
-                . ')';
-        }
-
-        // SQL Creation
-        $sql = 'SELECT ' . implode(', ', $sqlSelects)
-            . ' FROM ' . $this->sqlFrom()
-            . ((count($sqlWheres)) ? ' WHERE ' . implode(' AND ', $sqlWheres) : '')
-            . ((count($sqlSelectFields)) ? ' GROUP BY ' . implode(', ', $sqlSelectFields) . ' WITH ROLLUP' : '')
-            . ';';
-
-        // retrieve and return the data
-        try {
-            $data = $this->db->queryArrayValues($sql);
-        } catch (\Throwable $ex) {
-            throw new PivotExceptionQuery('Query error: ' . $ex->getMessage());
-        }
-        if (! is_array($data)) {
-            throw new PivotExceptionQuery('Query error:' . $sql);
-        }
-        return $data;
-    }
-
-    /**
-     * @return QueryResult
-     */
-    public function query()
-    {
-        return new QueryResult(
-            $this->queryTotalsResult(true),
-            $this->queryDetailsResult(),
-            $this->getCurrentRows(),
-            $this->getCurrentColumns(),
-            $this->aggregates->asArray()
-        );
-    }
-
-    /**
-     * @param bool $sortValues
-     * @return Result
-     * @throws PivotException
-     */
-    private function queryTotalsResult($sortValues)
-    {
-        // variable to return
-        $result = new Result('', '');
-
-        // now all the data including rollup cells are in $data
-        // we have to generate the output
-        $data = $this->queryData();
-        $dataCount = count($data);
-        for ($i = 0; $i < $dataCount; $i++) {
-            // create the values content
-            $values = [];
-            foreach ($this->aggregates as $aggregate) {
-                $aggregateName = $aggregate->getAsname();
-                $values[$aggregateName] = $data[$i][$aggregateName];
-            }
-            // ahora especificar donde va el resultado
-            $ch = $result;
-            foreach ($this->rows as $row) {
-                $rowvalue = $data[$i][$row];
-                if (is_null($rowvalue)) {
-                    break;
-                } else {
-                    if (! $ch->children->exists($rowvalue)) {
-                        // insert without value ($row is the $fieldname and $rowvalue is the $caption)
-                        $ch->children->addItem(new Result($row, $rowvalue), $rowvalue);
-                    }
-                    $ch = $ch->children->value($rowvalue);
-                }
-            }
-            // asignar los valores al nodo seleccionado
-            if (! is_null($ch->values)) {
-                throw new PivotException('Duplicated values when filling the results');
-            }
-            $ch->values = $values;
-        }
-        // do sort
-        if ($sortValues) {
-            $ordering = new ResultOrdering($this->aggregates->getOrderArray());
-            if ($ordering->isRequired()) {
-                $result->orderBy($ordering);
-            }
-        }
-        // format aggregate values after sort
-        $this->formatResultValues($result);
-        return $result;
-    }
-
-    private function formatResultValues(Result $result)
-    {
-        foreach ($this->aggregates as $aggregatorName => $aggregate) {
-            if (null !== $value = $result->getCurrentValue($aggregatorName)) {
-                $result->setCurrentValue($aggregatorName, number_format($value, $aggregate->getDecimals()));
-            }
-        }
-        foreach ($result->children as $child) {
-            $this->formatResultValues($child);
-        }
-    }
-
-    /**
-     * @return Result|null Null if no columns are set
-     */
-    private function queryDetailsResult()
-    {
-        if (! count($this->columns)) {
-            return null;
-        }
-        $pivotDetails = clone $this;
-        $pivotDetails->clearSelectorRows();
-        $pivotDetails->clearSelectorColumns();
-        foreach ($this->columns as $fieldname) {
-            $pivotDetails->addRow($fieldname);
-        }
-        foreach ($this->rows as $fieldname) {
-            $pivotDetails->addRow($fieldname);
-        }
-        $result = $pivotDetails->queryTotalsResult(false);
-        $result->setAsNotRow(count($this->columns));
-        return $result;
     }
 
     /**
@@ -452,7 +288,7 @@ class Pivot
      * @return Field
      * @throws PivotException when field name does not exists
      */
-    private function getFieldObject($fieldname)
+    public function getFieldElement($fieldname)
     {
         if (! $this->fields->exists($fieldname)) {
             throw new PivotException("Expected to find field $fieldname but it does not exists in the list");
@@ -460,21 +296,18 @@ class Pivot
         return $this->fields->value($fieldname);
     }
 
-    /**
-     * Return the FROM part of the SQL statement
-     * @return string
-     */
-    private function sqlFrom()
+    public function getFieldsCollection()
     {
-        // do trim including ';' at the right part
-        $sqlSource = rtrim(ltrim($this->source), "; \t\n\r\x0B\0");
-        // check if begins with select, if so then insert into a subquery
-        $pos = strpos(strtoupper($this->source), 'SELECT ');
-        if ($pos === 0) {
-            $sqlSource = "($sqlSource) AS __pivot__";
-        } else {
-            $sqlSource = $this->db->sqlTableEscape($sqlSource);
-        }
-        return $sqlSource;
+        return $this->fields;
+    }
+
+    public function getAggregatesCollection()
+    {
+        return $this->aggregates;
+    }
+
+    public function getFiltersCollection()
+    {
+        return $this->filters;
     }
 }
