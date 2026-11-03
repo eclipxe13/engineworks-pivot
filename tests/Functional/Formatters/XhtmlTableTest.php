@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace EngineWorks\PivotTests\Formatters;
+namespace EngineWorks\Pivot\Tests\Functional\Formatters;
 
 use EngineWorks\Pivot\Formatters\XhtmlTable;
 use EngineWorks\Pivot\Pivot;
 use EngineWorks\Pivot\PivotFile;
 use EngineWorks\Pivot\Query;
-use EngineWorks\PivotTests\Utils\DbConnection;
-use PHPUnit\Framework\TestCase;
+use EngineWorks\Pivot\Tests\TestCase;
+use EngineWorks\Pivot\Tests\Utils\DbConnection;
 
 final class XhtmlTableTest extends TestCase
 {
@@ -42,8 +42,8 @@ final class XhtmlTableTest extends TestCase
 
     public function testPivotExport(): void
     {
-        $pivotFile = __DIR__ . '/../assets/xhtml-pivot.xml';
-        $xhtmlFile = __DIR__ . '/../assets/xhtml-expected.xml';
+        $pivotFile = $this->assetPath('xhtml-pivot.xml');
+        $xhtmlFile = $this->assetPath('xhtml-expected.xml');
 
         // open pivot file
         $pivot = new Pivot();

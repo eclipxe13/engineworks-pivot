@@ -21,12 +21,12 @@
     },
     "autoload": {
         "psr-4": {
-            "EngineWorks\\Pivot\\": "src/EngineWorks/Pivot/"
+            "EngineWorks\\Pivot\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "EngineWorks\\PivotTests\\": "tests/EngineWorks/PivotTests/"
+            "EngineWorks\\Pivot\\Tests\\": "tests/"
         }
     }
 }

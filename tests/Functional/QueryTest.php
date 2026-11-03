@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EngineWorks\PivotTests;
+namespace EngineWorks\Pivot\Tests\Functional;
 
 use EngineWorks\Pivot\Pivot;
 use EngineWorks\Pivot\PivotException;
@@ -10,16 +10,16 @@ use EngineWorks\Pivot\PivotFile;
 use EngineWorks\Pivot\Query;
 use EngineWorks\Pivot\QueryResult;
 use EngineWorks\Pivot\Result;
-use EngineWorks\PivotTests\Utils\DbConnection;
-use EngineWorks\PivotTests\Utils\QueryResultAsArray;
+use EngineWorks\Pivot\Tests\TestCase;
+use EngineWorks\Pivot\Tests\Utils\DbConnection;
+use EngineWorks\Pivot\Tests\Utils\QueryResultAsArray;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 
 final class QueryTest extends TestCase
 {
     public function testQuery(): void
     {
-        $filename = __DIR__ . '/assets/pivot-file-base.xml';
+        $filename = $this->assetPath('pivot-file-base.xml');
         $pivot = $this->openPivotFile($filename);
         $query = new Query(DbConnection::db(), $pivot);
         $queryResult = $query->query();
@@ -51,7 +51,7 @@ final class QueryTest extends TestCase
     public function testQueryAndCompareWithJson(string $testName): void
     {
         // pivot file
-        $pivotFile = __DIR__ . '/assets/query-' . $testName . '.xml';
+        $pivotFile = $this->assetPath(sprintf('query-%s.xml', $testName));
         $this->assertFileExists($pivotFile);
 
         // open pivot file
@@ -68,7 +68,7 @@ final class QueryTest extends TestCase
             $this->fail('Unable to encode the query result as JSON');
         }
         $this->assertJsonStringEqualsJsonFile(
-            __DIR__ . '/assets/query-' . $testName . '.json',
+            $this->assetPath(sprintf('query-%s.json', $testName)),
             $actualJson
         );
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EngineWorks\PivotTests;
+namespace EngineWorks\Pivot\Tests\Unit;
 
 use EngineWorks\Pivot\Aggregate;
 use EngineWorks\Pivot\Field;
@@ -10,7 +10,7 @@ use EngineWorks\Pivot\Filter;
 use EngineWorks\Pivot\Pivot;
 use EngineWorks\Pivot\PivotException;
 use EngineWorks\Pivot\PivotFile;
-use PHPUnit\Framework\TestCase;
+use EngineWorks\Pivot\Tests\TestCase;
 
 final class PivotFileTest extends TestCase
 {
@@ -75,7 +75,7 @@ final class PivotFileTest extends TestCase
         $this->assertEquals($temporalFile, $pf->getFilename());
 
         $this->assertFileExists($temporalFile);
-        $this->assertXmlFileEqualsXmlFile(__DIR__ . '/assets/pivot-file-base.xml', $temporalFile);
+        $this->assertXmlFileEqualsXmlFile($this->assetPath('pivot-file-base.xml'), $temporalFile);
 
         unlink($temporalFile);
     }
@@ -83,7 +83,7 @@ final class PivotFileTest extends TestCase
     public function testOpen(): void
     {
         $pivot = $this->createPivot();
-        $file = __DIR__ . '/assets/pivot-file-base.xml';
+        $file = $this->assetPath('pivot-file-base.xml');
 
         $pf = new PivotFile($pivot);
         $pf->open($file);
@@ -107,7 +107,7 @@ final class PivotFileTest extends TestCase
     {
         // copy base file to temporal
         $temporalFile = tempnam('', '');
-        copy(__DIR__ . '/assets/pivot-file-base.xml', $temporalFile);
+        copy($this->assetPath('pivot-file-base.xml'), $temporalFile);
 
         // open temporal
         $pivot = $this->createPivot();
@@ -119,7 +119,7 @@ final class PivotFileTest extends TestCase
         $pf->save();
 
         // compare changed file
-        $this->assertXmlFileEqualsXmlFile(__DIR__ . '/assets/pivot-file-changed.xml', $temporalFile);
+        $this->assertXmlFileEqualsXmlFile($this->assetPath('pivot-file-changed.xml'), $temporalFile);
 
         // clear
         unlink($temporalFile);

@@ -15,10 +15,11 @@
 /.gitattributes             export-ignore
 /.gitignore                 export-ignore
 /.php-cs-fixer.dist.php     export-ignore
+/Makefile                   export-ignore
 /phpcs.xml.dist             export-ignore
 /phpstan.neon.dist          export-ignore
 /phpunit.xml.dist           export-ignore
 /sonar-project.properties   export-ignore
 
 # Do not count these files on github code language
-/tests/assets/**            linguist-detectable=false
+/tests/_files/**            linguist-detectable=false

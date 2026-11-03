@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EngineWorks\PivotTests;
+namespace EngineWorks\Pivot\Tests\Unit;
 
 use EngineWorks\Pivot\Result;
 use EngineWorks\Pivot\Results;
-use PHPUnit\Framework\TestCase;
+use EngineWorks\Pivot\Tests\TestCase;
 
 final class ResultTest extends TestCase
 {

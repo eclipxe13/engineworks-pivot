@@ -65,6 +65,9 @@ When you do begin working on your feature, here are some guidelines to consider:
 This project uses different development tools to ensure code style, test and quality (using code analyzers).
 
 ```shell
+# install all
+make update
+
 # install project direct dependencies
 composer update
 
@@ -77,6 +80,8 @@ phive update
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
 ```shell
+make style-fix
+
 tools/php-cs-fixer fix -v
 tools/phpcbf -sp
 ```
@@ -88,6 +93,8 @@ If any of these do not pass, it will result in a complete build failure.
 Before you can run these, be sure to `composer install` or `composer update`.
 
 ```shell
+make build
+
 tools/phpcs -sp
 tools/php-cs-fixer fix -v --dry-run
 vendor/bin/phpunit

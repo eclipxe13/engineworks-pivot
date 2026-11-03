@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace EngineWorks\PivotTests\Utils;
+namespace EngineWorks\Pivot\Tests\Utils;
 
 use EngineWorks\Pivot\QueryResult;
 use EngineWorks\Pivot\Result;

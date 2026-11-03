@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace EngineWorks\PivotTests;
+namespace EngineWorks\Pivot\Tests\Unit;
 
 use EngineWorks\Pivot\Filter;
+use EngineWorks\Pivot\Tests\TestCase;
 use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
 
 final class FilterTest extends TestCase
 {
