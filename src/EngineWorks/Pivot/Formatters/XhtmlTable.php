@@ -9,41 +9,54 @@ use SimpleXMLElement;
 
 class XhtmlTable
 {
+    /** @var array<string, string> */
     private array $options;
 
+    /**
+     * @param array<string, string> $options
+     */
     public function __construct(array $options = [])
     {
         $this->options = $this->defaultOptions();
         $this->setOptions($options);
     }
 
-    public function getOptions()
+    /**
+     * @return array<string, string>
+     */
+    public function getOptions(): array
     {
         return $this->options;
     }
 
-    public function getOption(string $option) : string
+    public function getOption(string $option): string
     {
         return $this->options[$option];
     }
 
-    public function setOptions(array $options)
+    /**
+     * @param array<string, mixed> $options
+     */
+    public function setOptions(array $options): void
     {
         foreach (array_keys($this->options) as $option) {
-            if (is_string($option) && isset($options[$option]) && is_string($options[$option])) {
+            if (isset($options[$option]) && is_string($options[$option])) {
                 $this->options[$option] = $options[$option];
             }
         }
     }
 
-    public function setOption(string $option, string $value)
+    public function setOption(string $option, string $value): void
     {
         if (array_key_exists($option, $this->options)) {
             $this->options[$option] = $value;
         }
     }
 
-    public function defaultOptions()
+    /**
+     * @return array<string, string>
+     */
+    public function defaultOptions(): array
     {
         return [
             'table-id' => '',
@@ -57,32 +70,26 @@ class XhtmlTable
         ];
     }
 
-    public function asXhtmlTable(QueryResult $queryResult) : string
+    public function asXhtmlTable(QueryResult $queryResult): string
     {
-        return $this->asSimpleXml($queryResult)->asXML();
+        $content = $this->asSimpleXml($queryResult)->asXML();
+        return false === $content ? '' : $content;
     }
 
-    /**
-     * @param QueryResult $queryResult
-     * @return SimpleXMLElement
-     */
-    public function asSimpleXml(QueryResult $queryResult) : SimpleXMLElement
+    public function asSimpleXml(QueryResult $queryResult): SimpleXMLElement
     {
-        /** @var Result $totals */
         $totals = $queryResult->getTotals();
-        /** @var Result|null $details */
-        $details = ($queryResult->hasDetails()) ? $queryResult->getDetails() : null;
+        $details = $queryResult->hasDetails() ? $queryResult->getDetails() : null;
 
-        //
         // internal variables
-        //
         $aggregates = $queryResult->getAggregates();
         $valuesCount = count($aggregates);
         $colsDepth = 0;
         $colsTree = null;
-        /* @var $colsLastLevel Result[] */
-        $colsLastLevel = [];
+        /** @var list<array{caption: string, fieldname: string}> $columns */
         $columns = [];
+        /** @var list<Result> $colsLastLevel */
+        $colsLastLevel = [];
         if (null !== $details) {
             // set up the columns information
             $columns = $queryResult->getColumns();
@@ -94,38 +101,42 @@ class XhtmlTable
 
         // make the table
         // use LIBXML_NOXMLDECL to avoid xml declaration on asXml()
-        $table = new SimpleXMLElement('<' . 'table/>', LIBXML_NOXMLDECL);
-        if ($this->getOption('table-class')) {
+        $table = new SimpleXMLElement('<table/>', LIBXML_NOXMLDECL);
+        if ('' !== $this->getOption('table-class')) {
             $table->addAttribute('class', $this->getOption('table-class'));
         }
-        if ($this->getOption('table-id')) {
+        if ('' !== $this->getOption('table-id')) {
             $table->addAttribute('id', $this->getOption('table-id'));
         }
 
         // make the thead
         $thead = $table->addChild('thead');
-        if ($colsDepth) {
+        if ($colsDepth > 0) {
             // build the rows inside thead
             foreach ($columns as $column) {
                 $thead->addChild('tr')->addChild('th', Utils::escapeXml($column['caption']));
             }
             // make header if the column details
-            foreach ($colsTree->children as $item) {
-                $this->xhtmlAddHeader($thead, $item, 1, $valuesCount);
-            }
-            if (isset($thead->tr) && count($thead->tr) > 0) {
-                $tr = $thead->tr[0];
-                $th = $tr->addChild('th', Utils::escapeXml($this->getOption('column-total-caption')));
-                if ($valuesCount > 1) {
-                    $th->addAttribute('colspan', (string) $valuesCount);
+            if (null !== $colsTree) {
+                foreach ($colsTree->getChildren() as $item) {
+                    $this->xhtmlAddHeader($thead, $item, 1, $valuesCount);
                 }
-
-                $th->addAttribute('rowspan', (string) $colsDepth);
+            }
+            $trs = $thead->tr;
+            if ($trs instanceof SimpleXMLElement && count($trs) > 0) {
+                $tr = $trs[0];
+                if ($tr instanceof SimpleXMLElement) {
+                    $th = $tr->addChild('th', Utils::escapeXml($this->getOption('column-total-caption')));
+                    if ($valuesCount > 1) {
+                        $th->addAttribute('colspan', (string) $valuesCount);
+                    }
+                    $th->addAttribute('rowspan', (string) $colsDepth);
+                }
             }
         }
 
         // make the row of the details
-        if (count($aggregates) > 1 || count($columns) == 0) {
+        if (count($aggregates) > 1 || 0 === count($columns)) {
             $tr = $thead->addChild('tr');
             $tr->addChild('th', Utils::escapeXml($this->getOption('values-caption')));
             $countColsLastLevel = count($colsLastLevel);
@@ -143,25 +154,19 @@ class XhtmlTable
 
         // tbody
         $tbody = $table->addChild('tbody');
-        foreach ($totals->children as $result) {
+        foreach ($totals->getChildren() as $result) {
             $this->xhtmlAddRow($tbody, $result, $aggregates, $details, $colsLastLevel, false);
         }
         return $table;
     }
 
-    /**
-     * @param SimpleXMLElement $thead
-     * @param Result $item
-     * @param $level
-     * @param $valuesCount
-     */
-    private function xhtmlAddHeader(SimpleXMLElement $thead, Result $item, $level, $valuesCount)
+    private function xhtmlAddHeader(SimpleXMLElement $thead, Result $item, int $level, int $valuesCount): void
     {
         // find the current tr according to level
         $i = 1;
         $tr = null;
         foreach ($thead->children() as $tr) {
-            if ($i == $level) {
+            if ($i === $level) {
                 break;
             }
             $i++;
@@ -170,41 +175,37 @@ class XhtmlTable
             // insert the current th
             $th = $tr->addChild('th', Utils::escapeXml($item->caption));
             $th->addAttribute('colspan', (string) max(1, $item->getHorizontalDepth() * $valuesCount));
-            foreach ($item->children as $child) {
+            foreach ($item->getChildren() as $child) {
                 $this->xhtmlAddHeader($thead, $child, $level + 1, $valuesCount);
             }
         }
     }
 
     /**
-     * @param SimpleXMLElement $tbody
-     * @param Result $result
-     * @param array $aggregates
-     * @param Result|null $details
-     * @param Result[] $colsLastLevel
-     * @param bool $istotal
+     * @param list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> $aggregates
+     * @param list<Result> $colsLastLevel
      */
     private function xhtmlAddRow(
         SimpleXMLElement $tbody,
         Result $result,
         array $aggregates,
-        $details,
-        $colsLastLevel,
-        $istotal
-    ) {
+        Result|null $details,
+        array $colsLastLevel,
+        bool $isTotal
+    ): void {
         $tr = $tbody->addChild('tr');
-        $rowclasses = [];
-        if ($this->getOption('row-class')) {
-            $rowclasses[] = $this->getOption('row-class');
+        $rowClasses = [];
+        if ('' !== $this->getOption('row-class')) {
+            $rowClasses[] = $this->getOption('row-class');
         }
-        if ($istotal && $this->getOption('total-class')) {
-            $rowclasses[] = $this->getOption('total-class');
+        if ($isTotal && '' !== $this->getOption('total-class')) {
+            $rowClasses[] = $this->getOption('total-class');
         }
-        if (! $istotal && $this->getOption('subtotal-class') && $result->hasChildren()) {
-            $rowclasses[] = $this->getOption('subtotal-class');
+        if (! $isTotal && '' !== $this->getOption('subtotal-class') && $result->hasChildren()) {
+            $rowClasses[] = $this->getOption('subtotal-class');
         }
-        if (count($rowclasses)) {
-            $tr->addAttribute('class', implode(' ', $rowclasses));
+        if (0 !== count($rowClasses)) {
+            $tr->addAttribute('class', implode(' ', $rowClasses));
         }
         $caption = $tr->addChild('th');
         $currentDepth = $result->getCurrentDepth() - 1;
@@ -224,27 +225,24 @@ class XhtmlTable
             }
         }
         $this->xhtmlAddCellsValues($tr, $aggregates, $result->values);
-        if (! $istotal) {
-            foreach ($result->children as $item) {
+        if (! $isTotal) {
+            foreach ($result->getChildren() as $item) {
                 $this->xhtmlAddRow($tbody, $item, $aggregates, $details, $colsLastLevel, false);
             }
         }
     }
 
     /**
-     * @param SimpleXMLElement $tr
-     * @param array $aggregates
-     * @param array|null $values
+     * @param list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> $aggregates
+     * @param array<string, scalar|null>|null $values
      */
-    private function xhtmlAddCellsValues(SimpleXMLElement $tr, array $aggregates, $values)
+    private function xhtmlAddCellsValues(SimpleXMLElement $tr, array $aggregates, array|null $values): void
     {
-        if (! is_array($values)) {
-            $values = [];
-        }
         foreach ($aggregates as $aggregate) {
             $value = '';
-            if (isset($values[$aggregate['asname']]) && ! is_null(isset($values[$aggregate['asname']]))) {
-                $value = Utils::escapeXml((string) $values[$aggregate['asname']]);
+            $asName = $aggregate['asname'];
+            if (null !== $values && isset($values[$asName])) {
+                $value = Utils::escapeXml((string) $values[$asName]);
             }
             $tr->addChild('td', $value);
         }

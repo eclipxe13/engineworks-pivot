@@ -1,262 +1,237 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\Pivot;
 
 /**
  * Class to present Groups of results
- *
- * @property string $fieldname
- * @property string $caption
- * @property bool $isrow
- * @property array $values
- * @property Results|Result[] $children
- * @property Result $parent
  */
 class Result
 {
-    private ?string $privFieldname = null;
+    public readonly string $fieldName;
 
-    private ?string $privCaption = null;
+    public string $caption;
 
-    private ?array $privValues = null;
+    public bool $isRow;
 
-    /** @var Results|Result[] */
-    private $privChildren;
+    /** @var array<string, scalar|null>|null */
+    public array|null $values;
 
-    /** @var Result */
-    private $privParent;
+    private Results|null $children = null;
 
-    private ?bool $privIsRow = null;
+    private Result|null $parent = null;
 
-    public function __construct($fieldname, $caption, $values = null, $isrow = true)
+    /**
+     * @param array<string, scalar|null>|null $values
+     */
+    public function __construct(string $fieldName, string $caption, array|null $values = null, bool $isRow = true)
     {
-        $this->fieldname = $fieldname;
+        $this->fieldName = $fieldName;
         $this->caption = $caption;
         $this->values = $values;
-        $this->isrow = $isrow;
-        $this->privChildren = null;
+        $this->isRow = $isRow;
     }
 
-    public function __clone()
+    public function __clone(): void
     {
-        throw new PivotException('Result cannot be cloned');
+        throw new PivotException('Result cannot be cloned.');
     }
 
-    public function __set($name, $value)
+    public function getChildren(): Results
     {
-        if ('fieldname' == $name) {
-            $this->privFieldname = (string) $value;
-        } elseif ('caption' == $name) {
-            $this->privCaption = (string) $value;
-        } elseif ('values' == $name) {
-            if (! is_null($value) && ! is_array($value)) {
-                throw new PivotException('Property values must be null or array');
-            } else {
-                $this->privValues = $value;
-            }
-        } elseif ('isrow' == $name) {
-            $this->privIsRow = (bool) $value;
-        } elseif ('children' == $name) {
-            throw new PivotException('Property children is read only');
-        } elseif ('parent' == $name) {
-            if (! is_null($this->privParent)) {
-                throw new PivotException('Property parent has been set already');
-            }
-            if (! ($value instanceof self)) {
-                throw new PivotException('Property parent must be a Result');
-            }
-            $this->privParent = $value;
-        } else {
-            throw new PivotException("Property $name does not exists");
+        // late creation of children, created only when used
+        if (null === $this->children) {
+            $this->children = new Results($this);
         }
-        return null;
+        return $this->children;
     }
 
-    public function __get($name)
+    public function getParent(): self|null
     {
-        if ('isrow' === $name) {
-            $propname = 'privIsRow';
-        } else {
-            $propname = 'priv' . ucfirst($name);
+        return $this->parent;
+    }
+
+    public function setParent(self $parent): void
+    {
+        if (null !== $this->parent) {
+            throw new PivotException('Property parent has been set already.');
         }
-        if (! property_exists($this, $propname)) {
-            throw new PivotException("Property $name does not exists");
-        }
-        // late creation of children property, created only when used
-        if ($name == 'children' && is_null($this->privChildren)) {
-            $this->privChildren = new Results($this);
-        }
-        return $this->{$propname};
+        $this->parent = $parent;
     }
 
     /**
-     * @param array $path
-     * @return array|null
+     * @param list<string> $path
+     * @return array<string, scalar|null>|null
      */
-    public function searchValue(array $path)
+    public function searchValue(array $path): array|null
     {
         // if this is the element
-        if (count($path) == 0) {
-            return $this->privValues;
+        if ([] === $path) {
+            return $this->values;
         }
         // get the first part to check in
         $search = array_shift($path);
-        // if exists then search inside
-        if ($this->children->exists($search)) { // if found
-            return $this->children->value($search)->searchValue($path);
+        // if the element does not exist then nothing to search
+        if (! $this->getChildren()->exists($search)) {
+            return null;
         }
-        return null;
+        $child = $this->getChildren()->value($search);
+        if (null === $child) {
+            return null;
+        }
+        return $child->searchValue($path);
     }
 
-    public function getPath($excludeRoot = true)
+    /**
+     * @return list<string>
+     */
+    public function getPath(bool $excludeRoot = true): array
     {
         // I'm the root and is required to exclude
-        if ($excludeRoot && is_null($this->privParent)) {
+        if ($excludeRoot && null === $this->parent) {
             return [];
         }
         // define me as an array
-        $me = [$this->privCaption];
-        if (! is_null($this->privParent)) {
-            return array_merge($this->privParent->getPath($excludeRoot), $me);
+        $me = [$this->caption];
+        $parent = $this->parent;
+        if (null !== $parent) {
+            return array_merge($parent->getPath($excludeRoot), $me);
         }
-        // I'm not the root
+        // I'm the root
         return $me;
     }
 
-    public function hasChildren()
+    public function hasChildren(): bool
     {
-        return (null !== $this->privChildren && $this->privChildren->Count() > 0);
+        return null !== $this->children && $this->children->count() > 0;
     }
 
-    public function setAsNotRow($childrenLevels = 0)
+    public function setAsNotRow(int $childrenLevels = 0): void
     {
-        $this->privIsRow = false;
+        $this->isRow = false;
         if ($this->hasChildren() && $childrenLevels > 0) {
-            foreach ($this->children as $child) {
+            foreach ($this->getChildren() as $child) {
                 $child->setAsNotRow($childrenLevels - 1);
             }
         }
     }
 
-    /**
-     * @param bool|null $asrows
-     * @return int
-     */
-    public function getDepth($asrows = null)
+    public function getDepth(bool|null $asRows = null): int
     {
         if (! $this->hasChildren()) {
             return 0;
         }
         $level = 0;
-        foreach ($this->children as $child) {
-            if (null === $asrows || $asrows == $child->isrow) {
+        foreach ($this->getChildren() as $child) {
+            if (null === $asRows || $asRows === $child->isRow) {
                 $level = max($level, $child->getDepth() + 1);
             }
         }
         return $level;
     }
 
-    public function getCurrentDepth()
+    public function getCurrentDepth(): int
     {
-        if (null === $this->parent) {
+        $parent = $this->parent;
+        if (null === $parent) {
             return 0;
         }
-        return $this->parent->getCurrentDepth() + 1;
+        return $parent->getCurrentDepth() + 1;
     }
 
-    /**
-     * @param bool|null $asrows
-     * @return int
-     */
-    public function getHorizontalDepth($asrows = null)
+    public function getHorizontalDepth(bool|null $asRows = null): int
     {
         if (! $this->hasChildren()) {
             return 1;
         }
         $sum = 0;
-        foreach ($this->children as $child) {
-            if (null === $asrows || $asrows === $child->isrow) {
+        foreach ($this->getChildren() as $child) {
+            if (null === $asRows || $asRows === $child->isRow) {
                 $sum += $child->getHorizontalDepth();
             }
         }
         return $sum;
     }
 
-    public function copy($childrenLevels)
+    public function copy(int $childrenLevels): self
     {
-        $tree = new self($this->fieldname, $this->caption, $this->values, $this->isrow);
+        $tree = new self($this->fieldName, $this->caption, $this->values, $this->isRow);
         if ($childrenLevels > 0 && $this->hasChildren()) {
-            foreach ($this->children as $key => $child) {
-                $tree->children->addItem($child->copy($childrenLevels - 1), $key);
+            foreach ($this->getChildren() as $key => $child) {
+                $tree->getChildren()->addItem($child->copy($childrenLevels - 1), $key);
             }
         }
         return $tree;
     }
 
-    public function toText($includevalues = false)
+    public function toText(bool $includeValues = false): string
     {
-        $textvalues = [];
-        if ($includevalues) {
-            if (is_array($this->values)) {
-                foreach ($this->values as $key => $value) {
-                    $textvalues[] = $key . ' => ' . $value;
-                }
+        $textValues = [];
+        if ($includeValues && is_array($this->values)) {
+            foreach ($this->values as $key => $value) {
+                $textValues[] = $key . ' => ' . (string) $value;
             }
         }
         return implode(', ', [
-            $this->privFieldname,
-            $this->privCaption,
-            'children: ' . (($this->hasChildren()) ? $this->children->count() : 'NO'),
-            '[' . implode(', ', $textvalues) . ']',
+            $this->fieldName,
+            $this->caption,
+            'children: ' . (($this->hasChildren()) ? $this->getChildren()->count() : 'NO'),
+            '[' . implode(', ', $textValues) . ']',
         ]);
     }
 
-    public function toTextTree($includevalues = false, $level = 0)
+    public function toTextTree(bool $includeValues = false, int $level = 0): string
     {
         $tabs = str_repeat("\t", $level);
-        $chtext = $tabs . $this->toText($includevalues);
+        $chtext = $tabs . $this->toText($includeValues);
         if ($this->hasChildren()) {
-            foreach ($this->children as $child) {
-                $chtext .= "\n" . $tabs . '' . $child->toTextTree($includevalues, $level + 1);
+            foreach ($this->getChildren() as $child) {
+                $chtext .= "\n" . $tabs . $child->toTextTree($includeValues, $level + 1);
             }
         }
         return $chtext;
     }
 
     /**
-     * @return Result[]
+     * @return list<Result>
      */
-    public function getLastChildrenArray()
+    public function getLastChildrenArray(): array
     {
         // no children
         if (! $this->hasChildren()) {
             return [$this];
         }
         $array = [];
-        foreach ($this->children as $child) {
+        foreach ($this->getChildren() as $child) {
             $array = array_merge($array, $child->getLastChildrenArray());
         }
         return $array;
     }
 
+    /**
+     * @return scalar|null
+     */
     public function getCurrentValue(string $key)
     {
-        if (is_array($this->privValues) && array_key_exists($key, $this->privValues)) {
-            return $this->privValues[$key];
+        if (is_array($this->values) && array_key_exists($key, $this->values)) {
+            return $this->values[$key];
         }
         return null;
     }
 
-    public function setCurrentValue(string $key, $value)
+    /**
+     * @param scalar|null $value
+     */
+    public function setCurrentValue(string $key, mixed $value): void
     {
-        if (is_array($this->privValues) && array_key_exists($key, $this->privValues)) {
-            $this->privValues[$key] = $value;
+        if (is_array($this->values) && array_key_exists($key, $this->values)) {
+            $this->values[$key] = $value;
         }
     }
 
-    public function orderBy(ResultOrdering $ordering)
+    public function orderBy(ResultOrdering $ordering): void
     {
-        $this->children->orderBy($ordering);
-        foreach ($this->children as $child) {
+        $this->getChildren()->orderBy($ordering);
+        foreach ($this->getChildren() as $child) {
             $child->orderBy($ordering);
         }
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Aggregate;
@@ -11,12 +12,12 @@ use PHPUnit\Framework\TestCase;
 
 class PivotFileTest extends TestCase
 {
-    private function createPivot()
+    private function createPivot(): Pivot
     {
         return new Pivot();
     }
 
-    private function createPivotWithStruct()
+    private function createPivotWithStruct(): Pivot
     {
         $pivot = $this->createPivot();
         // source
@@ -38,7 +39,7 @@ class PivotFileTest extends TestCase
         $pivot->addSourceField('totalcost', 'Cost', Field::NUMBER);
         // filters
         $pivot->addFilter('period', Filter::IN, ['201701', '201702']);
-        $pivot->addFilter('unitprice', Filter::GRATER, 0);
+        $pivot->addFilter('unitprice', Filter::GREATER, 0);
         // rows
         $pivot->addRow('zonename');
         $pivot->addRow('salesname');
@@ -54,7 +55,7 @@ class PivotFileTest extends TestCase
         return $pivot;
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $pivot = $this->createPivot();
         $pf = new PivotFile($pivot);
@@ -62,7 +63,7 @@ class PivotFileTest extends TestCase
         $this->assertSame('', $pf->getFilename());
     }
 
-    public function testSaveAs()
+    public function testSaveAs(): void
     {
         $pivot = $this->createPivotWithStruct();
         $temporalFile = tempnam('', '');
@@ -77,7 +78,7 @@ class PivotFileTest extends TestCase
         unlink($temporalFile);
     }
 
-    public function testOpen()
+    public function testOpen(): void
     {
         $pivot = $this->createPivot();
         $file = __DIR__ . '/assets/pivot-file-base.xml';
@@ -90,17 +91,17 @@ class PivotFileTest extends TestCase
         $this->assertEquals($expected, $pivot);
     }
 
-    public function testSaveThrowsExeptionIfNotFilename()
+    public function testSaveThrowsExeptionIfNotFilename(): void
     {
         $pf = new PivotFile($this->createPivot());
 
         $this->expectException(PivotException::class);
-        $this->expectExceptionMessage('Cannot save a the pivot file without a file name');
+        $this->expectExceptionMessage('Cannot save the pivot file without a file name.');
 
         $pf->save();
     }
 
-    public function testSave()
+    public function testSave(): void
     {
         // copy base file to temporal
         $temporalFile = tempnam('', '');

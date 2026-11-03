@@ -6,67 +6,49 @@ use EngineWorks\DBAL\DBAL;
 
 class Query
 {
-    /**
-     * Database Abstraction Layer Object
-     */
-    private \EngineWorks\DBAL\DBAL $db;
+    private DBAL $db;
 
-    private \EngineWorks\Pivot\Pivot $pivot;
+    private Pivot $pivot;
 
-    /**
-     * Query constructor.
-     * @param DBAL $db
-     * @param Pivot $pivot
-     */
     public function __construct(DBAL $db, Pivot $pivot)
     {
         $this->db = $db;
         $this->pivot = $pivot;
     }
 
-    /**
-     * @return DBAL
-     */
     public function getDb(): DBAL
     {
         return $this->db;
     }
 
-    /**
-     * @return Pivot
-     */
     public function getPivot(): Pivot
     {
         return $this->pivot;
     }
 
     /**
-     * Perform a query to obtain the distinct values of a fieldname
+     * Perform a query to obtain the distinct values of a field name
      *
-     * @param string $fieldname
-     * @return array
-     * @throws PivotException if the fieldname does not exists in the source fields
+     * @return array<int, scalar|null>
+     * @throws PivotException if the field name does not exist in the source fields
      */
-    public function queryDistinct(string $fieldname) : array
+    public function queryDistinct(string $fieldName): array
     {
-        if (! $this->pivot->getFieldsCollection()->exists($fieldname)) {
-            throw new PivotException("Field $fieldname does not exists in the source fields");
+        if (! $this->pivot->getFieldsCollection()->exists($fieldName)) {
+            throw new PivotException("Field $fieldName does not exist in the source fields.");
         }
-        $sql = 'SELECT DISTINCT ' . $this->db->sqlFieldEscape($fieldname)
+        $sql = 'SELECT DISTINCT ' . $this->db->sqlFieldEscape($fieldName)
             . ' FROM ' . $this->sqlFrom()
-            . ' ORDER BY ' . $this->db->sqlFieldEscape($fieldname)
+            . ' ORDER BY ' . $this->db->sqlFieldEscape($fieldName)
             . ';';
-        return $this->db->queryArrayOne($sql) ? : [];
+        return $this->db->queryArrayOne($sql) ?: [];
     }
 
-    /**
-     * @return QueryResult
-     */
-    public function query() : QueryResult
+    public function query(): QueryResult
     {
         return new QueryResult(
             $this->queryTotalsResult(true),
-            ($this->pivot->hasColumns()) ? $this->queryDetailsResult() : null,
+            $this->pivot->hasColumns() ? $this->queryDetailsResult() : null,
             $this->pivot->getCurrentRows(),
             $this->pivot->getCurrentColumns(),
             $this->pivot->getCurrentAggregates()
@@ -74,11 +56,11 @@ class Query
     }
 
     /**
-     * @return array
+     * @return array<int, array<string, scalar|null>>
      * @throws PivotException
      * @throws PivotExceptionQuery
      */
-    private function queryData() : array
+    private function queryData(): array
     {
         $sqlSelects = [];
         // SQL: Select group fields
@@ -92,23 +74,22 @@ class Query
         }
         // SQL: Select group fields and aggregates
         $sqlAllFields = [...$sqlSelects, ...$sqlAggregates];
-        $countFields = count($sqlAllFields);
-        if (! $countFields) { // nothing to select
-            throw new PivotException('Nothing to query');
+        if (0 === count($sqlAllFields)) { // nothing to select
+            throw new PivotException('Nothing to query.');
         }
 
         // get all elements from filter
         $sqlWheres = [];
         foreach ($this->pivot->getFiltersCollection() as $filter) {
             $sqlWheres[] = '('
-                . $filter->getSQL($this->db, $this->pivot->getFieldElement($filter->getFieldname())->toDBAL())
+                . $filter->getSQL($this->db, $this->pivot->getFieldElement($filter->getFieldName())->toDBAL())
                 . ')';
         }
         // SQL Creation
         $sql = 'SELECT ' . implode(', ', $sqlAllFields)
             . ' FROM ' . $this->sqlFrom()
-            . ((count($sqlWheres)) ? ' WHERE ' . implode(' AND ', $sqlWheres) : '')
-            . ((count($sqlSelects)) ? ' GROUP BY ' . implode(', ', $sqlSelects) . ' WITH ROLLUP' : '')
+            . ((0 !== count($sqlWheres)) ? ' WHERE ' . implode(' AND ', $sqlWheres) : '')
+            . ((0 !== count($sqlSelects)) ? ' GROUP BY ' . implode(', ', $sqlSelects) . ' WITH ROLLUP' : '')
             . ';';
 
         // retrieve and return the data
@@ -124,11 +105,9 @@ class Query
     }
 
     /**
-     * @param bool $sortValues
-     * @return Result
      * @throws PivotException
      */
-    private function queryTotalsResult(bool $sortValues) : Result
+    private function queryTotalsResult(bool $sortValues): Result
     {
         // variable to return
         $result = new Result('', '');
@@ -142,26 +121,31 @@ class Query
             // create the values content
             $values = [];
             foreach ($aggregates as $aggregate) {
-                $aggregateName = $aggregate->getAsname();
+                $aggregateName = $aggregate->getAsName();
                 $values[$aggregateName] = $data[$i][$aggregateName];
             }
-            // ahora especificar donde va el resultado
+            // now specify where the result goes
             $ch = $result;
             foreach ($this->pivot->getCurrentRows() as $row) {
-                $rowvalue = $data[$i][$row['fieldname']];
-                if (is_null($rowvalue)) {
+                $rowValue = $data[$i][$row['fieldname']];
+                if (null === $rowValue) {
                     break;
-                } else {
-                    if (! $ch->children->exists($rowvalue)) {
-                        // insert without value ($row is the $fieldname and $rowvalue is the $caption)
-                        $ch->children->addItem(new Result($row['fieldname'], $rowvalue), $rowvalue);
-                    }
-                    $ch = $ch->children->value($rowvalue);
                 }
+                $rowKey = (string) $rowValue;
+                $children = $ch->getChildren();
+                if (! $children->exists($rowKey)) {
+                    // insert without value ($row is the field name and $rowValue is the $caption)
+                    $children->addItem(new Result($row['fieldname'], $rowKey), $rowKey);
+                }
+                $child = $children->value($rowKey);
+                if (null === $child) {
+                    throw new PivotException('Cannot find the child result when filling the results.');
+                }
+                $ch = $child;
             }
-            // asignar los valores al nodo seleccionado
-            if (! is_null($ch->values)) {
-                throw new PivotException('Duplicated values when filling the results');
+            // assign the values to the selected node
+            if (null !== $ch->values) {
+                throw new PivotException('Duplicated values when filling the results.');
             }
             $ch->values = $values;
         }
@@ -177,27 +161,28 @@ class Query
         return $result;
     }
 
-    private function formatResultValues(Aggregates $aggregates, Result $result)
+    private function formatResultValues(Aggregates $aggregates, Result $result): void
     {
-        foreach ($aggregates as $aggregatorName => $aggregate) {
-            if (null !== $value = $result->getCurrentValue($aggregatorName)) {
-                $result->setCurrentValue($aggregatorName, number_format($value, $aggregate->getDecimals()));
+        foreach ($aggregates as $aggregate) {
+            $aggregateName = $aggregate->getAsName();
+            $value = $result->getCurrentValue($aggregateName);
+            if (null !== $value) {
+                $result->setCurrentValue($aggregateName, number_format((float) $value, $aggregate->getDecimals()));
             }
         }
-        foreach ($result->children as $child) {
+        foreach ($result->getChildren() as $child) {
             $this->formatResultValues($aggregates, $child);
         }
     }
 
     /**
-     * @return Result Null if no columns are set
      * @throws PivotException If no columns are defined
      */
-    private function queryDetailsResult() : Result
+    private function queryDetailsResult(): Result
     {
         $columns = $this->pivot->getCurrentColumns();
-        if (! count($columns)) {
-            throw new PivotException('Cannot get details if no columns are defined');
+        if (0 === count($columns)) {
+            throw new PivotException('Cannot get details if no columns are defined.');
         }
         $pivotDetails = clone $this->pivot;
         $pivotDetails->clearSelectorRows();
@@ -216,15 +201,14 @@ class Query
 
     /**
      * Return the FROM part of the SQL statement
-     * @return string
      */
-    private function sqlFrom() : string
+    private function sqlFrom(): string
     {
         // do trim including ';' at the right part
         $sqlSource = rtrim(ltrim($this->pivot->getSource()), "; \t\n\r\x0B\0");
         // check if begins with select, if so then insert into a subquery
         $pos = strpos(strtoupper($sqlSource), 'SELECT');
-        if ($pos === 0) {
+        if (0 === $pos) {
             $sqlSource = "($sqlSource) AS __pivot__";
         } else {
             $sqlSource = $this->db->sqlTableEscape($sqlSource);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Field;
@@ -7,12 +8,12 @@ use PHPUnit\Framework\TestCase;
 
 class PivotTest extends TestCase
 {
-    private function createPivot($source)
+    private function createPivot(string $source): Pivot
     {
         return new Pivot($source);
     }
 
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $pivot = new Pivot();
         $this->assertSame('', $pivot->getSource());
@@ -23,14 +24,28 @@ class PivotTest extends TestCase
         $this->assertSame([], $pivot->getSourceFields());
     }
 
-    public function testConstructorWithSource()
+    public function testConstructorWithSource(): void
     {
         $source = '...';
         $pivot = $this->createPivot($source);
         $this->assertSame($source, $pivot->getSource());
     }
 
-    public function testSourceFieldsAddGet()
+    public function testGetInfoAndGetInfoArray(): void
+    {
+        $pivot = new Pivot();
+
+        $this->assertSame('', $pivot->getInfo('author'));
+        $this->assertFalse($pivot->getInfo('not-defined'));
+
+        $info = $pivot->getInfoArray();
+        $this->assertArrayHasKey('author', $info);
+        $this->assertArrayHasKey('created', $info);
+        $this->assertArrayHasKey('description', $info);
+        $this->assertArrayHasKey('protected', $info);
+    }
+
+    public function testSourceFieldsAddGet(): void
     {
         $source = 'vw_devsummary';
         $sourceFields = [

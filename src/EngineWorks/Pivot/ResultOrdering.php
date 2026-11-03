@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\Pivot;
 
 /**
@@ -6,6 +7,7 @@ namespace EngineWorks\Pivot;
  */
 class ResultOrdering
 {
+    /** @var array<string, string> */
     private array $orderBy;
 
     private bool $required;
@@ -15,14 +17,14 @@ class ResultOrdering
      * The parameter orderBy must contain the list of aggregates and the order they must use
      * [$aggregate1 => $order1, $aggregate2 => $order2, ... ]
      *
-     * @param array $orderBy
+     * @param array<string, string> $orderBy
      */
     public function __construct(array $orderBy)
     {
         $this->orderBy = $orderBy;
         $this->required = false;
         foreach ($orderBy as $criteria) {
-            if ($criteria) {
+            if ('' !== $criteria) {
                 $this->required = true;
                 break;
             }
@@ -31,18 +33,18 @@ class ResultOrdering
 
     /**
      * Method to make comparisons
-     *
-     * @param Result $a
-     * @param Result $b
-     * @return int
      */
-    public function orderItems(Result $a, Result $b)
+    public function orderItems(mixed $a, mixed $b): int
     {
+        if (! $a instanceof Result || ! $b instanceof Result) {
+            return 0;
+        }
         // compare using every aggregator with its own order type
         foreach ($this->orderBy as $field => $order) {
-            if ($order === Aggregate::ORDERASC) {
+            if (Aggregate::ORDERASC === $order) {
                 return $this->comparePivotValues($field, $a, $b);
-            } elseif ($order === Aggregate::ORDERDESC) {
+            }
+            if (Aggregate::ORDERDESC === $order) {
                 return $this->comparePivotValues($field, $b, $a);
             }
         }
@@ -52,24 +54,17 @@ class ResultOrdering
 
     /**
      * Return if ordering is required based on the orderBy array
-     *
-     * @return bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required;
     }
 
     /**
-     * Internal method to check two numerical values and return 0, -1 or 1
-     *
-     * @param string $field
-     * @param Result $a
-     * @param Result $b
-     * @return int
+     * Internal method to check two values and return 0, -1 or 1
      */
-    protected function comparePivotValues($field, Result $a, Result $b)
+    protected function comparePivotValues(string $field, Result $a, Result $b): int
     {
-        return $a->values[$field] <=> $b->values[$field];
+        return $a->getCurrentValue($field) <=> $b->getCurrentValue($field);
     }
 }

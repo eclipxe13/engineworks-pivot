@@ -8,109 +8,106 @@ class Filter
 {
     public const EQUAL = '=';
     public const NEQUAL = '<>';
-    public const GRATER = '>';
-    public const GRATEREQUAL = '>=';
+    public const GREATER = '>';
+    public const GREATEREQUAL = '>=';
     public const LESS = '<';
     public const LESSEQUAL = '<=';
     public const IN = 'IN';
     public const CONTAINS = 'HAVE';
 
-    private string $fieldname;
-    private string $operator;
-    /** @var mixed */
-    private $arguments;
+    private readonly string $fieldName;
+    private readonly string $operator;
+    private readonly mixed $arguments;
 
-    public function __construct(string $fieldname, string $operator, $arguments)
+    public function __construct(string $fieldName, string $operator, mixed $arguments)
     {
-        $this->fieldname = $fieldname;
+        $this->fieldName = $fieldName;
 
-        if (! static::operatorExists($operator)) {
-            throw new \InvalidArgumentException('Invalid operator');
+        if (! self::operatorExists($operator)) {
+            throw new \InvalidArgumentException('Invalid operator.');
         }
         $this->operator = $operator;
 
-        if (is_null($arguments)) {
-            throw new \InvalidArgumentException('Invalid argument, is null');
-        } elseif (static::IN == $this->operator && ! is_array($arguments)) {
-            throw new \InvalidArgumentException('Invalid argument, must be an array');
-        } elseif (static::IN != $this->operator && is_array($arguments)) {
-            throw new \InvalidArgumentException('Invalid argument, cannot be an array');
+        if (null === $arguments) {
+            throw new \InvalidArgumentException('Invalid argument, is null.');
+        }
+        if (self::IN === $operator && ! is_array($arguments)) {
+            throw new \InvalidArgumentException('Invalid argument, must be an array.');
+        }
+        if (self::IN !== $operator && is_array($arguments)) {
+            throw new \InvalidArgumentException('Invalid argument, cannot be an array.');
         }
         $this->arguments = $arguments;
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldname(): string
+    public function getFieldName(): string
     {
-        return $this->fieldname;
+        return $this->fieldName;
     }
 
-    /**
-     * @return string
-     */
     public function getOperator(): string
     {
         return $this->operator;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getArguments()
+    public function getArguments(): mixed
     {
         return $this->arguments;
     }
 
     /**
      * Get a string condition to use in a sql where clause
-     *
-     * @param DBAL $db
-     * @param string $dbalType
-     * @return string
      */
-    public function getSQL(DBAL $db, string $dbalType) : string
+    public function getSQL(DBAL $db, string $dbalType): string
     {
-        if ($this->operator == self::IN) {
-            return $db->sqlFieldEscape($this->fieldname) . ' IN ' . $db->sqlQuoteIn($this->arguments, $dbalType);
+        if (self::IN === $this->operator) {
+            if (! is_array($this->arguments)) {
+                throw new \LogicException('The IN operator requires an array of arguments.');
+            }
+            return $db->sqlFieldEscape($this->fieldName) . ' IN ' . $db->sqlQuoteIn($this->arguments, $dbalType);
         }
-        if ($this->operator == self::CONTAINS) {
-            return $db->sqlLike($db->sqlFieldEscape($this->fieldname), $this->arguments);
+        if (self::CONTAINS === $this->operator) {
+            if (! is_scalar($this->arguments)) {
+                throw new \LogicException('The HAVE operator requires a scalar argument.');
+            }
+            return $db->sqlLike($db->sqlFieldEscape($this->fieldName), (string) $this->arguments);
         }
-        return $db->sqlFieldEscape($this->fieldname)
+        return $db->sqlFieldEscape($this->fieldName)
             . ' ' . $this->operator . ' '
             . $db->sqlQuote($this->arguments, $dbalType);
     }
 
     /**
-     * @return array
+     * @return array{fieldname: string, operator: string, arguments: mixed}
      */
-    public function asArray() : array
+    public function asArray(): array
     {
         return [
-            'fieldname' => $this->fieldname,
+            'fieldname' => $this->fieldName,
             'operator' => $this->operator,
             'arguments' => $this->arguments,
         ];
     }
 
-    public static function operators() : array
+    /**
+     * @return list<string>
+     */
+    public static function operators(): array
     {
         return [
-            static::EQUAL,
-            static::NEQUAL,
-            static::GRATER,
-            static::GRATEREQUAL,
-            static::LESS,
-            static::LESSEQUAL,
-            static::IN,
-            static::CONTAINS,
+            self::EQUAL,
+            self::NEQUAL,
+            self::GREATER,
+            self::GREATEREQUAL,
+            self::LESS,
+            self::LESSEQUAL,
+            self::IN,
+            self::CONTAINS,
         ];
     }
 
-    public static function operatorExists(string $operator) : bool
+    public static function operatorExists(string $operator): bool
     {
-        return in_array($operator, static::operators());
+        return in_array($operator, self::operators(), true);
     }
 }

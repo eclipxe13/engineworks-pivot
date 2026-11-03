@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\PivotTests\Formatters;
 
 use EngineWorks\Pivot\Formatters\XhtmlTable;
@@ -10,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class XhtmlTableTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $xhtmlTable = new XhtmlTable();
         $options = $xhtmlTable->defaultOptions();
@@ -18,7 +19,7 @@ class XhtmlTableTest extends TestCase
         $this->assertEquals($options, $xhtmlTable->getOptions());
     }
 
-    public function testConstructorWithOptions()
+    public function testConstructorWithOptions(): void
     {
         $options = $this->getFullOptions();
         $xhtmlTable = new XhtmlTable($options);
@@ -26,7 +27,7 @@ class XhtmlTableTest extends TestCase
         $this->assertEquals($options, $xhtmlTable->getOptions());
     }
 
-    public function testGetSetGetOption()
+    public function testGetSetGetOption(): void
     {
         $xhtmlTable = new XhtmlTable();
 
@@ -37,7 +38,7 @@ class XhtmlTableTest extends TestCase
         $this->assertEquals('foo', $xhtmlTable->getOption('table-id'));
     }
 
-    public function testPivotExport()
+    public function testPivotExport(): void
     {
         $pivotFile = __DIR__ . '/../assets/xhtml-pivot.xml';
         $xhtmlFile = __DIR__ . '/../assets/xhtml-expected.xml';
@@ -54,7 +55,10 @@ class XhtmlTableTest extends TestCase
         $this->assertXmlStringEqualsXmlFile($xhtmlFile, $xhtmlContent);
     }
 
-    private function getFullOptions()
+    /**
+     * @return array<string, string>
+     */
+    private function getFullOptions(): array
     {
         return [
             'table-id' => 'the-table-id',

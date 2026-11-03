@@ -1,21 +1,30 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\Pivot;
 
+/**
+ * @extends Collection<Filter>
+ */
 class Filters extends Collection
 {
-    protected $itemsInstanceOf = Filter::class;
+    protected string $itemsInstanceOf = Filter::class;
 
-    public function addItem($item, $key = null)
+    /**
+     * @param Filter $item
+     */
+    public function addItem(mixed $item, int|string|null $key = null): static
     {
         return parent::addItem($item, null);
     }
 
-    public function asArray()
+    /**
+     * @return list<array{fieldname: string, operator: string, arguments: mixed}>
+     */
+    public function asArray(): array
     {
         $array = [];
-        /* @var Filter $item */
-        foreach ($this->items as $key => $item) {
-            $array[$key] = $item->asArray();
+        foreach ($this->items as $item) {
+            $array[] = $item->asArray();
         }
         return $array;
     }

@@ -1,11 +1,10 @@
 <?php
 
 declare(strict_types=1);
-
 namespace EngineWorks\PivotTests\Utils;
 
-use EngineWorks\DBAL\Factory;
 use EngineWorks\DBAL\DBAL;
+use EngineWorks\DBAL\Factory;
 use EngineWorks\DBAL\Mysqli\Settings;
 use mysqli_driver;
 use RuntimeException;
@@ -15,7 +14,7 @@ final class DbConnection
     private DBAL $db;
 
     /** @noinspection PhpObjectFieldsAreOnlyWrittenInspection */
-    public function create()
+    public function create(): void
     {
         $mysqliDriver = new mysqli_driver();
         $mysqliDriver->report_mode = MYSQLI_REPORT_OFF;
@@ -45,12 +44,12 @@ final class DbConnection
      * Singleton implementation
      */
 
-    private static ?DbConnection $singleton = null;
+    private static DbConnection|null $singleton = null;
 
     /**
      * @return DbConnection
      */
-    public static function singleton(): DbConnection
+    public static function singleton(): self
     {
         if (null === self::$singleton) {
             self::$singleton = new self();

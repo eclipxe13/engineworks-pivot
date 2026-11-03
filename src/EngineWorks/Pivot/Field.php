@@ -13,82 +13,76 @@ class Field
     public const DATETIME = 'DATETIME';
     public const TIME = 'TIME';
 
-    private string $fieldname;
-    private string $caption;
-    private string $type;
+    private readonly string $fieldName;
+    private readonly string $caption;
+    private readonly string $type;
 
-    /**
-     * Field constructor.
-     * @param string $fieldname
-     * @param string $caption
-     * @param string $type
-     */
-    public function __construct(string $fieldname, string $caption, string $type)
+    public function __construct(string $fieldName, string $caption, string $type)
     {
-        if (! in_array($type, [self::TEXT, self::INT, self::NUMBER, self::DATETIME, self::DATE, self::TIME])) {
-            throw new \InvalidArgumentException('Invalid value for property type');
+        if (! in_array($type, self::types(), true)) {
+            throw new \InvalidArgumentException('Invalid value for property type.');
         }
-        $this->fieldname = $fieldname;
+        $this->fieldName = $fieldName;
         $this->caption = $caption;
         $this->type = $type;
     }
 
-    public function getFieldname() : string
+    public function getFieldName(): string
     {
-        return $this->fieldname;
+        return $this->fieldName;
     }
 
-    public function getCaption() : string
+    public function getCaption(): string
     {
         return $this->caption;
     }
 
-    public function getType() : string
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
-    public function toDBAL() : string
+    public function toDBAL(): string
     {
         return self::typeToDBAL($this->type);
     }
 
     /**
-     * @return string[]
+     * @return array{fieldname: string, caption: string, type: string}
      */
-    public function asArray() : array
+    public function asArray(): array
     {
         return [
-            'fieldname' => $this->fieldname,
+            'fieldname' => $this->fieldName,
             'caption' => $this->caption,
             'type' => $this->type,
         ];
     }
 
-    /**
-     * @param string $type
-     * @return string
-     */
-    public static function typeToDBAL(string $type) : string
+    public static function typeToDBAL(string $type): string
     {
-        switch ($type) {
-            case self::TEXT:
-                return CommonTypes::TTEXT;
-            case self::INT:
-                return CommonTypes::TINT;
-            case self::NUMBER:
-                return CommonTypes::TNUMBER;
-            case self::DATETIME:
-                return CommonTypes::TDATETIME;
-            case self::DATE:
-                return CommonTypes::TDATE;
-            case self::TIME:
-                return CommonTypes::TTIME;
-            default:
-                return CommonTypes::TTEXT;
-        }
+        return match ($type) {
+            self::INT => CommonTypes::TINT,
+            self::NUMBER => CommonTypes::TNUMBER,
+            self::DATETIME => CommonTypes::TDATETIME,
+            self::DATE => CommonTypes::TDATE,
+            self::TIME => CommonTypes::TTIME,
+            default => CommonTypes::TTEXT,
+        };
+    }
+
+    /**
+     * @return list<string>
+     */
+    public static function types(): array
+    {
+        return [
+            self::TEXT,
+            self::INT,
+            self::NUMBER,
+            self::DATETIME,
+            self::DATE,
+            self::TIME,
+        ];
     }
 }

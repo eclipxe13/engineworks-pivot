@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Aggregate;
@@ -6,32 +7,32 @@ use PHPUnit\Framework\TestCase;
 
 class AggregateTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
-        $fieldname = 'foo';
-        $asname = 'bar';
+        $fieldName = 'foo';
+        $asName = 'bar';
         $caption = 'The foo';
         $group = Aggregate::AVG;
         $decimals = 2;
         $order = Aggregate::ORDERASC;
         $asArray = [
-            'fieldname' => $fieldname,
-            'asname' => $asname,
+            'fieldname' => $fieldName,
+            'asname' => $asName,
             'caption' => $caption,
             'group' => $group,
             'decimals' => $decimals,
             'order' => $order,
         ];
         $filter = new Aggregate(
-            $fieldname,
-            $asname,
+            $fieldName,
+            $asName,
             $caption,
             $group,
             $decimals,
             $order
         );
-        $this->assertEquals($fieldname, $filter->getFieldname());
-        $this->assertEquals($asname, $filter->getAsname());
+        $this->assertEquals($fieldName, $filter->getFieldName());
+        $this->assertEquals($asName, $filter->getAsName());
         $this->assertEquals($caption, $filter->getCaption());
         $this->assertEquals($group, $filter->getGroup());
         $this->assertEquals($decimals, $filter->getDecimals());
@@ -39,7 +40,7 @@ class AggregateTest extends TestCase
         $this->assertEquals($asArray, $filter->asArray());
     }
 
-    public function testConstructorWithInvalidGroup()
+    public function testConstructorWithInvalidGroup(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('group');
@@ -47,7 +48,7 @@ class AggregateTest extends TestCase
         new Aggregate('field', 'as', 'caption', 'XXX', 2, '');
     }
 
-    public function testConstructorWithInvalidOrder()
+    public function testConstructorWithInvalidOrder(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('order');
@@ -55,7 +56,7 @@ class AggregateTest extends TestCase
         new Aggregate('field', 'as', 'caption', Aggregate::MAX, 2, 'FOO');
     }
 
-    public function testConstructorWithInvalidDecimals()
+    public function testConstructorWithInvalidDecimals(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('decimals');
@@ -63,14 +64,14 @@ class AggregateTest extends TestCase
         new Aggregate('', 'as', 'caption', Aggregate::MAX, -1, 'FOO');
     }
 
-    public function testStaticGroupTypes()
+    public function testStaticGroupTypes(): void
     {
         $ops = Aggregate::groupTypes();
         $this->assertContains(Aggregate::AVG, $ops);
         $this->assertNotContains('FOO', $ops);
     }
 
-    public function testStaticOperatorExists()
+    public function testStaticOperatorExists(): void
     {
         $this->assertFalse(Aggregate::groupExists('FOO'));
         $this->assertTrue(Aggregate::groupExists(Aggregate::AVG));

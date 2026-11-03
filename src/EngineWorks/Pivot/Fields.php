@@ -1,21 +1,30 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\Pivot;
 
+/**
+ * @extends Collection<Field>
+ */
 class Fields extends Collection
 {
-    protected $itemsInstanceOf = Field::class;
+    protected string $itemsInstanceOf = Field::class;
 
-    public function addItem($item, $key = null)
+    /**
+     * @param Field $item
+     */
+    public function addItem(mixed $item, int|string|null $key = null): static
     {
-        $key = $item->getFieldname();
+        $key = $item->getFieldName();
         parent::addItem($item, $key);
         return $this;
     }
 
-    public function asArray()
+    /**
+     * @return list<array{fieldname: string, caption: string, type: string}>
+     */
+    public function asArray(): array
     {
         $array = [];
-        /* @var Field $item */
         foreach ($this->items as $item) {
             $array[] = $item->asArray();
         }

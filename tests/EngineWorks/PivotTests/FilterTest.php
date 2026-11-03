@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Filter;
@@ -6,24 +7,24 @@ use PHPUnit\Framework\TestCase;
 
 class FilterTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
-        $fieldname = 'foo';
+        $fieldName = 'foo';
         $operator = Filter::EQUAL;
         $arguments = 'bar';
         $asArray = [
-            'fieldname' => $fieldname,
+            'fieldname' => $fieldName,
             'operator' => $operator,
             'arguments' => $arguments,
         ];
-        $filter = new Filter($fieldname, $operator, $arguments);
-        $this->assertEquals($fieldname, $filter->getFieldname());
+        $filter = new Filter($fieldName, $operator, $arguments);
+        $this->assertEquals($fieldName, $filter->getFieldName());
         $this->assertEquals($operator, $filter->getOperator());
         $this->assertEquals($arguments, $filter->getArguments());
         $this->assertEquals($asArray, $filter->asArray());
     }
 
-    public function testConstructorWithInvalidOperator()
+    public function testConstructorWithInvalidOperator(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('operator');
@@ -31,7 +32,7 @@ class FilterTest extends TestCase
         new Filter('field', 'FOO', '');
     }
 
-    public function testConstructorWithInvalidArgumentNull()
+    public function testConstructorWithInvalidArgumentNull(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('argument');
@@ -39,7 +40,7 @@ class FilterTest extends TestCase
         new Filter('field', Filter::EQUAL, null);
     }
 
-    public function testConstructorWithInvalidArgumentNoArray()
+    public function testConstructorWithInvalidArgumentNoArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('cannot be an array');
@@ -47,7 +48,7 @@ class FilterTest extends TestCase
         new Filter('field', Filter::EQUAL, []);
     }
 
-    public function testConstructorWithInvalidArgumentOnlyArray()
+    public function testConstructorWithInvalidArgumentOnlyArray(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('must be an array');
@@ -55,16 +56,17 @@ class FilterTest extends TestCase
         new Filter('field', Filter::IN, '');
     }
 
-    public function testStaticOperators()
+    public function testStaticOperators(): void
     {
         $ops = Filter::operators();
         $this->assertContains(Filter::EQUAL, $ops);
+        $this->assertContains(Filter::GREATER, $ops);
         $this->assertNotContains('FOO', $ops);
     }
 
-    public function testStaticOperatorExists()
+    public function testStaticOperatorExists(): void
     {
         $this->assertFalse(Filter::operatorExists('FOO'));
-        $this->assertTrue(Filter::operatorExists(Filter::EQUAL));
+        $this->assertTrue(Filter::operatorExists(Filter::GREATEREQUAL));
     }
 }

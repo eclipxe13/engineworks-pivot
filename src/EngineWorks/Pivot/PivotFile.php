@@ -8,7 +8,7 @@ class PivotFile
 {
     private string $filename;
 
-    private \EngineWorks\Pivot\Pivot $pivot;
+    private Pivot $pivot;
 
     public function __construct(Pivot $pivot)
     {
@@ -16,16 +16,19 @@ class PivotFile
         $this->pivot = $pivot;
     }
 
-    public function open(string $filename)
+    public function open(string $filename): void
     {
         if (! is_file($filename)) {
-            throw new PivotException("Pivot file $filename does not exists");
+            throw new PivotException("Pivot file $filename does not exist.");
         }
         try {
+            $contents = file_get_contents($filename);
+            if (false === $contents) {
+                throw new PivotException("Pivot file $filename cannot be read.");
+            }
             $xml = new SimpleXMLElement(
-                file_get_contents($filename),
-                LIBXML_NOERROR & LIBXML_NOWARNING & LIBXML_NONET,
-                false
+                $contents,
+                LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NONET
             );
             $this->fromXML($xml);
             $this->filename = $filename;
@@ -34,19 +37,19 @@ class PivotFile
         }
     }
 
-    public function save()
+    public function save(): void
     {
         $filename = $this->getFilename();
         if ('' === $filename) {
-            throw new PivotException('Cannot save a the pivot file without a file name');
+            throw new PivotException('Cannot save the pivot file without a file name.');
         }
         $this->saveAs($filename, true);
     }
 
-    public function saveAs(string $filename, bool $override)
+    public function saveAs(string $filename, bool $override): void
     {
         if (file_exists($filename) && ! $override) {
-            throw new PivotException('The pivot file already exists');
+            throw new PivotException('The pivot file already exists.');
         }
         try {
             $this->toXML()->asXML($filename);
@@ -56,21 +59,20 @@ class PivotFile
         $this->filename = $filename;
     }
 
-    public function getPivot() : Pivot
+    public function getPivot(): Pivot
     {
         return $this->pivot;
     }
 
-    public function getFilename() : string
+    public function getFilename(): string
     {
         return $this->filename;
     }
 
     /**
      * Configure the current pivot from a SimpleXMLElement
-     * @param SimpleXMLElement $xml
      */
-    private function fromXML(SimpleXMLElement $xml)
+    private function fromXML(SimpleXMLElement $xml): void
     {
         $this->pivot->reset();
         if (isset($xml->source)) {
@@ -115,10 +117,10 @@ class PivotFile
             foreach ($xml->aggregate as $node) {
                 $this->pivot->addAggregate(
                     (string) $node['fieldname'],
-                    (string) $node['asname'], // this was set to an empty string
+                    (string) $node['asname'],
                     (string) $node['caption'],
                     (string) $node['group'],
-                    (string) $node['decimals'],
+                    (int) $node['decimals'],
                     (string) $node['order']
                 );
             }
@@ -132,11 +134,10 @@ class PivotFile
 
     /**
      * Get the pivot information as an xml node
-     * @return SimpleXMLElement
      */
-    private function toXML() : SimpleXMLElement
+    private function toXML(): SimpleXMLElement
     {
-        $xml = new SimpleXMLElement('<' . 'pivot/>');
+        $xml = new SimpleXMLElement('<pivot/>');
         $xml->addChild('source', Utils::escapeXml($this->pivot->getSource()));
         foreach ($this->pivot->getSourceFields() as $item) {
             $node = $xml->addChild('sourcefield');
@@ -151,10 +152,10 @@ class PivotFile
             $arguments = $item['arguments'];
             if (is_array($arguments)) {
                 foreach ($arguments as $argument) {
-                    $node->addChild('argument', Utils::escapeXml($argument));
+                    $node->addChild('argument', Utils::escapeXml(is_scalar($argument) ? (string) $argument : ''));
                 }
             } else {
-                $node->addAttribute('singleargument', (string) $arguments);
+                $node->addAttribute('singleargument', is_scalar($arguments) ? (string) $arguments : '');
             }
         }
         foreach ($this->pivot->getCurrentColumns() as $item) {
@@ -167,7 +168,7 @@ class PivotFile
             $node = $xml->addChild('aggregate');
             $node->addAttribute('fieldname', $item['fieldname']);
             $node->addAttribute('caption', $item['caption']);
-            $node->addAttribute('asname', $item['asname']); // this line was commented
+            $node->addAttribute('asname', $item['asname']);
             $node->addAttribute('group', $item['group']);
             $node->addAttribute('decimals', (string) $item['decimals']);
             $node->addAttribute('order', $item['order']);
@@ -175,7 +176,9 @@ class PivotFile
         // information
         $info = ['description', 'author', 'created'];
         foreach ($info as $name) {
-            $xml->addChild('info', Utils::escapeXml($this->pivot->getInfo($name)))->addAttribute('name', $name);
+            $value = $this->pivot->getInfo($name);
+            $xml->addChild('info', Utils::escapeXml(false === $value ? '' : $value))
+                ->addAttribute('name', $name);
         }
         return $xml;
     }

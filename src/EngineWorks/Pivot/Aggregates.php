@@ -1,35 +1,43 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\Pivot;
 
+/**
+ * @extends Collection<Aggregate>
+ */
 class Aggregates extends Collection
 {
-    protected $itemsInstanceOf = Aggregate::class;
+    protected string $itemsInstanceOf = Aggregate::class;
 
-    public function addItem($item, $key = null)
+    /**
+     * @param Aggregate $item
+     */
+    public function addItem(mixed $item, int|string|null $key = null): static
     {
-        $key = $item->getAsname();
+        $key = $item->getAsName();
         return parent::addItem($item, $key);
     }
 
-    public function asArray()
+    /**
+     * @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}>
+     */
+    public function asArray(): array
     {
-        $a = [];
+        $array = [];
         foreach ($this->items as $item) {
-            /* @var Aggregate $item */
-            $a[] = $item->asArray();
+            $array[] = $item->asArray();
         }
-        return $a;
+        return $array;
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
-    public function getOrderArray()
+    public function getOrderArray(): array
     {
         $array = [];
-        foreach ($this->items as $key => $item) {
-            /* @var Aggregate $item */
-            $array[$key] = $item->getOrder();
+        foreach ($this->items as $item) {
+            $array[$item->getAsName()] = $item->getOrder();
         }
         return $array;
     }

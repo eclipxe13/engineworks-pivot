@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\Pivot;
 
 class Pivot
@@ -10,64 +11,60 @@ class Pivot
 
     /**
      * Collection of all fields used in the source
-     * @var Fields|Field[]
      */
-    private $fields;
+    private Fields $fields;
 
     /**
      * Collection of rules
-     * @var Filters|Filter[]
      */
-    private $filters;
+    private Filters $filters;
 
     /**
      * Collection of columns
+     *
+     * @var list<string>
      */
-    private array $columns;
+    private array $columns = [];
 
     /**
      * Collection of rows
+     *
+     * @var list<string>
      */
-    private array $rows;
+    private array $rows = [];
 
     /**
      * Collection of aggregates
-     * @var Aggregates|Aggregate[]
      */
-    private $aggregates;
+    private Aggregates $aggregates;
 
     /**
      * Information of extended information
+     *
+     * @var array<string, string>
      */
-    private array $info;
+    private array $info = [];
 
-    public function __construct($source = '')
+    private static int $aggregateCounter = 0;
+
+    public function __construct(string $source = '')
     {
         $this->fields = new Fields();
         $this->aggregates = new Aggregates();
         $this->filters = new Filters();
-        $this->rows = [];
-        $this->columns = [];
-        $this->info = [];
         $this->clearInfo();
         $this->setSource($source);
     }
 
-    public function __clone()
+    public function __clone(): void
     {
-        // Force a copy of this->object, otherwise  it will point to same object.
-        if (null !== $this->fields) {
-            $this->fields = clone $this->fields;
-        }
-        if (null !== $this->filters) {
-            $this->filters = clone $this->filters;
-        }
-        if (null !== $this->aggregates) {
-            $this->aggregates = clone $this->aggregates;
-        }
+        // Force a copy of this->object, otherwise it will point to the same object.
+        $this->fields = clone $this->fields;
+        $this->filters = clone $this->filters;
+        $this->aggregates = clone $this->aggregates;
     }
 
-    public function setSource(string $source)
+    public function setSource(string $source): void
     {
         $this->source = $source;
     }
@@ -78,18 +75,10 @@ class Pivot
     }
 
     /**
-     * Return a current value of information
-     * If keyword not found return FALSE
-     * If no keyword provided then it returns the complete array of values
-     *
-     * @param string $keyword
-     * @return mixed
+     * Return a current value of information, or FALSE if the keyword does not exist.
      */
-    public function getInfo($keyword = '')
+    public function getInfo(string $keyword): string|false
     {
-        if (! $keyword) {
-            return $this->info;
-        }
         if (array_key_exists($keyword, $this->info)) {
             return $this->info[$keyword];
         }
@@ -97,16 +86,26 @@ class Pivot
     }
 
     /**
+     * Return the complete array of information values.
+     *
+     * @return array<string, string>
+     */
+    public function getInfoArray(): array
+    {
+        return $this->info;
+    }
+
+    /**
      * @param scalar|\Stringable|null $value
      */
-    public function setInfo(string $keyword, $value)
+    public function setInfo(string $keyword, mixed $value): void
     {
         if (array_key_exists($keyword, $this->info)) {
             $this->info[$keyword] = (string) $value;
         }
     }
 
-    public function clearSelectors()
+    public function clearSelectors(): void
     {
         $this->clearSelectorRows();
         $this->clearSelectorColumns();
@@ -114,27 +113,27 @@ class Pivot
         $this->clearAggregates();
     }
 
-    public function clearSelectorRows()
+    public function clearSelectorRows(): void
     {
         $this->rows = [];
     }
 
-    public function clearFilters()
+    public function clearFilters(): void
     {
         $this->filters->clear();
     }
 
-    public function clearAggregates()
+    public function clearAggregates(): void
     {
         $this->aggregates->clear();
     }
 
-    public function clearSelectorColumns()
+    public function clearSelectorColumns(): void
     {
         $this->columns = [];
     }
 
-    public function clearInfo()
+    public function clearInfo(): void
     {
         $this->info = [
             'author' => '',
@@ -144,149 +143,166 @@ class Pivot
         ];
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->clearInfo();
         $this->fields->clear();
         $this->clearSelectors();
     }
 
-    public function addSourceField($fieldname, $caption, $type)
+    public function addSourceField(string $fieldName, string $caption, string $type): void
     {
-        $this->fields->addItem(new Field($fieldname, $caption, $type));
+        $this->fields->addItem(new Field($fieldName, $caption, $type));
     }
 
-    public function addFilter($fieldname, $operator, $arguments)
+    public function addFilter(string $fieldName, string $operator, mixed $arguments): void
     {
-        if (! $this->fields->exists($fieldname)) {
-            throw new PivotException("Field $fieldname does not exists");
+        if (! $this->fields->exists($fieldName)) {
+            throw new PivotException("Field $fieldName does not exist.");
         }
-        $this->filters->addItem(new Filter($fieldname, $operator, $arguments));
+        $this->filters->addItem(new Filter($fieldName, $operator, $arguments));
     }
 
-    public function addColumn($fieldname)
+    public function addColumn(string $fieldName): void
     {
-        if (! $this->fields->exists($fieldname)) {
-            throw new PivotException("Invalid field name $fieldname");
+        if (! $this->fields->exists($fieldName)) {
+            throw new PivotException("Invalid field name $fieldName.");
         }
-        if (! in_array($fieldname, $this->columns)) {
-            $this->columns[] = $fieldname;
+        if (! in_array($fieldName, $this->columns, true)) {
+            $this->columns[] = $fieldName;
         }
     }
 
-    public function addRow($fieldname)
+    public function addRow(string $fieldName): void
     {
-        if (! $this->fields->exists($fieldname)) {
-            throw new PivotException("Invalid field name $fieldname");
+        if (! $this->fields->exists($fieldName)) {
+            throw new PivotException("Invalid field name $fieldName.");
         }
-        if (! in_array($fieldname, $this->rows)) {
-            $this->rows[] = $fieldname;
+        if (! in_array($fieldName, $this->rows, true)) {
+            $this->rows[] = $fieldName;
         }
+    }
+
+    public function addAggregate(
+        string $fieldName,
+        string $asName,
+        string $caption,
+        string $aggregatorFunction,
+        int $decimals = 2,
+        string $order = Aggregate::ORDERNONE
+    ): void {
+        if ('' === $asName) {
+            self::$aggregateCounter++;
+            $asName = '__aggregator_' . self::$aggregateCounter;
+        }
+        $this->aggregates->addItem(
+            new Aggregate($fieldName, $asName, $caption, $aggregatorFunction, $decimals, $order)
+        );
     }
 
     /**
-     * @param string $fieldname
-     * @param string $asname
-     * @param string $caption
-     * @param string $agregatorfunction
-     * @param int $decimals
-     * @param string $order
+     * @return list<array{fieldname: string, caption: string, type: string}>
      */
-    public function addAggregate(
-        $fieldname,
-        $asname,
-        $caption,
-        $agregatorfunction,
-        $decimals = 2,
-        $order = Aggregate::ORDERNONE
-    ) {
-        static $counter = 0;
-        if ('' === $asname) {
-            $asname = '__agregator_' . (++$counter);
-        }
-        $this->aggregates->addItem(new Aggregate($fieldname, $asname, $caption, $agregatorfunction, $decimals, $order));
-    }
-
-    public function getSourceFields()
+    public function getSourceFields(): array
     {
         return $this->fields->asArray();
     }
 
-    public function getCurrentFilters()
+    /**
+     * @return list<array{fieldname: string, operator: string, arguments: mixed, caption: string}>
+     */
+    public function getCurrentFilters(): array
     {
-        $return = $this->filters->asArray();
-        foreach ($return as $i => $value) {
-            $return[$i]['caption'] = $this->getFieldElement($value['fieldname'])->getCaption();
+        $return = [];
+        foreach ($this->filters->asArray() as $value) {
+            $return[] = [
+                'fieldname' => $value['fieldname'],
+                'operator' => $value['operator'],
+                'arguments' => $value['arguments'],
+                'caption' => $this->getFieldElement($value['fieldname'])->getCaption(),
+            ];
         }
         return $return;
     }
 
-    public function getCurrentColumns()
+    /**
+     * @return list<array{caption: string, fieldname: string}>
+     */
+    public function getCurrentColumns(): array
     {
         $return = [];
         foreach ($this->columns as $column) {
             $field = $this->getFieldElement($column);
             $return[] = [
                 'caption' => $field->getCaption(),
-                'fieldname' => $field->getFieldname(),
+                'fieldname' => $field->getFieldName(),
             ];
         }
         return $return;
     }
 
-    public function getCurrentRows()
+    /**
+     * @return list<array{caption: string, fieldname: string}>
+     */
+    public function getCurrentRows(): array
     {
         $return = [];
         foreach ($this->rows as $row) {
             $field = $this->getFieldElement($row);
             $return[] = [
                 'caption' => $field->getCaption(),
-                'fieldname' => $field->getFieldname(),
+                'fieldname' => $field->getFieldName(),
             ];
         }
         return $return;
     }
 
-    public function hasColumns()
+    public function hasColumns(): bool
     {
         return count($this->columns) > 0;
     }
 
-    public function hasRows()
+    public function hasRows(): bool
     {
         return count($this->rows) > 0;
     }
 
-    public function getCurrentAggregates()
+    /**
+     * @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}>
+     */
+    public function getCurrentAggregates(): array
     {
         return $this->aggregates->asArray();
     }
 
     /**
-     * Return an field object from the field list
-     * @param string $fieldname
-     * @return Field
-     * @throws PivotException when field name does not exists
+     * Return a field object from the field list
+     *
+     * @throws PivotException when field name does not exist
      */
-    public function getFieldElement($fieldname)
+    public function getFieldElement(string $fieldName): Field
     {
-        if (! $this->fields->exists($fieldname)) {
-            throw new PivotException("Expected to find field $fieldname but it does not exists in the list");
+        if (! $this->fields->exists($fieldName)) {
+            throw new PivotException("Expected to find field $fieldName but it does not exist in the list.");
         }
-        return $this->fields->value($fieldname);
+        $field = $this->fields->value($fieldName);
+        if (null === $field) {
+            throw new PivotException("Expected to find field $fieldName but it does not exist in the list.");
+        }
+        return $field;
     }
 
-    public function getFieldsCollection()
+    public function getFieldsCollection(): Fields
     {
         return $this->fields;
     }
 
-    public function getAggregatesCollection()
+    public function getAggregatesCollection(): Aggregates
     {
         return $this->aggregates;
     }
 
-    public function getFiltersCollection()
+    public function getFiltersCollection(): Filters
     {
         return $this->filters;
     }

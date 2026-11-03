@@ -16,122 +16,106 @@ class Aggregate
     public const ORDERASC = 'ASC';
     public const ORDERDESC = 'DESC';
 
-    private $fieldname;
-    private $asname;
-    private $caption;
-    private $group;
-    private $decimals;
-    private $order;
+    private readonly string $fieldName;
+    private readonly string $asName;
+    private readonly string $caption;
+    private readonly string $group;
+    private readonly int $decimals;
+    private readonly string $order;
 
     public function __construct(
-        string $fieldname,
-        string $asname,
+        string $fieldName,
+        string $asName,
         string $caption,
         string $group,
         int $decimals,
         string $order
     ) {
-        if (! $this->groupExists($group)) {
-            throw new \InvalidArgumentException('Invalid value for group');
+        if (! self::groupExists($group)) {
+            throw new \InvalidArgumentException('Invalid value for group.');
         }
         if ($decimals < 0 || $decimals > 8) {
-            throw new \InvalidArgumentException('Invalid value for decimals');
+            throw new \InvalidArgumentException('Invalid value for decimals.');
         }
-        if (! in_array($order, [static::ORDERNONE, static::ORDERASC, static::ORDERDESC])) {
-            throw new \InvalidArgumentException('Invalid order value');
+        if (! in_array($order, [self::ORDERNONE, self::ORDERASC, self::ORDERDESC], true)) {
+            throw new \InvalidArgumentException('Invalid order value.');
         }
-        $this->fieldname = $fieldname;
-        $this->asname = $asname;
+        $this->fieldName = $fieldName;
+        $this->asName = $asName;
         $this->caption = $caption;
         $this->group = $group;
         $this->decimals = $decimals;
         $this->order = $order;
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldname(): string
+    public function getFieldName(): string
     {
-        return $this->fieldname;
+        return $this->fieldName;
     }
 
-    /**
-     * @return string
-     */
-    public function getAsname(): string
+    public function getAsName(): string
     {
-        return $this->asname;
+        return $this->asName;
     }
 
-    /**
-     * @return string
-     */
     public function getCaption(): string
     {
         return $this->caption;
     }
 
-    /**
-     * @return string
-     */
     public function getGroup(): string
     {
         return $this->group;
     }
 
-    /**
-     * @return int
-     */
     public function getDecimals(): int
     {
         return $this->decimals;
     }
 
-    /**
-     * @return string
-     */
     public function getOrder(): string
     {
         return $this->order;
     }
 
-    public function asArray() : array
+    /**
+     * @return array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}
+     */
+    public function asArray(): array
     {
         return [
-            'fieldname' => $this->fieldname,
+            'fieldname' => $this->fieldName,
             'caption' => $this->caption,
             'group' => $this->group,
-            'asname' => $this->asname,
+            'asname' => $this->asName,
             'decimals' => $this->decimals,
             'order' => $this->order,
         ];
     }
 
-    /**
-     * @param DBAL $db
-     * @return string
-     */
-    public function getSQL(DBAL $db) : string
+    public function getSQL(DBAL $db): string
     {
         return $this->group
-            . '(' . $db->sqlFieldEscape($this->fieldname) . ')'
-            . ' AS ' . $db->sqlFieldEscape($this->asname);
+            . '(' . $db->sqlFieldEscape($this->fieldName) . ')'
+            . ' AS ' . $db->sqlFieldEscape($this->asName);
     }
 
-    public static function groupTypes() : array
+    /**
+     * @return list<string>
+     */
+    public static function groupTypes(): array
     {
         return [
-            static::COUNT,
-            static::SUM,
-            static::AVG,
-            static::MIN,
-            static::MAX,
+            self::COUNT,
+            self::SUM,
+            self::AVG,
+            self::MIN,
+            self::MAX,
         ];
     }
 
-    public static function groupExists(string $group) : bool
+    public static function groupExists(string $group): bool
     {
-        return in_array($group, static::groupTypes());
+        return in_array($group, self::groupTypes(), true);
     }
 }

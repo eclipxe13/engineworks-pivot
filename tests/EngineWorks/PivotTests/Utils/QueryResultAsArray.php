@@ -7,7 +7,10 @@ use EngineWorks\Pivot\Result;
 
 class QueryResultAsArray
 {
-    public function toArray(QueryResult $queryResult) : array
+    /**
+     * @return array<string, mixed>
+     */
+    public function toArray(QueryResult $queryResult): array
     {
         $array = ['rows' => $this->resultAsArray($queryResult->getTotals(), 'rows')];
         if ($queryResult->hasDetails()) {
@@ -16,15 +19,18 @@ class QueryResultAsArray
         return $array;
     }
 
-    private function resultAsArray(Result $result, $childrenName)
+    /**
+     * @return array<string, mixed>
+     */
+    private function resultAsArray(Result $result, string $childrenName): array
     {
         $array = [
             'group' => $result->caption,
-            'values' => array_values($result->values),
+            'values' => array_values($result->values ?? []),
         ];
         if ($result->hasChildren()) {
             $children = [];
-            foreach ($result->children as $child) {
+            foreach ($result->getChildren() as $child) {
                 $children[] = $this->resultAsArray($child, $childrenName);
             }
             $array[$childrenName] = $children;

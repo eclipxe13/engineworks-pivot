@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Pivot;
@@ -8,11 +9,12 @@ use EngineWorks\Pivot\Query;
 use EngineWorks\Pivot\QueryResult;
 use EngineWorks\Pivot\Result;
 use EngineWorks\PivotTests\Utils\DbConnection;
+use EngineWorks\PivotTests\Utils\QueryResultAsArray;
 use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
 {
-    public function testQuery()
+    public function testQuery(): void
     {
         $filename = __DIR__ . '/assets/pivot-file-base.xml';
         $pivot = $this->openPivotFile($filename);
@@ -26,7 +28,10 @@ class QueryTest extends TestCase
         $this->assertInstanceOf(Result::class, $details);
     }
 
-    public function providerQueryAndCompareWithJson()
+    /**
+     * @return list<list<string>>
+     */
+    public function providerQueryAndCompareWithJson(): array
     {
         return [
             ['total'],
@@ -41,9 +46,8 @@ class QueryTest extends TestCase
 
     /**
      * @dataProvider providerQueryAndCompareWithJson
-     * @param $testName
      */
-    public function testQueryAndCompareWithJson($testName)
+    public function testQueryAndCompareWithJson(string $testName): void
     {
         // pivot file
         $pivotFile = __DIR__ . '/assets/query-' . $testName . '.xml';
@@ -55,16 +59,20 @@ class QueryTest extends TestCase
         $queryResult = $query->query();
 
         // get queryArray as a known array structure
-        $queryArray = (new Utils\QueryResultAsArray())->toArray($queryResult);
+        $queryArray = (new QueryResultAsArray())->toArray($queryResult);
 
         // compare the struct versus a known json file
+        $actualJson = json_encode($queryArray, JSON_PRETTY_PRINT);
+        if (false === $actualJson) {
+            $this->fail('Unable to encode the query result as JSON');
+        }
         $this->assertJsonStringEqualsJsonFile(
             __DIR__ . '/assets/query-' . $testName . '.json',
-            json_encode($queryArray, JSON_PRETTY_PRINT)
+            $actualJson
         );
     }
 
-    public function testQueryThrowsExceptionIfNoFieldsDefined()
+    public function testQueryThrowsExceptionIfNoFieldsDefined(): void
     {
         $query = new Query(DbConnection::db(), new Pivot('foo'));
 
@@ -74,7 +82,7 @@ class QueryTest extends TestCase
         $query->query();
     }
 
-    private function openPivotFile($pivotFile)
+    private function openPivotFile(string $pivotFile): Pivot
     {
         $pivot = new Pivot();
         (new PivotFile($pivot))->open($pivotFile);
