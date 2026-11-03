@@ -87,7 +87,7 @@ class XhtmlTable
         $aggregates = $queryResult->getAggregates();
         $valuesCount = count($aggregates);
         $colsDepth = 0;
-        $colsTree = null;
+        $colsTree = new Result('_', '_'); // dummy object
         /** @var list<array{caption: string, fieldname: string}> $columns */
         $columns = [];
         /** @var list<Result> $colsLastLevel */
@@ -119,10 +119,8 @@ class XhtmlTable
                 $thead->addChild('tr')->addChild('th', Utils::escapeXml($column['caption']));
             }
             // make header if the column details
-            if (null !== $colsTree) {
-                foreach ($colsTree->getChildren() as $item) {
-                    $this->xhtmlAddHeader($thead, $item, 1, $valuesCount);
-                }
+            foreach ($colsTree->getChildren() as $item) {
+                $this->xhtmlAddHeader($thead, $item, 1, $valuesCount);
             }
             $trs = $thead->tr;
             if ($trs instanceof SimpleXMLElement && count($trs) > 0) {

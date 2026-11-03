@@ -11,7 +11,7 @@ class PivotExceptionQuery extends PivotException
     public function __construct(
         string $message,
         private readonly string $sql,
-        Throwable|null $previous = null
+        Throwable|null $previous = null,
     ) {
         parent::__construct($message, previous: $previous);
     }
