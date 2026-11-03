@@ -19,7 +19,7 @@ You can find help and discussion in the following places:
 
 ## Reporting Bugs
 
-Bugs are tracked in our project's [issue tracker](https://github.com/eclipxe13/engineworks-pivot/issues).
+We track our bugs in our project's [issue tracker](https://github.com/eclipxe13/engineworks-pivot/issues).
 
 When submitting a bug report, please include enough information for us to reproduce the bug.
 A good bug report includes the following sections:
@@ -35,14 +35,16 @@ A good bug report includes the following sections:
 
 We welcome pull requests to fix bugs!
 
-If you see a bug report that you'd like to fix, please feel free to do so. Following the directions and guidelines described in the "Adding New Features" section below, you may create bugfix branches and send us pull requests.
+If you see a bug report that you'd like to fix, please feel free to do so.
+Following the directions and guidelines described in the "Adding New Features"
+section below, you may create bugfix branches and send us pull requests.
 
 ## Adding New Features
 
 If you have an idea for a new feature, it's a good idea to check out our
 [issues](https://github.com/eclipxe13/engineworks-pivot/issues) or active
 [pull requests](https://github.com/eclipxe13/engineworks-pivot/pulls)
-first to see if the feature is already being worked on.
+first to see if we are being working on the feature.
 If not, feel free to submit an issue first, asking whether the feature is beneficial to the project.
 This will save you from doing a lot of development work only to have your feature rejected.
 We don't enjoy rejecting your hard work, but some features just don't fit with the goals of the project.
@@ -50,32 +52,54 @@ We don't enjoy rejecting your hard work, but some features just don't fit with t
 When you do begin working on your feature, here are some guidelines to consider:
 
 * Your pull request description should clearly detail the changes you have made.
-* We following by minimum the **[PSR-2 coding standard](http://www.php-fig.org/psr/psr-2/)**. Please ensure your code does, too.
+* Follow our code style using `squizlabs/php_codesniffer` and `friendsofphp/php-cs-fixer`.
 * Please **write tests** for any new features you add.
-* Please **ensure that tests pass** before submitting your pull request. We have Travis CI automatically running tests for pull requests. However, running the tests locally will help save time.
-* **Use topic/feature branches.** Please do not ask us to pull from your master branch.
+* Please **ensure that tests pass** before submitting your pull request. Running the tests locally will help save time.
+* We have GitHub Actions automatically running tests for pull requests.
+* **Use topic/feature branches.** Please do not ask us to pull from your main branch.
 * **Submit one feature per pull request.** If you have multiple features you wish to submit, please break them up into separate pull requests.
 * **Send coherent history**. Make sure each individual commit in your pull request is meaningful. If you had to make multiple intermediate commits while developing, please squash them before submitting.
 
+## Installing development tools
+
+This project uses different development tools to ensure code style, test and quality (using code analyzers).
+
+```shell
+# install project direct dependencies
+composer update
+
+# install development tools dependencies (using phive)
+phive update
+```
+
+## Check the code style
+
 If you are having issues with coding standars use `php-cs-fixer` and `phpcbf`
 
-```bash
-vendor/bin/php-cs-fixer fix -v
-vendor/bin/phpcbf src/ tests/
+```shell
+tools/php-cs-fixer fix -v
+tools/phpcbf -sp
 ```
-## Setup the database
-
-This project uses a running mysql server to perform tests.
-Check the `docs/structure.sql` and `docs/records.sql` files to install a local copy of the data.
-The `docs/DataSample.xlsx` contains the same data and dynamic tables to check the results.
 
 ## Running Tests
 
-The following tests must pass before we will accept a pull request. If any of these do not pass,
-it will result in a complete build failure. Before you can run these, be sure to `composer install`.
+The following tests must pass before we will accept a pull request.
+If any of these do not pass, it will result in a complete build failure.
+Before you can run these, be sure to `composer install` or `composer update`.
 
+```shell
+tools/phpcs -sp
+tools/php-cs-fixer fix -v --dry-run
+vendor/bin/phpunit
+tools/phpstan analyze
 ```
-vendor/bin/parallel-lint src/ tests/
-vendor/bin/phpcs src/ tests/
-vendor/bin/phpunit --coverage-text
+
+## Running GitHub Actions locally
+
+You can use [`act`](https://github.com/nektos/act) to run your GitHub Actions locally.
+As documented in [`actions/setup-php-action`](https://github.com/marketplace/actions/setup-php-action#local-testing-setup)
+you will need to execute the command as:
+
+```shell
+act -P ubuntu-latest=shivammathur/node:latest
 ```
