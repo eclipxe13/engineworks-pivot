@@ -8,7 +8,8 @@ on:
 #    - cron: '0 16 * * 0' # sunday 16:00
 
 # Actions
-# shivammathur/setup-php - https://github.com/marketplace/actions/setup-php-action
+# shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
+# sudo-bot/action-scrutinizer@latest https://github.com/marketplace/actions/action-scrutinizer
 
 jobs:
   phpcs:
@@ -20,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.5'
           coverage: none
           tools: cs2pr, phpcs
         env:
@@ -37,7 +38,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.5'
           coverage: none
           tools: cs2pr, php-cs-fixer
         env:
@@ -50,23 +51,25 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        php-version: ['7.4', '8.0', '8.1']
+        php-version: ['8.2', '8.3', '8.4', '8.5']
     services:
       mysql:
-        image: mysql:9.7.4
+        image: mysql:8
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: unittest
+          MYSQL_ROOT_PASSWORD: Password-123456
+          MYSQL_DATABASE: pivot
         ports:
-          - 3306:3306
+          - 13306:3306 # Use port 13306 to avoid a collision with the local development environment
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-      - name: Create database
-        run: cat docs/records.sql docs/structure.sql | mysql --host 127.0.0.1 --port 3306 -uroot
+      - name: Test MySQL Connection
+        run: mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456 -e "SELECT @@VERSION;"
       - name: Checkout
         uses: actions/checkout@v7
         with:
           fetch-depth: "0" # required for scrutinizer/ocular
+      - name: Create database
+        run: cat docs/structure.sql docs/records.sql | mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456
       - name: Set up environment file
         run: |
           test -e tests/.env || cp -v tests/.env.github tests/.env
@@ -91,12 +94,12 @@ jobs:
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Tests (phpunit)
-        run: vendor/bin/phpunit --testdox --verbose --coverage-clover=build/coverage-clover.xml
+        run: vendor/bin/phpunit --testdox --coverage-clover=build/coverage/clover.xml
       - name: Upload code coverage to scrutinizer
-        run: |
-          mkdir -p build/scrutinizer
-          composer require scrutinizer/ocular:dev-master --working-dir=build/scrutinizer --no-progress
-          php build/scrutinizer/vendor/bin/ocular code-coverage:upload -vvv --no-interaction --format=php-clover build/coverage-clover.xml
+        if: ${{ !env.ACT }} # do not run if using nektos/act
+        uses: sudo-bot/action-scrutinizer@latest
+        with:
+          cli-args: "--format=php-clover build/coverage/clover.xml"
         continue-on-error: true
 
   phpstan:
@@ -108,7 +111,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.5'
           coverage: none
           tools: composer:v2, phpstan
         env:
