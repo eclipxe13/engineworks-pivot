@@ -58,7 +58,6 @@ class FilterTest extends TestCase
     public function testStaticOperators()
     {
         $ops = Filter::operators();
-        $this->assertInternalType('array', $ops);
         $this->assertContains(Filter::EQUAL, $ops);
         $this->assertNotContains('FOO', $ops);
     }

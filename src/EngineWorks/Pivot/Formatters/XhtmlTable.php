@@ -1,5 +1,5 @@
 <?php
- declare(strict_types = 1);
+declare(strict_types = 1);
 namespace EngineWorks\Pivot\Formatters;
 
 use EngineWorks\Pivot\QueryResult;
@@ -9,8 +9,7 @@ use SimpleXMLElement;
 
 class XhtmlTable
 {
-    /** @var  array */
-    private $options;
+    private array $options;
 
     public function __construct(array $options = [])
     {
@@ -71,7 +70,7 @@ class XhtmlTable
     {
         /** @var Result $totals */
         $totals = $queryResult->getTotals();
-        /** @var Result $details */
+        /** @var Result|null $details */
         $details = ($queryResult->hasDetails()) ? $queryResult->getDetails() : null;
 
         //
@@ -85,7 +84,7 @@ class XhtmlTable
         $colsLastLevel = [];
         $columns = [];
         if (null !== $details) {
-            // setup the columns information
+            // set up the columns information
             $columns = $queryResult->getColumns();
             // use count of columns instead of calling $details->getDepth(false);
             $colsDepth = count($columns);
@@ -120,9 +119,8 @@ class XhtmlTable
                 if ($valuesCount > 1) {
                     $th->addAttribute('colspan', (string) $valuesCount);
                 }
-                if ($colsDepth > 0) {
-                    $th->addAttribute('rowspan', (string) $colsDepth);
-                }
+
+                $th->addAttribute('rowspan', (string) $colsDepth);
             }
         }
 
@@ -182,7 +180,7 @@ class XhtmlTable
      * @param SimpleXMLElement $tbody
      * @param Result $result
      * @param array $aggregates
-     * @param Result $details
+     * @param Result|null $details
      * @param Result[] $colsLastLevel
      * @param bool $istotal
      */

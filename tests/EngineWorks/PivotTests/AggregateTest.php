@@ -66,7 +66,6 @@ class AggregateTest extends TestCase
     public function testStaticGroupTypes()
     {
         $ops = Aggregate::groupTypes();
-        $this->assertInternalType('array', $ops);
         $this->assertContains(Aggregate::AVG, $ops);
         $this->assertNotContains('FOO', $ops);
     }

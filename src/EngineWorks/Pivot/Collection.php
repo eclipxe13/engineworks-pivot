@@ -65,7 +65,7 @@ class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
      * Count of elements
      * @return int
      */
-    public function count()
+    public function count(): int
     {
         return count($this->items);
     }
@@ -93,7 +93,7 @@ class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
 
     /**
      * @param mixed $item
-     * @param string|int $key
+     * @param string|int|null $key
      * @return $this
      */
     public function addItem($item, $key = null)
@@ -177,7 +177,7 @@ class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
      * Implementation of IteratorAggregate
      * @return \ArrayIterator
      */
-    public function getIterator()
+    public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->items);
     }
@@ -203,13 +203,9 @@ class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
 
     /**
      * Set the items class policy, if elements already exists each one is checked
-     * @param string $classname
      */
-    public function setItemsClassPolicy($classname)
+    public function setItemsClassPolicy(string $classname)
     {
-        if (! is_string($classname)) {
-            throw new \InvalidArgumentException(get_class($this) . ' error, setItemsClass expects a string value');
-        }
         $this->itemsInstanceOf = $classname;
         if ('' === $this->itemsInstanceOf) {
             return;  // avoid checks
@@ -277,22 +273,22 @@ class Collection implements \IteratorAggregate, \Countable, \ArrayAccess
      * ArrayAccess methods
      *
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->exists($offset);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->value($offset);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->addItem($value, $offset);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->remove($offset);
     }

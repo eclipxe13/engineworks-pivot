@@ -11,16 +11,13 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "eclipxe/engineworks-dbal": "@stable"
+        "php": ">=7.4",
+        "eclipxe/engineworks-dbal": "^2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable",
-        "vlucas/phpdotenv": "@stable",
-        "jakub-onderka/php-parallel-lint": "@stable",
-        "squizlabs/php_codesniffer": "@stable",
-        "friendsofphp/php-cs-fixer": "@stable",
-        "scrutinizer/ocular": "@stable"
+        "phpunit/phpunit": "^9.5",
+        "vlucas/phpdotenv": "^5.4",
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
@@ -33,4 +30,3 @@
         }
     }
 }
-

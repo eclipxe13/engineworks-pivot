@@ -65,7 +65,7 @@ class PivotFileTest extends TestCase
     public function testSaveAs()
     {
         $pivot = $this->createPivotWithStruct();
-        $temporalFile = tempnam(null, null);
+        $temporalFile = tempnam('', '');
 
         $pf = new PivotFile($pivot);
         $pf->saveAs($temporalFile, true);
@@ -103,7 +103,7 @@ class PivotFileTest extends TestCase
     public function testSave()
     {
         // copy base file to temporal
-        $temporalFile = tempnam(null, null);
+        $temporalFile = tempnam('', '');
         copy(__DIR__ . '/assets/pivot-file-base.xml', $temporalFile);
 
         // open temporal

@@ -13,14 +13,11 @@ namespace EngineWorks\Pivot;
  */
 class Result
 {
-    /** @var string */
-    private $privFieldname;
+    private ?string $privFieldname = null;
 
-    /** @var string */
-    private $privCaption;
+    private ?string $privCaption = null;
 
-    /** @var array|null */
-    private $privValues;
+    private ?array $privValues = null;
 
     /** @var Results|Result[] */
     private $privChildren;
@@ -28,8 +25,7 @@ class Result
     /** @var Result */
     private $privParent;
 
-    /** @var bool */
-    private $privIsRow;
+    private ?bool $privIsRow = null;
 
     public function __construct($fieldname, $caption, $values = null, $isrow = true)
     {

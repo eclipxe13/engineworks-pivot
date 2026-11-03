@@ -6,15 +6,15 @@ use EngineWorks\DBAL\DBAL;
 
 class Aggregate
 {
-    const COUNT = 'COUNT';
-    const SUM = 'SUM';
-    const AVG = 'AVG';
-    const MIN = 'MIN';
-    const MAX = 'MAX';
+    public const COUNT = 'COUNT';
+    public const SUM = 'SUM';
+    public const AVG = 'AVG';
+    public const MIN = 'MIN';
+    public const MAX = 'MAX';
 
-    const ORDERNONE = '';
-    const ORDERASC = 'ASC';
-    const ORDERDESC = 'DESC';
+    public const ORDERNONE = '';
+    public const ORDERASC = 'ASC';
+    public const ORDERDESC = 'DESC';
 
     private $fieldname;
     private $asname;

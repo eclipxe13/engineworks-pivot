@@ -6,11 +6,9 @@ namespace EngineWorks\Pivot;
  */
 class ResultOrdering
 {
-    /** @var array */
-    private $orderBy;
+    private array $orderBy;
 
-    /** @var bool */
-    private $required;
+    private bool $required;
 
     /**
      * ResultOrdering constructor

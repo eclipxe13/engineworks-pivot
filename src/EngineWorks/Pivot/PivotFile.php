@@ -6,11 +6,9 @@ use SimpleXMLElement;
 
 class PivotFile
 {
-    /** @var string */
-    private $filename;
+    private string $filename;
 
-    /** @var Pivot */
-    private $pivot;
+    private \EngineWorks\Pivot\Pivot $pivot;
 
     public function __construct(Pivot $pivot)
     {

@@ -15,8 +15,8 @@ The pivot allows you to define a source (a table, a view or a query), source fie
 to group by and aggregators to operate (like sum, average, count, standar deviation...).
 All this pivot structure can be stored and loaded in xml files and modified at runtime.
 
-After a pivot structure has been set, you can query the database for the results and receive a organized information
-no navigate. The library includes a formatter helper class to create an XHTML Table based on a query result.
+After a pivot structure has been set, you can query the database for the results and receive organized information
+to navigate. The library includes a formatter helper class to create an XHTML Table based on a query result.
 
 ## Installation
 

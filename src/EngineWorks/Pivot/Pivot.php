@@ -5,9 +5,8 @@ class Pivot
 {
     /**
      * Table name, View name or SELECT instruction to extract the values
-     * @var string
      */
-    private $source;
+    private string $source;
 
     /**
      * Collection of all fields used in the source
@@ -23,15 +22,13 @@ class Pivot
 
     /**
      * Collection of columns
-     * @var array
      */
-    private $columns;
+    private array $columns;
 
     /**
      * Collection of rows
-     * @var array
      */
-    private $rows;
+    private array $rows;
 
     /**
      * Collection of aggregates
@@ -41,9 +38,8 @@ class Pivot
 
     /**
      * Information of extended information
-     * @var array $info
      */
-    private $info;
+    private array $info;
 
     public function __construct($source = '')
     {
@@ -71,23 +67,12 @@ class Pivot
         }
     }
 
-    /**
-     * @param string $source
-     *
-     * @throws PivotException If the source is not a string
-     */
-    public function setSource($source)
+    public function setSource(string $source)
     {
-        if (! is_string($source)) {
-            throw new PivotException('A source string must be provided');
-        }
-        $this->source = (string) $source;
+        $this->source = $source;
     }
 
-    /**
-     * @return string
-     */
-    public function getSource()
+    public function getSource(): string
     {
         return $this->source;
     }
@@ -112,15 +97,10 @@ class Pivot
     }
 
     /**
-     * @param string $keyword
-     * @param mixed $value
-     * @throws PivotException
+     * @param scalar|\Stringable|null $value
      */
-    public function setInfo($keyword, $value)
+    public function setInfo(string $keyword, $value)
     {
-        if (! is_string($keyword)) {
-            throw new PivotException('A keyword string must be provided');
-        }
         if (array_key_exists($keyword, $this->info)) {
             $this->info[$keyword] = (string) $value;
         }

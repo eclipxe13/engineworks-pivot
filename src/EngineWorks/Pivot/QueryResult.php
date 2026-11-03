@@ -4,20 +4,15 @@ namespace EngineWorks\Pivot;
 
 class QueryResult
 {
-    /** @var Result */
-    private $totals;
+    private \EngineWorks\Pivot\Result $totals;
 
-    /** @var Result */
-    private $details;
+    private ?\EngineWorks\Pivot\Result $details;
 
-    /** @var array */
-    private $rows;
+    private array $rows;
 
-    /** @var array */
-    private $columns;
+    private array $columns;
 
-    /** @var array */
-    private $aggregates;
+    private array $aggregates;
 
     /**
      * QueryResult constructor.

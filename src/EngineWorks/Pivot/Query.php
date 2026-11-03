@@ -8,14 +8,10 @@ class Query
 {
     /**
      * Database Abstraction Layer Object
-     * @var DBAL
      */
-    private $db;
+    private \EngineWorks\DBAL\DBAL $db;
 
-    /**
-     * @var Pivot
-     */
-    private $pivot;
+    private \EngineWorks\Pivot\Pivot $pivot;
 
     /**
      * Query constructor.
@@ -95,7 +91,7 @@ class Query
             $sqlAggregates[] = $aggregate->getSQL($this->db);
         }
         // SQL: Select group fields and aggregates
-        $sqlAllFields = array_merge($sqlSelects, $sqlAggregates);
+        $sqlAllFields = [...$sqlSelects, ...$sqlAggregates];
         $countFields = count($sqlAllFields);
         if (! $countFields) { // nothing to select
             throw new PivotException('Nothing to query');
@@ -122,7 +118,7 @@ class Query
             throw new PivotExceptionQuery('Query error: ' . $ex->getMessage());
         }
         if (! is_array($data)) {
-            throw new PivotExceptionQuery('Query error:' . $sql);
+            throw new PivotExceptionQuery('Query error: ' . $sql . "\n" . $this->db->getLastMessage());
         }
         return $data;
     }

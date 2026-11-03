@@ -6,19 +6,16 @@ use EngineWorks\DBAL\CommonTypes;
 
 class Field
 {
-    const TEXT = 'TEXT';
-    const NUMBER = 'NUMBER';
-    const INT = 'INT';
-    const DATE = 'DATE';
-    const DATETIME = 'DATETIME';
-    const TIME = 'TIME';
+    public const TEXT = 'TEXT';
+    public const NUMBER = 'NUMBER';
+    public const INT = 'INT';
+    public const DATE = 'DATE';
+    public const DATETIME = 'DATETIME';
+    public const TIME = 'TIME';
 
-    /** @var string */
-    private $fieldname;
-    /** @var string */
-    private $caption;
-    /** @var string */
-    private $type;
+    private string $fieldname;
+    private string $caption;
+    private string $type;
 
     /**
      * Field constructor.

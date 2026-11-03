@@ -9,6 +9,7 @@ class Fields extends Collection
     {
         $key = $item->getFieldname();
         parent::addItem($item, $key);
+        return $this;
     }
 
     public function asArray()

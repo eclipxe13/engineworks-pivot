@@ -1,33 +1,42 @@
 <?php
+
+declare(strict_types=1);
+
 namespace EngineWorks\PivotTests\Utils;
 
 use EngineWorks\DBAL\Factory;
-use EngineWorks\DBAL\Mssql\DBAL;
+use EngineWorks\DBAL\DBAL;
+use EngineWorks\DBAL\Mysqli\Settings;
+use mysqli_driver;
+use RuntimeException;
 
-class DbConnection
+final class DbConnection
 {
-    private $db;
+    private DBAL $db;
 
+    /** @noinspection PhpObjectFieldsAreOnlyWrittenInspection */
     public function create()
     {
+        $mysqliDriver = new mysqli_driver();
+        $mysqliDriver->report_mode = MYSQLI_REPORT_OFF;
+
         $factory = new Factory('EngineWorks\DBAL\Mysqli');
-        /** @var \EngineWorks\DBAL\Mysqli\Settings $settings */
+        /** @var Settings $settings */
         $settings = $factory->settings([
-            'host' => getenv('MysqlHost'),
-            'port' => getenv('MysqlPort'),
-            'user' => getenv('MysqlUsername'),
-            'password' => getenv('MysqlPassword'),
-            'database' => getenv('MysqlDatabase'),
+            'host' => $this->getEnv('TEST_MYSQL_HOST'),
+            'port' => $this->getEnv('TEST_MYSQL_PORT'),
+            'user' => $this->getEnv('TEST_MYSQL_USERNAME'),
+            'password' => $this->getEnv('TEST_MYSQL_PASSWORD'),
+            'database' => $this->getEnv('TEST_MYSQL_DATABASE'),
         ]);
 
         $this->db = $factory->dbal($settings);
         if (! $this->db->connect()) {
-            throw new \RuntimeException('Cannot connect to database, are tests configured?');
+            throw new RuntimeException('Cannot connect to database, are tests configured?');
         }
     }
 
-    /** @return DBAL */
-    public function getDb()
+    public function getDb(): DBAL
     {
         return $this->db;
     }
@@ -36,23 +45,27 @@ class DbConnection
      * Singleton implementation
      */
 
-    /** @var DbConnection */
-    private static $singleton;
+    private static ?DbConnection $singleton = null;
 
     /**
      * @return DbConnection
      */
-    public static function singleton()
+    public static function singleton(): DbConnection
     {
-        if (null === static::$singleton) {
-            static::$singleton = new static();
-            static::$singleton->create();
+        if (null === self::$singleton) {
+            self::$singleton = new self();
+            self::$singleton->create();
         }
-        return static::$singleton;
+        return self::$singleton;
     }
 
-    public static function db()
+    public static function db(): DBAL
     {
-        return static::singleton()->getDb();
+        return self::singleton()->getDb();
+    }
+
+    private function getEnv(string $key): string
+    {
+        return isset($_SERVER[$key]) && is_scalar($_SERVER[$key]) ? (string) $_SERVER[$key] : '';
     }
 }

@@ -6,19 +6,17 @@ use EngineWorks\DBAL\DBAL;
 
 class Filter
 {
-    const EQUAL = '=';
-    const NEQUAL = '<>';
-    const GRATER = '>';
-    const GRATEREQUAL = '>=';
-    const LESS = '<';
-    const LESSEQUAL = '<=';
-    const IN = 'IN';
-    const CONTAINS = 'HAVE';
+    public const EQUAL = '=';
+    public const NEQUAL = '<>';
+    public const GRATER = '>';
+    public const GRATEREQUAL = '>=';
+    public const LESS = '<';
+    public const LESSEQUAL = '<=';
+    public const IN = 'IN';
+    public const CONTAINS = 'HAVE';
 
-    /** @var string */
-    private $fieldname;
-    /** @var string */
-    private $operator;
+    private string $fieldname;
+    private string $operator;
     /** @var mixed */
     private $arguments;
 

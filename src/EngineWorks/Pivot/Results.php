@@ -5,8 +5,7 @@ class Results extends Collection
 {
     protected $itemsInstanceOf = Result::class;
 
-    /** @var Result */
-    private $parent;
+    private \EngineWorks\Pivot\Result $parent;
 
     public function __construct(Result $parent)
     {

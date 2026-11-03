@@ -10,6 +10,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 // environment
 call_user_func(function () {
-    $dotenv = new \Dotenv\Dotenv(__DIR__);
+    $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 });
