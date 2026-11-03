@@ -12,6 +12,7 @@ use EngineWorks\Pivot\QueryResult;
 use EngineWorks\Pivot\Result;
 use EngineWorks\PivotTests\Utils\DbConnection;
 use EngineWorks\PivotTests\Utils\QueryResultAsArray;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class QueryTest extends TestCase
@@ -33,7 +34,7 @@ class QueryTest extends TestCase
     /**
      * @return list<list<string>>
      */
-    public function providerQueryAndCompareWithJson(): array
+    public static function providerQueryAndCompareWithJson(): array
     {
         return [
             ['total'],
@@ -46,9 +47,7 @@ class QueryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider providerQueryAndCompareWithJson
-     */
+    #[DataProvider('providerQueryAndCompareWithJson')]
     public function testQueryAndCompareWithJson(string $testName): void
     {
         // pivot file

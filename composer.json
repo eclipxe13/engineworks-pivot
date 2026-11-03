@@ -15,7 +15,7 @@
         "eclipxe/engineworks-dbal": "^2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5",
+        "phpunit/phpunit": "^11.5.57",
         "vlucas/phpdotenv": "^5.4",
         "ext-mysqli": "*"
     },
