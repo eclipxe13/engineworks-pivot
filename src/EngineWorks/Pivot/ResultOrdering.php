@@ -9,9 +9,6 @@ namespace EngineWorks\Pivot;
  */
 class ResultOrdering
 {
-    /** @var array<string, string> */
-    private array $orderBy;
-
     private bool $required;
 
     /**
@@ -21,11 +18,10 @@ class ResultOrdering
      *
      * @param array<string, string> $orderBy
      */
-    public function __construct(array $orderBy)
+    public function __construct(private readonly array $orderBy)
     {
-        $this->orderBy = $orderBy;
         $this->required = false;
-        foreach ($orderBy as $criteria) {
+        foreach ($this->orderBy as $criteria) {
             if ('' !== $criteria) {
                 $this->required = true;
                 break;

@@ -16,7 +16,7 @@ class Filters extends Collection
      */
     public function addItem(mixed $item, int|string|null $key = null): static
     {
-        return parent::addItem($item, null);
+        return parent::addItem($item);
     }
 
     /**

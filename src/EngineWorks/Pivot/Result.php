@@ -9,15 +9,6 @@ namespace EngineWorks\Pivot;
  */
 class Result
 {
-    public readonly string $fieldName;
-
-    public string $caption;
-
-    public bool $isRow;
-
-    /** @var array<string, scalar|null>|null */
-    public array|null $values;
-
     private Results|null $children = null;
 
     private Result|null $parent = null;
@@ -25,12 +16,8 @@ class Result
     /**
      * @param array<string, scalar|null>|null $values
      */
-    public function __construct(string $fieldName, string $caption, array|null $values = null, bool $isRow = true)
+    public function __construct(public readonly string $fieldName, public string $caption, public array|null $values = null, public bool $isRow = true)
     {
-        $this->fieldName = $fieldName;
-        $this->caption = $caption;
-        $this->values = $values;
-        $this->isRow = $isRow;
     }
 
     public function __clone(): void
@@ -41,9 +28,7 @@ class Result
     public function getChildren(): Results
     {
         // late creation of children, created only when used
-        if (null === $this->children) {
-            $this->children = new Results($this);
-        }
+        $this->children ??= new Results($this);
         return $this->children;
     }
 
@@ -170,7 +155,7 @@ class Result
         $textValues = [];
         if ($includeValues && is_array($this->values)) {
             foreach ($this->values as $key => $value) {
-                $textValues[] = $key . ' => ' . (string) $value;
+                $textValues[] = sprintf('%s => %s', $key, $value);
             }
         }
         return implode(', ', [

@@ -11,7 +11,7 @@ use EngineWorks\Pivot\Query;
 use EngineWorks\PivotTests\Utils\DbConnection;
 use PHPUnit\Framework\TestCase;
 
-class XhtmlTableTest extends TestCase
+final class XhtmlTableTest extends TestCase
 {
     public function testConstructor(): void
     {
@@ -33,11 +33,11 @@ class XhtmlTableTest extends TestCase
     {
         $xhtmlTable = new XhtmlTable();
 
-        $this->assertEquals('', $xhtmlTable->getOption('table-id'));
+        $this->assertSame('', $xhtmlTable->getOption('table-id'));
 
         $xhtmlTable->setOption('table-id', 'foo');
 
-        $this->assertEquals('foo', $xhtmlTable->getOption('table-id'));
+        $this->assertSame('foo', $xhtmlTable->getOption('table-id'));
     }
 
     public function testPivotExport(): void

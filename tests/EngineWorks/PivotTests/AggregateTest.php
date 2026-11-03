@@ -8,7 +8,7 @@ use EngineWorks\Pivot\Aggregate;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class AggregateTest extends TestCase
+final class AggregateTest extends TestCase
 {
     public function testConstructor(): void
     {
@@ -34,12 +34,12 @@ class AggregateTest extends TestCase
             $decimals,
             $order
         );
-        $this->assertEquals($fieldName, $filter->getFieldName());
-        $this->assertEquals($asName, $filter->getAsName());
-        $this->assertEquals($caption, $filter->getCaption());
-        $this->assertEquals($group, $filter->getGroup());
-        $this->assertEquals($decimals, $filter->getDecimals());
-        $this->assertEquals($order, $filter->getOrder());
+        $this->assertSame($fieldName, $filter->getFieldName());
+        $this->assertSame($asName, $filter->getAsName());
+        $this->assertSame($caption, $filter->getCaption());
+        $this->assertSame($group, $filter->getGroup());
+        $this->assertSame($decimals, $filter->getDecimals());
+        $this->assertSame($order, $filter->getOrder());
         $this->assertEquals($asArray, $filter->asArray());
     }
 

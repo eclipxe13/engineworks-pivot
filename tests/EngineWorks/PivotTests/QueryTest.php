@@ -15,7 +15,7 @@ use EngineWorks\PivotTests\Utils\QueryResultAsArray;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-class QueryTest extends TestCase
+final class QueryTest extends TestCase
 {
     public function testQuery(): void
     {

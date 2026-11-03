@@ -74,7 +74,7 @@ class Collection implements IteratorAggregate, Countable
     protected function checkItemInstanceOf(mixed $item): void
     {
         if (! $this->isItemInstanceOf($item)) {
-            throw new LogicException(get_class($this) . " error, item is not an instance of {$this->itemsInstanceOf}.");
+            throw new LogicException(static::class . " error, item is not an instance of {$this->itemsInstanceOf}.");
         }
     }
 
@@ -196,7 +196,7 @@ class Collection implements IteratorAggregate, Countable
         foreach ($this->items as $key => $item) {
             if (! $this->isItemInstanceOf($item)) {
                 throw new LogicException(
-                    get_class($this) . " error, the item $key is not an instance of {$this->itemsInstanceOf}."
+                    static::class . " error, the item $key is not an instance of {$this->itemsInstanceOf}."
                 );
             }
         }

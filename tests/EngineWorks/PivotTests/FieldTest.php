@@ -8,7 +8,7 @@ use EngineWorks\Pivot\Field;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class FieldTest extends TestCase
+final class FieldTest extends TestCase
 {
     public function testConstruct(): void
     {

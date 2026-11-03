@@ -6,36 +6,13 @@ namespace EngineWorks\Pivot;
 
 class QueryResult
 {
-    private Result $totals;
-
-    private Result|null $details;
-
-    /** @var list<array{caption: string, fieldname: string}> */
-    private array $rows;
-
-    /** @var list<array{caption: string, fieldname: string}> */
-    private array $columns;
-
-    /** @var list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> */
-    private array $aggregates;
-
     /**
      * @param list<array{caption: string, fieldname: string}> $rows
      * @param list<array{caption: string, fieldname: string}> $columns
      * @param list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> $aggregates
      */
-    public function __construct(
-        Result $totals,
-        Result|null $details,
-        array $rows,
-        array $columns,
-        array $aggregates,
-    ) {
-        $this->totals = $totals;
-        $this->details = $details;
-        $this->rows = $rows;
-        $this->columns = $columns;
-        $this->aggregates = $aggregates;
+    public function __construct(private readonly Result $totals, private readonly Result|null $details, private readonly array $rows, private readonly array $columns, private readonly array $aggregates)
+    {
     }
 
     public function getTotals(): Result

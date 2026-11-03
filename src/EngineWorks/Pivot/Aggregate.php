@@ -25,12 +25,6 @@ class Aggregate
 
     public const ORDERDESC = 'DESC';
 
-    private readonly string $fieldName;
-
-    private readonly string $asName;
-
-    private readonly string $caption;
-
     private readonly string $group;
 
     private readonly int $decimals;
@@ -38,9 +32,9 @@ class Aggregate
     private readonly string $order;
 
     public function __construct(
-        string $fieldName,
-        string $asName,
-        string $caption,
+        private readonly string $fieldName,
+        private readonly string $asName,
+        private readonly string $caption,
         string $group,
         int $decimals,
         string $order,
@@ -54,9 +48,6 @@ class Aggregate
         if (! in_array($order, [self::ORDERNONE, self::ORDERASC, self::ORDERDESC], true)) {
             throw new InvalidArgumentException('Invalid order value.');
         }
-        $this->fieldName = $fieldName;
-        $this->asName = $asName;
-        $this->caption = $caption;
         $this->group = $group;
         $this->decimals = $decimals;
         $this->order = $order;

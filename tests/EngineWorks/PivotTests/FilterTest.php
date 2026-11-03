@@ -8,7 +8,7 @@ use EngineWorks\Pivot\Filter;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
-class FilterTest extends TestCase
+final class FilterTest extends TestCase
 {
     public function testConstructor(): void
     {
@@ -21,8 +21,8 @@ class FilterTest extends TestCase
             'arguments' => $arguments,
         ];
         $filter = new Filter($fieldName, $operator, $arguments);
-        $this->assertEquals($fieldName, $filter->getFieldName());
-        $this->assertEquals($operator, $filter->getOperator());
+        $this->assertSame($fieldName, $filter->getFieldName());
+        $this->assertSame($operator, $filter->getOperator());
         $this->assertEquals($arguments, $filter->getArguments());
         $this->assertEquals($asArray, $filter->asArray());
     }

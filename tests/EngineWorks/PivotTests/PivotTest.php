@@ -8,7 +8,7 @@ use EngineWorks\Pivot\Field;
 use EngineWorks\Pivot\Pivot;
 use PHPUnit\Framework\TestCase;
 
-class PivotTest extends TestCase
+final class PivotTest extends TestCase
 {
     private function createPivot(string $source): Pivot
     {

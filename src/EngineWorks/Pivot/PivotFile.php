@@ -11,12 +11,9 @@ class PivotFile
 {
     private string $filename;
 
-    private Pivot $pivot;
-
-    public function __construct(Pivot $pivot)
+    public function __construct(private readonly Pivot $pivot)
     {
         $this->filename = '';
-        $this->pivot = $pivot;
     }
 
     public function open(string $filename): void

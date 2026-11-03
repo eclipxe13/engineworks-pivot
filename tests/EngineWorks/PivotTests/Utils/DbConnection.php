@@ -47,9 +47,6 @@ final class DbConnection
 
     private static DbConnection|null $singleton = null;
 
-    /**
-     * @return DbConnection
-     */
     public static function singleton(): self
     {
         if (null === self::$singleton) {

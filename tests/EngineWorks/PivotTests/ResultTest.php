@@ -8,14 +8,14 @@ use EngineWorks\Pivot\Result;
 use EngineWorks\Pivot\Results;
 use PHPUnit\Framework\TestCase;
 
-class ResultTest extends TestCase
+final class ResultTest extends TestCase
 {
     public function testConstruct(): void
     {
         $result = new Result('foo', 'Foo');
 
-        $this->assertEquals('foo', $result->fieldName);
-        $this->assertEquals('Foo', $result->caption);
+        $this->assertSame('foo', $result->fieldName);
+        $this->assertSame('Foo', $result->caption);
         $this->assertNull($result->values);
         $this->assertTrue($result->isRow);
         $this->assertInstanceOf(Results::class, $result->getChildren());

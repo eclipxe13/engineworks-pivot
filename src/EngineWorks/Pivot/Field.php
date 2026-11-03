@@ -21,19 +21,13 @@ class Field
 
     public const TIME = 'TIME';
 
-    private readonly string $fieldName;
-
-    private readonly string $caption;
-
     private readonly string $type;
 
-    public function __construct(string $fieldName, string $caption, string $type)
+    public function __construct(private readonly string $fieldName, private readonly string $caption, string $type)
     {
         if (! in_array($type, self::types(), true)) {
             throw new InvalidArgumentException('Invalid value for property type.');
         }
-        $this->fieldName = $fieldName;
-        $this->caption = $caption;
         $this->type = $type;
     }
 

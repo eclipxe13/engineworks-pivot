@@ -26,16 +26,12 @@ class Filter
 
     public const CONTAINS = 'HAVE';
 
-    private readonly string $fieldName;
-
     private readonly string $operator;
 
     private readonly mixed $arguments;
 
-    public function __construct(string $fieldName, string $operator, mixed $arguments)
+    public function __construct(private readonly string $fieldName, string $operator, mixed $arguments)
     {
-        $this->fieldName = $fieldName;
-
         if (! self::operatorExists($operator)) {
             throw new InvalidArgumentException('Invalid operator.');
         }

@@ -9,14 +9,8 @@ use Throwable;
 
 class Query
 {
-    private DBAL $db;
-
-    private Pivot $pivot;
-
-    public function __construct(DBAL $db, Pivot $pivot)
+    public function __construct(private readonly DBAL $db, private readonly Pivot $pivot)
     {
-        $this->db = $db;
-        $this->pivot = $pivot;
     }
 
     public function getDb(): DBAL
@@ -98,11 +92,11 @@ class Query
         // retrieve and return the data
         try {
             $data = $this->db->queryArrayValues($sql);
-        } catch (Throwable $ex) {
-            throw new PivotExceptionQuery('Query error: ' . $ex->getMessage());
+        } catch (Throwable $exception) {
+            throw new PivotExceptionQuery('Exception when query', $sql, previous: $exception);
         }
         if (! is_array($data)) {
-            throw new PivotExceptionQuery('Query error: ' . $sql . "\n" . $this->db->getLastMessage());
+            throw new PivotExceptionQuery('Error when query: ' . $this->db->getLastMessage(), $sql);
         }
         return $data;
     }
@@ -209,13 +203,12 @@ class Query
     {
         // do trim including ';' at the right part
         $sqlSource = rtrim(ltrim($this->pivot->getSource()), "; \t\n\r\x0B\0");
+
         // check if begins with select, if so then insert into a subquery
-        $pos = strpos(strtoupper($sqlSource), 'SELECT');
-        if (0 === $pos) {
-            $sqlSource = "($sqlSource) AS __pivot__";
-        } else {
-            $sqlSource = $this->db->sqlTableEscape($sqlSource);
+        if (str_starts_with(strtoupper($sqlSource), 'SELECT ')) {
+            return sprintf('(%s) AS __pivot__', $sqlSource);
         }
-        return $sqlSource;
+
+        return $this->db->sqlTableEscape($sqlSource);
     }
 }

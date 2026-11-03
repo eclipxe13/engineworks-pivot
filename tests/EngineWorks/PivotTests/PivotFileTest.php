@@ -12,7 +12,7 @@ use EngineWorks\Pivot\PivotException;
 use EngineWorks\Pivot\PivotFile;
 use PHPUnit\Framework\TestCase;
 
-class PivotFileTest extends TestCase
+final class PivotFileTest extends TestCase
 {
     private function createPivot(): Pivot
     {
@@ -87,7 +87,7 @@ class PivotFileTest extends TestCase
 
         $pf = new PivotFile($pivot);
         $pf->open($file);
-        $this->assertEquals($file, $pf->getFilename());
+        $this->assertSame($file, $pf->getFilename());
 
         $expected = $this->createPivotWithStruct();
         $this->assertEquals($expected, $pivot);

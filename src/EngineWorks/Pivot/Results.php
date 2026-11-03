@@ -11,11 +11,8 @@ class Results extends Collection
 {
     protected string $itemsInstanceOf = Result::class;
 
-    private Result $parent;
-
-    public function __construct(Result $parent)
+    public function __construct(private readonly Result $parent)
     {
-        $this->parent = $parent;
     }
 
     /**
