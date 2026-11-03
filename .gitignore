@@ -1,6 +1,7 @@
 # do not include this files on git
-/composer.lock
 /tools/
 /vendor/
+/docs/data/
+/composer.lock
 /tests/.env
 

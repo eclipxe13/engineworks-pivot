@@ -33,8 +33,8 @@ The eclipxe13/engineworks-pivot library is copyright © [Carlos C Soto](https://
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 [contributing]: https://github.com/eclipxe13/engineworks-pivot/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/eclipxe13/engineworks-pivot/blob/master/CHANGELOG.md
-[todo]: https://github.com/eclipxe13/engineworks-pivot/blob/master/TODO.md
+[changelog]: https://github.com/eclipxe13/engineworks-pivot/blob/master/docs/CHANGELOG.md
+[todo]: https://github.com/eclipxe13/engineworks-pivot/blob/master/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/engineworks-pivot
 [release]: https://github.com/eclipxe13/engineworks-pivot/releases

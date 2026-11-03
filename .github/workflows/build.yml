@@ -9,9 +9,10 @@ on:
 
 # Actions
 # shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
-# sudo-bot/action-scrutinizer@latest https://github.com/marketplace/actions/action-scrutinizer
+# SonarSource/sonarqube-scan-action@v8 https://github.com/marketplace/actions/official-sonarqube-scan
 
 jobs:
+
   phpcs:
     name: Coding standards (phpcs)
     runs-on: "ubuntu-latest"
@@ -66,10 +67,8 @@ jobs:
         run: mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456 -e "SELECT @@VERSION;"
       - name: Checkout
         uses: actions/checkout@v7
-        with:
-          fetch-depth: "0" # required for scrutinizer/ocular
       - name: Create database
-        run: cat docs/structure.sql docs/records.sql | mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456
+        run: cat docs/data/structure.sql docs/data/records.sql | mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456
       - name: Set up environment file
         run: |
           test -e tests/.env || cp -v tests/.env.github tests/.env
@@ -94,13 +93,13 @@ jobs:
       - name: Install project dependencies
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Tests (phpunit)
-        run: vendor/bin/phpunit --testdox --coverage-clover=build/coverage/clover.xml
-      - name: Upload code coverage to scrutinizer
-        if: ${{ !env.ACT }} # do not run if using nektos/act
-        uses: sudo-bot/action-scrutinizer@latest
+        run: vendor/bin/phpunit --testdox --coverage-xml=build/coverage --coverage-clover=build/coverage/clover.xml --log-junit=build/coverage/junit.xml
+      - name: Store code coverage
+        uses: actions/upload-artifact@v7
+        if: matrix.php-version == '8.5'
         with:
-          cli-args: "--format=php-clover build/coverage/clover.xml"
-        continue-on-error: true
+          name: code-coverage
+          path: build/coverage
 
   phpstan:
     name: Static analysis (phpstan)
@@ -112,6 +111,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
+          extensions: mysqli
           coverage: none
           tools: composer:v2, phpstan
         env:
@@ -129,3 +129,44 @@ jobs:
         run: composer upgrade --no-interaction --no-progress --prefer-dist
       - name: Static analysis (phpstan)
         run: phpstan analyse --no-progress --verbose
+
+  sonarqube:
+    name: SonarQube Scan and Report
+    needs: [ "phpunit" ]
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Unshallow clone to provide blame information
+        run: git fetch --unshallow
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mysqli
+          coverage: none
+          tools: composer:v2
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "${{ runner.os }}-composer-"
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Obtain code coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: code-coverage
+          path: build/coverage
+      - name: Prepare SonarCloud Code Coverage Files
+        run: |
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/junit.xml > build/sonar-junit.xml
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/clover.xml > build/sonar-coverage.xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
