@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace EngineWorks\PivotTests\Utils;
 
 use EngineWorks\DBAL\DBAL;

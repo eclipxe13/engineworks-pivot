@@ -1,22 +1,35 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
 
 use EngineWorks\DBAL\DBAL;
+use InvalidArgumentException;
+use LogicException;
 
 class Filter
 {
     public const EQUAL = '=';
+
     public const NEQUAL = '<>';
+
     public const GREATER = '>';
+
     public const GREATEREQUAL = '>=';
+
     public const LESS = '<';
+
     public const LESSEQUAL = '<=';
+
     public const IN = 'IN';
+
     public const CONTAINS = 'HAVE';
 
     private readonly string $fieldName;
+
     private readonly string $operator;
+
     private readonly mixed $arguments;
 
     public function __construct(string $fieldName, string $operator, mixed $arguments)
@@ -24,18 +37,18 @@ class Filter
         $this->fieldName = $fieldName;
 
         if (! self::operatorExists($operator)) {
-            throw new \InvalidArgumentException('Invalid operator.');
+            throw new InvalidArgumentException('Invalid operator.');
         }
         $this->operator = $operator;
 
         if (null === $arguments) {
-            throw new \InvalidArgumentException('Invalid argument, is null.');
+            throw new InvalidArgumentException('Invalid argument, is null.');
         }
         if (self::IN === $operator && ! is_array($arguments)) {
-            throw new \InvalidArgumentException('Invalid argument, must be an array.');
+            throw new InvalidArgumentException('Invalid argument, must be an array.');
         }
         if (self::IN !== $operator && is_array($arguments)) {
-            throw new \InvalidArgumentException('Invalid argument, cannot be an array.');
+            throw new InvalidArgumentException('Invalid argument, cannot be an array.');
         }
         $this->arguments = $arguments;
     }
@@ -62,13 +75,13 @@ class Filter
     {
         if (self::IN === $this->operator) {
             if (! is_array($this->arguments)) {
-                throw new \LogicException('The IN operator requires an array of arguments.');
+                throw new LogicException('The IN operator requires an array of arguments.');
             }
             return $db->sqlFieldEscape($this->fieldName) . ' IN ' . $db->sqlQuoteIn($this->arguments, $dbalType);
         }
         if (self::CONTAINS === $this->operator) {
             if (! is_scalar($this->arguments)) {
-                throw new \LogicException('The HAVE operator requires a scalar argument.');
+                throw new LogicException('The HAVE operator requires a scalar argument.');
             }
             return $db->sqlLike($db->sqlFieldEscape($this->fieldName), (string) $this->arguments);
         }

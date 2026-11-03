@@ -1,26 +1,36 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
 
 use EngineWorks\DBAL\CommonTypes;
+use InvalidArgumentException;
 
 class Field
 {
     public const TEXT = 'TEXT';
+
     public const NUMBER = 'NUMBER';
+
     public const INT = 'INT';
+
     public const DATE = 'DATE';
+
     public const DATETIME = 'DATETIME';
+
     public const TIME = 'TIME';
 
     private readonly string $fieldName;
+
     private readonly string $caption;
+
     private readonly string $type;
 
     public function __construct(string $fieldName, string $caption, string $type)
     {
         if (! in_array($type, self::types(), true)) {
-            throw new \InvalidArgumentException('Invalid value for property type.');
+            throw new InvalidArgumentException('Invalid value for property type.');
         }
         $this->fieldName = $fieldName;
         $this->caption = $caption;

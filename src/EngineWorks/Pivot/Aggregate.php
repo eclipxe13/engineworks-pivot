@@ -1,26 +1,40 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
 
 use EngineWorks\DBAL\DBAL;
+use InvalidArgumentException;
 
 class Aggregate
 {
     public const COUNT = 'COUNT';
+
     public const SUM = 'SUM';
+
     public const AVG = 'AVG';
+
     public const MIN = 'MIN';
+
     public const MAX = 'MAX';
 
     public const ORDERNONE = '';
+
     public const ORDERASC = 'ASC';
+
     public const ORDERDESC = 'DESC';
 
     private readonly string $fieldName;
+
     private readonly string $asName;
+
     private readonly string $caption;
+
     private readonly string $group;
+
     private readonly int $decimals;
+
     private readonly string $order;
 
     public function __construct(
@@ -29,16 +43,16 @@ class Aggregate
         string $caption,
         string $group,
         int $decimals,
-        string $order
+        string $order,
     ) {
         if (! self::groupExists($group)) {
-            throw new \InvalidArgumentException('Invalid value for group.');
+            throw new InvalidArgumentException('Invalid value for group.');
         }
         if ($decimals < 0 || $decimals > 8) {
-            throw new \InvalidArgumentException('Invalid value for decimals.');
+            throw new InvalidArgumentException('Invalid value for decimals.');
         }
         if (! in_array($order, [self::ORDERNONE, self::ORDERASC, self::ORDERDESC], true)) {
-            throw new \InvalidArgumentException('Invalid order value.');
+            throw new InvalidArgumentException('Invalid order value.');
         }
         $this->fieldName = $fieldName;
         $this->asName = $asName;

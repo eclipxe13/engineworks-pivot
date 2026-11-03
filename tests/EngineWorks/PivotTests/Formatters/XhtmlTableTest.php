@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\PivotTests\Formatters;
 
 use EngineWorks\Pivot\Formatters\XhtmlTable;

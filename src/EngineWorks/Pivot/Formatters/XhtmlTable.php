@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot\Formatters;
 
 use EngineWorks\Pivot\QueryResult;
@@ -191,7 +193,7 @@ class XhtmlTable
         array $aggregates,
         Result|null $details,
         array $colsLastLevel,
-        bool $isTotal
+        bool $isTotal,
     ): void {
         $tr = $tbody->addChild('tr');
         $rowClasses = [];

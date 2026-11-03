@@ -1,8 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
 
 use SimpleXMLElement;
+use Throwable;
 
 class PivotFile
 {
@@ -32,7 +35,7 @@ class PivotFile
             );
             $this->fromXML($xml);
             $this->filename = $filename;
-        } catch (\Throwable $ex) {
+        } catch (Throwable $ex) {
             throw new PivotException('Cannot open the pivot file: ' . $ex->getMessage(), 0, $ex);
         }
     }
@@ -53,7 +56,7 @@ class PivotFile
         }
         try {
             $this->toXML()->asXML($filename);
-        } catch (\Throwable $ex) {
+        } catch (Throwable $ex) {
             throw new PivotException('Cannot save the pivot file: ' . $ex->getMessage(), 0, $ex);
         }
         $this->filename = $filename;

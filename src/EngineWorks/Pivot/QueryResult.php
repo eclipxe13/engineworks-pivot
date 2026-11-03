@@ -1,5 +1,7 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
 
 class QueryResult
@@ -27,7 +29,7 @@ class QueryResult
         Result|null $details,
         array $rows,
         array $columns,
-        array $aggregates
+        array $aggregates,
     ) {
         $this->totals = $totals;
         $this->details = $details;

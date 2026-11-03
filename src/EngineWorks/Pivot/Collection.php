@@ -1,6 +1,15 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
+
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use LogicException;
+use OutOfRangeException;
+use Traversable;
 
 /**
  * Simple collection class to store members accessible by key or numeric index.
@@ -11,9 +20,9 @@ namespace EngineWorks\Pivot;
  * Contains an optional policy to ensure that items follow a specific class or interface.
  *
  * @template TItem
- * @implements \IteratorAggregate<int|string, TItem>
+ * @implements IteratorAggregate<int|string, TItem>
  */
-class Collection implements \IteratorAggregate, \Countable
+class Collection implements IteratorAggregate, Countable
 {
     /**
      * This is the internal items container
@@ -65,7 +74,7 @@ class Collection implements \IteratorAggregate, \Countable
     protected function checkItemInstanceOf(mixed $item): void
     {
         if (! $this->isItemInstanceOf($item)) {
-            throw new \LogicException(get_class($this) . " error, item is not an instance of {$this->itemsInstanceOf}.");
+            throw new LogicException(get_class($this) . " error, item is not an instance of {$this->itemsInstanceOf}.");
         }
     }
 
@@ -128,13 +137,13 @@ class Collection implements \IteratorAggregate, \Countable
      * Otherwise will return null
      *
      * @return TItem|null
-     * @throws \OutOfRangeException If protected property $throwExceptionItemNotFound is true
+     * @throws OutOfRangeException If protected property $throwExceptionItemNotFound is true
      */
     public function value(int|string $key)
     {
         if (! array_key_exists($key, $this->items)) {
             if ($this->throwExceptionItemNotFound) {
-                throw new \OutOfRangeException("Key '$key' does not exist.");
+                throw new OutOfRangeException("Key '$key' does not exist.");
             }
             return null;
         }
@@ -154,11 +163,11 @@ class Collection implements \IteratorAggregate, \Countable
     /**
      * Implementation of IteratorAggregate
      *
-     * @return \Traversable<int|string, TItem>
+     * @return Traversable<int|string, TItem>
      */
-    public function getIterator(): \Traversable
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->items);
+        return new ArrayIterator($this->items);
     }
 
     /**
@@ -186,7 +195,7 @@ class Collection implements \IteratorAggregate, \Countable
         }
         foreach ($this->items as $key => $item) {
             if (! $this->isItemInstanceOf($item)) {
-                throw new \LogicException(
+                throw new LogicException(
                     get_class($this) . " error, the item $key is not an instance of {$this->itemsInstanceOf}."
                 );
             }

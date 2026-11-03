@@ -1,8 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Field;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class FieldTest extends TestCase
@@ -28,7 +31,7 @@ class FieldTest extends TestCase
 
     public function testConstructWithInvalidType(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('type');
 
         new Field('', '', 'Foo');

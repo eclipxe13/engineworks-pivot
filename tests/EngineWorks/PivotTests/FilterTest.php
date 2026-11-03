@@ -1,8 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Filter;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class FilterTest extends TestCase
@@ -26,7 +29,7 @@ class FilterTest extends TestCase
 
     public function testConstructorWithInvalidOperator(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('operator');
 
         new Filter('field', 'FOO', '');
@@ -34,7 +37,7 @@ class FilterTest extends TestCase
 
     public function testConstructorWithInvalidArgumentNull(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('argument');
 
         new Filter('field', Filter::EQUAL, null);
@@ -42,7 +45,7 @@ class FilterTest extends TestCase
 
     public function testConstructorWithInvalidArgumentNoArray(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('cannot be an array');
 
         new Filter('field', Filter::EQUAL, []);
@@ -50,7 +53,7 @@ class FilterTest extends TestCase
 
     public function testConstructorWithInvalidArgumentOnlyArray(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('must be an array');
 
         new Filter('field', Filter::IN, '');

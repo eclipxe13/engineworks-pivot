@@ -1,6 +1,10 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
+
+use Stringable;
 
 class Pivot
 {
@@ -96,7 +100,7 @@ class Pivot
     }
 
     /**
-     * @param scalar|\Stringable|null $value
+     * @param scalar|Stringable|null $value
      */
     public function setInfo(string $keyword, mixed $value): void
     {
@@ -189,7 +193,7 @@ class Pivot
         string $caption,
         string $aggregatorFunction,
         int $decimals = 2,
-        string $order = Aggregate::ORDERNONE
+        string $order = Aggregate::ORDERNONE,
     ): void {
         if ('' === $asName) {
             self::$aggregateCounter++;

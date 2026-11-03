@@ -1,8 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\PivotTests;
 
 use EngineWorks\Pivot\Aggregate;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class AggregateTest extends TestCase
@@ -42,15 +45,15 @@ class AggregateTest extends TestCase
 
     public function testConstructorWithInvalidGroup(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('group');
 
-        new Aggregate('field', 'as', 'caption', 'XXX', 2, '');
+        new Aggregate('field', 'as', 'caption', 'XXX', 2, Aggregate::ORDERDESC);
     }
 
     public function testConstructorWithInvalidOrder(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('order');
 
         new Aggregate('field', 'as', 'caption', Aggregate::MAX, 2, 'FOO');
@@ -58,10 +61,10 @@ class AggregateTest extends TestCase
 
     public function testConstructorWithInvalidDecimals(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('decimals');
 
-        new Aggregate('', 'as', 'caption', Aggregate::MAX, -1, 'FOO');
+        new Aggregate('', 'as', 'caption', Aggregate::MAX, -1, Aggregate::ORDERDESC);
     }
 
     public function testStaticGroupTypes(): void

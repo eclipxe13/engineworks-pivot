@@ -1,8 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace EngineWorks\Pivot;
 
 use EngineWorks\DBAL\DBAL;
+use Throwable;
 
 class Query
 {
@@ -95,7 +98,7 @@ class Query
         // retrieve and return the data
         try {
             $data = $this->db->queryArrayValues($sql);
-        } catch (\Throwable $ex) {
+        } catch (Throwable $ex) {
             throw new PivotExceptionQuery('Query error: ' . $ex->getMessage());
         }
         if (! is_array($data)) {
