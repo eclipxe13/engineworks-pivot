@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 // report all errors
 error_reporting(-1);
 
@@ -9,7 +12,7 @@ date_default_timezone_set('UTC');
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // environment
-call_user_func(function () {
-    $dotenv = new \Dotenv\Dotenv(__DIR__);
+call_user_func(function (): void {
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
 });

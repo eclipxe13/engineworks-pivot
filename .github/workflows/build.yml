@@ -1,0 +1,172 @@
+name: build
+on:
+  pull_request:
+    branches: [ "main" ]
+  push:
+    branches: [ "main" ]
+#  schedule:
+#    - cron: '0 16 * * 0' # sunday 16:00
+
+# Actions
+# shivammathur/setup-php@v2 https://github.com/marketplace/actions/setup-php-action
+# SonarSource/sonarqube-scan-action@v8 https://github.com/marketplace/actions/official-sonarqube-scan
+
+jobs:
+
+  phpcs:
+    name: Coding standards (phpcs)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+          tools: cs2pr, phpcs
+        env:
+          fail-fast: true
+      - name: Coding standards (phpcs)
+        run: phpcs -q --report=checkstyle | cs2pr
+
+  php-cs-fixer:
+    name: Coding standards (php-cs-fixer)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          coverage: none
+          tools: cs2pr, php-cs-fixer
+        env:
+          fail-fast: true
+      - name: Coding standards (php-cs-fixer)
+        run: php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+
+  phpunit:
+    name: Tests on PHP ${{ matrix.php-version }} (phpunit)
+    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.3', '8.4', '8.5']
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: Password-123456
+          MYSQL_DATABASE: pivot
+        ports:
+          - 13306:3306 # Use port 13306 to avoid a collision with the local development environment
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Test MySQL Connection
+        run: mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456 -e "SELECT @@VERSION;"
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Create database
+        run: cat docs/data/structure.sql docs/data/records.sql | mysql --host 127.0.0.1 --port 13306 -uroot -pPassword-123456
+      - name: Set up environment file
+        run: |
+          test -e tests/.env || cp -v tests/.env.github tests/.env
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: mysqli
+          coverage: xdebug
+          tools: composer:v2
+        env:
+          fail-fast: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Tests (phpunit)
+        run: vendor/bin/phpunit --testdox --coverage-xml=build/coverage --coverage-clover=build/coverage/clover.xml --log-junit=build/coverage/junit.xml
+      - name: Store code coverage
+        uses: actions/upload-artifact@v7
+        if: matrix.php-version == '8.5'
+        with:
+          name: code-coverage
+          path: build/coverage
+
+  phpstan:
+    name: Static analysis (phpstan)
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mysqli
+          coverage: none
+          tools: composer:v2, phpstan
+        env:
+          fail-fast: true
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Static analysis (phpstan)
+        run: phpstan analyse --no-progress --verbose
+
+  sonarqube:
+    name: SonarQube Scan and Report
+    needs: [ "phpunit" ]
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Unshallow clone to provide blame information
+        run: git fetch --unshallow
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mysqli
+          coverage: none
+          tools: composer:v2
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: "${{ steps.composer-cache.outputs.dir }}"
+          key: "${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}"
+          restore-keys: "${{ runner.os }}-composer-"
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Obtain code coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: code-coverage
+          path: build/coverage
+      - name: Prepare SonarCloud Code Coverage Files
+        run: |
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/junit.xml > build/sonar-junit.xml
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/clover.xml > build/sonar-coverage.xml
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

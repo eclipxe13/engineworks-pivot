@@ -11,26 +11,22 @@
         }
     ],
     "require": {
-        "php": ">=7.0",
-        "eclipxe/engineworks-dbal": "@stable"
+        "php": ">=8.2",
+        "eclipxe/engineworks-dbal": "^2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "@stable",
-        "vlucas/phpdotenv": "@stable",
-        "jakub-onderka/php-parallel-lint": "@stable",
-        "squizlabs/php_codesniffer": "@stable",
-        "friendsofphp/php-cs-fixer": "@stable",
-        "scrutinizer/ocular": "@stable"
+        "phpunit/phpunit": "^11.5.57",
+        "vlucas/phpdotenv": "^5.4",
+        "ext-mysqli": "*"
     },
     "autoload": {
         "psr-4": {
-            "EngineWorks\\Pivot\\": "src/EngineWorks/Pivot/"
+            "EngineWorks\\Pivot\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "EngineWorks\\PivotTests\\": "tests/EngineWorks/PivotTests/"
+            "EngineWorks\\Pivot\\Tests\\": "tests/"
         }
     }
 }
-
