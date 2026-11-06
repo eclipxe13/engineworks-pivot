@@ -3,7 +3,7 @@
 Contributions are welcome. We accept pull requests on [GitHub](https://github.com/eclipxe13/engineworks-pivot).
 
 This project adheres to a
-[Contributor Code of Conduct](https://github.com/eclipxe13/engineworks-pivot/blob/master/CODE_OF_CONDUCT.md).
+[Contributor Code of Conduct](https://github.com/eclipxe13/engineworks-pivot/blob/main/CODE_OF_CONDUCT.md).
 By participating in this project and its community, you are expected to uphold this code.
 
 ## Team members

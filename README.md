@@ -34,15 +34,15 @@ and don't forget to take a look in the [TODO][] and [CHANGELOG][] files.
 The eclipxe13/engineworks-pivot library is copyright © [Carlos C Soto](https://eclipxe.com.mx/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
-[contributing]: https://github.com/eclipxe13/engineworks-pivot/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/eclipxe13/engineworks-pivot/blob/master/docs/CHANGELOG.md
-[todo]: https://github.com/eclipxe13/engineworks-pivot/blob/master/docs/TODO.md
+[contributing]: https://github.com/eclipxe13/engineworks-pivot/blob/main/CONTRIBUTING.md
+[changelog]: https://github.com/eclipxe13/engineworks-pivot/blob/main/docs/CHANGELOG.md
+[todo]: https://github.com/eclipxe13/engineworks-pivot/blob/main/docs/TODO.md
 
 [source]: https://github.com/eclipxe13/engineworks-pivot
 [php-version]: https://packagist.org/packages/eclipxe/engineworks-pivot
 [release]: https://github.com/eclipxe13/engineworks-pivot/releases
 [license]: https://github.com/eclipxe13/engineworks-pivot/blob/main/LICENSE
-[build]: https://github.com/eclipxe13/engineworks-pivot/actions/workflows/build.yml?query=branch:master
+[build]: https://github.com/eclipxe13/engineworks-pivot/actions/workflows/build.yml?query=branch:main
 [reliability]:https://sonarcloud.io/component_measures?id=eclipxe13_engineworks-pivot&metric=Reliability
 [maintainability]: https://sonarcloud.io/component_measures?id=eclipxe13_engineworks-pivot&metric=Maintainability
 [coverage]: https://sonarcloud.io/component_measures?id=eclipxe13_engineworks-pivot&metric=Coverage
@@ -53,7 +53,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-php-version]: https://img.shields.io/packagist/php-v/eclipxe/engineworks-pivot?logo=php
 [badge-release]: https://img.shields.io/github/release/eclipxe13/engineworks-pivot?logo=git
 [badge-license]: https://img.shields.io/github/license/eclipxe13/engineworks-pivot?logo=open-source-initiative
-[badge-build]: https://img.shields.io/github/actions/workflow/status/eclipxe13/engineworks-pivot/build.yml?branch=master&logo=github-actions
+[badge-build]: https://img.shields.io/github/actions/workflow/status/eclipxe13/engineworks-pivot/build.yml?branch=main&logo=github-actions
 [badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=eclipxe13_engineworks-pivot&metric=reliability_rating
 [badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=eclipxe13_engineworks-pivot&metric=sqale_rating
 [badge-coverage]: https://img.shields.io/sonar/coverage/eclipxe13_engineworks-pivot/main?logo=sonarqubecloud&server=https%3A%2F%2Fsonarcloud.io
