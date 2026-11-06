@@ -32,11 +32,8 @@ class ResultOrdering
     /**
      * Method to make comparisons
      */
-    public function orderItems(mixed $a, mixed $b): int
+    public function orderItems(Result $a, Result $b): int
     {
-        if (! $a instanceof Result || ! $b instanceof Result) {
-            return 0;
-        }
         // compare using every aggregator with its own order type
         foreach ($this->orderBy as $field => $order) {
             if (Aggregate::ORDERASC === $order) {

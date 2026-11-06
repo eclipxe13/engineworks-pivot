@@ -176,8 +176,7 @@ class PivotFile
         // information
         $info = ['description', 'author', 'created'];
         foreach ($info as $name) {
-            $value = $this->pivot->getInfo($name);
-            $xml->addChild('info', Utils::escapeXml(false === $value ? '' : $value))
+            $xml->addChild('info', Utils::escapeXml((string) $this->pivot->getInfo($name)))
                 ->addAttribute('name', $name);
         }
         return $xml;

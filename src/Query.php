@@ -85,8 +85,8 @@ class Query
         // SQL Creation
         $sql = 'SELECT ' . implode(', ', $sqlAllFields)
             . ' FROM ' . $this->sqlFrom()
-            . ((0 !== count($sqlWheres)) ? ' WHERE ' . implode(' AND ', $sqlWheres) : '')
-            . ((0 !== count($sqlSelects)) ? ' GROUP BY ' . implode(', ', $sqlSelects) . ' WITH ROLLUP' : '')
+            . ([] !== $sqlWheres ? ' WHERE ' . implode(' AND ', $sqlWheres) : '')
+            . ([] !== $sqlSelects ? ' GROUP BY ' . implode(', ', $sqlSelects) . ' WITH ROLLUP' : '')
             . ';';
 
         // retrieve and return the data

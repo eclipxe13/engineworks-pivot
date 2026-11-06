@@ -115,7 +115,7 @@ class XhtmlTable
                 $this->xhtmlAddHeader($thead, $item, 1, $valuesCount);
             }
             $trs = $thead->tr;
-            if ($trs instanceof SimpleXMLElement && count($trs) > 0) {
+            if ($trs instanceof SimpleXMLElement && $trs->count() > 0) {
                 $tr = $trs[0];
                 if ($tr instanceof SimpleXMLElement) {
                     $th = $tr->addChild('th', Utils::escapeXml($this->getOption('column-total-caption')));
@@ -203,7 +203,7 @@ class XhtmlTable
         if (! $isTotal && '' !== $this->getOption('subtotal-class') && $result->hasChildren()) {
             $rowClasses[] = $this->getOption('subtotal-class');
         }
-        if (0 !== count($rowClasses)) {
+        if ([] !== $rowClasses) {
             $tr->addAttribute('class', implode(' ', $rowClasses));
         }
         $caption = $tr->addChild('th');
