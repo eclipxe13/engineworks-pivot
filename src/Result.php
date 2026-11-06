@@ -13,9 +13,7 @@ class Result
 
     private Result|null $parent = null;
 
-    /**
-     * @param array<string, scalar|null>|null $values
-     */
+    /** @param array<string, scalar|null>|null $values */
     public function __construct(public readonly string $fieldName, public string $caption, public array|null $values = null, public bool $isRow = true)
     {
     }
@@ -65,9 +63,7 @@ class Result
         return $child?->searchValue($path);
     }
 
-    /**
-     * @return list<string>
-     */
+    /** @return list<string> */
     public function getPath(bool $excludeRoot = true): array
     {
         // I'm the root and is required to exclude
@@ -175,9 +171,7 @@ class Result
         return $chtext;
     }
 
-    /**
-     * @return list<Result>
-     */
+    /** @return list<Result> */
     public function getLastChildrenArray(): array
     {
         // no children
@@ -191,9 +185,7 @@ class Result
         return $array;
     }
 
-    /**
-     * @return scalar|null
-     */
+    /** @return scalar|null */
     public function getCurrentValue(string $key)
     {
         if (is_array($this->values) && array_key_exists($key, $this->values)) {
@@ -202,9 +194,7 @@ class Result
         return null;
     }
 
-    /**
-     * @param scalar|null $value
-     */
+    /** @param scalar|null $value */
     public function setCurrentValue(string $key, mixed $value): void
     {
         if (is_array($this->values) && array_key_exists($key, $this->values)) {

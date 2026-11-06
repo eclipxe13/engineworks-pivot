@@ -25,9 +25,7 @@ class QueryResult
         return $this->totals;
     }
 
-    /**
-     * @throws PivotException if there are not details
-     */
+    /** @throws PivotException if there are not details */
     public function getDetails(): Result
     {
         if (null === $this->details) {
@@ -41,25 +39,19 @@ class QueryResult
         return null !== $this->details;
     }
 
-    /**
-     * @return list<array{caption: string, fieldname: string}>
-     */
+    /** @return list<array{caption: string, fieldname: string}> */
     public function getRows(): array
     {
         return $this->rows;
     }
 
-    /**
-     * @return list<array{caption: string, fieldname: string}>
-     */
+    /** @return list<array{caption: string, fieldname: string}> */
     public function getColumns(): array
     {
         return $this->columns;
     }
 
-    /**
-     * @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}>
-     */
+    /** @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> */
     public function getAggregates(): array
     {
         return $this->aggregates;

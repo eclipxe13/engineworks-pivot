@@ -101,9 +101,7 @@ class Query
         return $data;
     }
 
-    /**
-     * @throws PivotException
-     */
+    /** @throws PivotException */
     private function queryTotalsResult(bool $sortValues): Result
     {
         // variable to return
@@ -172,9 +170,7 @@ class Query
         }
     }
 
-    /**
-     * @throws PivotException If no columns are defined
-     */
+    /** @throws PivotException If no columns are defined */
     private function queryDetailsResult(): Result
     {
         $columns = $this->pivot->getCurrentColumns();

@@ -86,9 +86,7 @@ class Filter
             . $db->sqlQuote($this->arguments, $dbalType);
     }
 
-    /**
-     * @return array{fieldname: string, operator: string, arguments: mixed}
-     */
+    /** @return array{fieldname: string, operator: string, arguments: mixed} */
     public function asArray(): array
     {
         return [
@@ -98,9 +96,7 @@ class Filter
         ];
     }
 
-    /**
-     * @return list<string>
-     */
+    /** @return list<string> */
     public static function operators(): array
     {
         return [

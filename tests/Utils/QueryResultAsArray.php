@@ -9,9 +9,7 @@ use EngineWorks\Pivot\Result;
 
 class QueryResultAsArray
 {
-    /**
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     public function toArray(QueryResult $queryResult): array
     {
         $array = ['rows' => $this->resultAsArray($queryResult->getTotals(), 'rows')];
@@ -21,9 +19,7 @@ class QueryResultAsArray
         return $array;
     }
 
-    /**
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     private function resultAsArray(Result $result, string $childrenName): array
     {
         $array = [

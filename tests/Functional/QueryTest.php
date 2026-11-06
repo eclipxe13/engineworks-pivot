@@ -31,9 +31,7 @@ final class QueryTest extends TestCase
         $this->assertInstanceOf(Result::class, $details);
     }
 
-    /**
-     * @return list<list<string>>
-     */
+    /** @return list<list<string>> */
     public static function providerQueryAndCompareWithJson(): array
     {
         return [

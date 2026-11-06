@@ -57,9 +57,7 @@ final class XhtmlTableTest extends TestCase
         $this->assertXmlStringEqualsXmlFile($xhtmlFile, $xhtmlContent);
     }
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     private function getFullOptions(): array
     {
         return [

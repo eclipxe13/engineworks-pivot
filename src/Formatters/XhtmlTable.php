@@ -14,18 +14,14 @@ class XhtmlTable
     /** @var array<string, string> */
     private array $options;
 
-    /**
-     * @param array<string, string> $options
-     */
+    /** @param array<string, string> $options */
     public function __construct(array $options = [])
     {
         $this->options = $this->defaultOptions();
         $this->setOptions($options);
     }
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     public function getOptions(): array
     {
         return $this->options;
@@ -36,9 +32,7 @@ class XhtmlTable
         return $this->options[$option];
     }
 
-    /**
-     * @param array<string, mixed> $options
-     */
+    /** @param array<string, mixed> $options */
     public function setOptions(array $options): void
     {
         foreach (array_keys($this->options) as $option) {
@@ -55,9 +49,7 @@ class XhtmlTable
         }
     }
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     public function defaultOptions(): array
     {
         return [

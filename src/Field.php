@@ -51,9 +51,7 @@ class Field
         return self::typeToDBAL($this->type);
     }
 
-    /**
-     * @return array{fieldname: string, caption: string, type: string}
-     */
+    /** @return array{fieldname: string, caption: string, type: string} */
     public function asArray(): array
     {
         return [
@@ -75,9 +73,7 @@ class Field
         };
     }
 
-    /**
-     * @return list<string>
-     */
+    /** @return list<string> */
     public static function types(): array
     {
         return [

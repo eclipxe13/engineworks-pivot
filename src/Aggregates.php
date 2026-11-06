@@ -25,9 +25,7 @@ class Aggregates implements IteratorAggregate, Countable
         $this->items = [];
     }
 
-    /**
-     * @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}>
-     */
+    /** @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> */
     public function asArray(): array
     {
         $array = [];

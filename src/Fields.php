@@ -35,9 +35,7 @@ class Fields implements IteratorAggregate, Countable
         $this->items = [];
     }
 
-    /**
-     * @return list<array{fieldname: string, caption: string, type: string}>
-     */
+    /** @return list<array{fieldname: string, caption: string, type: string}> */
     public function asArray(): array
     {
         $array = [];

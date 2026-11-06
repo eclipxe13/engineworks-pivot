@@ -25,9 +25,7 @@ class Filters implements IteratorAggregate, Countable
         $this->items = [];
     }
 
-    /**
-     * @return list<array{fieldname: string, operator: string, arguments: mixed}>
-     */
+    /** @return list<array{fieldname: string, operator: string, arguments: mixed}> */
     public function asArray(): array
     {
         $array = [];

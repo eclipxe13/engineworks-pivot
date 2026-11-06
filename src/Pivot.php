@@ -99,9 +99,7 @@ class Pivot
         return $this->info;
     }
 
-    /**
-     * @param scalar|Stringable|null $value
-     */
+    /** @param scalar|Stringable|null $value */
     public function setInfo(string $keyword, mixed $value): void
     {
         if (array_key_exists($keyword, $this->info)) {
@@ -204,17 +202,13 @@ class Pivot
         );
     }
 
-    /**
-     * @return list<array{fieldname: string, caption: string, type: string}>
-     */
+    /** @return list<array{fieldname: string, caption: string, type: string}> */
     public function getSourceFields(): array
     {
         return $this->fields->asArray();
     }
 
-    /**
-     * @return list<array{fieldname: string, operator: string, arguments: mixed, caption: string}>
-     */
+    /** @return list<array{fieldname: string, operator: string, arguments: mixed, caption: string}> */
     public function getCurrentFilters(): array
     {
         $return = [];
@@ -229,9 +223,7 @@ class Pivot
         return $return;
     }
 
-    /**
-     * @return list<array{caption: string, fieldname: string}>
-     */
+    /** @return list<array{caption: string, fieldname: string}> */
     public function getCurrentColumns(): array
     {
         $return = [];
@@ -245,9 +237,7 @@ class Pivot
         return $return;
     }
 
-    /**
-     * @return list<array{caption: string, fieldname: string}>
-     */
+    /** @return list<array{caption: string, fieldname: string}> */
     public function getCurrentRows(): array
     {
         $return = [];
@@ -271,9 +261,7 @@ class Pivot
         return count($this->rows) > 0;
     }
 
-    /**
-     * @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}>
-     */
+    /** @return list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> */
     public function getCurrentAggregates(): array
     {
         return $this->aggregates->asArray();

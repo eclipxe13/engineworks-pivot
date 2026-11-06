@@ -83,9 +83,7 @@ class Aggregate
         return $this->order;
     }
 
-    /**
-     * @return array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}
-     */
+    /** @return array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string} */
     public function asArray(): array
     {
         return [
@@ -105,9 +103,7 @@ class Aggregate
             . ' AS ' . $db->sqlFieldEscape($this->asName);
     }
 
-    /**
-     * @return list<string>
-     */
+    /** @return list<string> */
     public static function groupTypes(): array
     {
         return [
