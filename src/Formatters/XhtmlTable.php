@@ -174,7 +174,14 @@ class XhtmlTable
     }
 
     /**
-     * @param list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> $aggregates
+     * @param list<array{
+     *     fieldname: string,
+     *     caption: string,
+     *     group: string,
+     *     asname: string,
+     *     decimals: int,
+     *     order: string
+     * }> $aggregates
      * @param list<Result> $colsLastLevel
      */
     private function xhtmlAddRow(
@@ -225,7 +232,14 @@ class XhtmlTable
     }
 
     /**
-     * @param list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> $aggregates
+     * @param list<array{
+     *     fieldname: string,
+     *     caption: string,
+     *     group: string,
+     *     asname: string,
+     *     decimals: int,
+     *     order: string
+     * }> $aggregates
      * @param array<string, scalar|null>|null $values
      */
     private function xhtmlAddCellsValues(SimpleXMLElement $tr, array $aggregates, array|null $values): void

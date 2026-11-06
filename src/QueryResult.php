@@ -9,7 +9,14 @@ class QueryResult
     /**
      * @param list<array{caption: string, fieldname: string}> $rows
      * @param list<array{caption: string, fieldname: string}> $columns
-     * @param list<array{fieldname: string, caption: string, group: string, asname: string, decimals: int, order: string}> $aggregates
+     * @param list<array{
+     *     fieldname: string,
+     *     caption: string,
+     *     group: string,
+     *     asname: string,
+     *     decimals: int,
+     *     order: string
+     * }> $aggregates
      */
     public function __construct(
         private readonly Result $totals,

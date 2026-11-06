@@ -14,8 +14,12 @@ class Result
     private Result|null $parent = null;
 
     /** @param array<string, scalar|null>|null $values */
-    public function __construct(public readonly string $fieldName, public string $caption, public array|null $values = null, public bool $isRow = true)
-    {
+    public function __construct(
+        public readonly string $fieldName,
+        public string $caption,
+        public array|null $values = null,
+        public bool $isRow = true,
+    ) {
     }
 
     public function __clone(): void
