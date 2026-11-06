@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace EngineWorks\Pivot;
 
-/**
- * @extends Collection<Filter>
- */
-class Filters extends Collection
-{
-    protected string $itemsInstanceOf = Filter::class;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use Traversable;
 
-    /**
-     * @param Filter $item
-     */
-    public function addItem(mixed $item, int|string|null $key = null): static
+/** @implements IteratorAggregate<int, Filter> */
+class Filters implements IteratorAggregate, Countable
+{
+    /** @var array<int, Filter> */
+    private array $items = [];
+
+    public function addItem(Filter $item): void
     {
-        return parent::addItem($item);
+        $this->items[] = $item;
+    }
+
+    public function clear(): void
+    {
+        $this->items = [];
     }
 
     /**
@@ -29,5 +35,16 @@ class Filters extends Collection
             $array[] = $item->asArray();
         }
         return $array;
+    }
+
+    /** @return Traversable<int, Filter> */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->items);
+    }
+
+    public function count(): int
+    {
+        return count($this->items);
     }
 }

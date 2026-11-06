@@ -4,21 +4,35 @@ declare(strict_types=1);
 
 namespace EngineWorks\Pivot;
 
-/**
- * @extends Collection<Field>
- */
-class Fields extends Collection
-{
-    protected string $itemsInstanceOf = Field::class;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use Traversable;
 
-    /**
-     * @param Field $item
-     */
-    public function addItem(mixed $item, int|string|null $key = null): static
+/** @implements IteratorAggregate<string, Field> */
+class Fields implements IteratorAggregate, Countable
+{
+    /** @var array<string, Field> */
+    private array $items = [];
+
+    public function addItem(Field $item): void
     {
-        $key = $item->getFieldName();
-        parent::addItem($item, $key);
-        return $this;
+        $this->items[$item->getFieldName()] = $item;
+    }
+
+    public function exists(string $key): bool
+    {
+        return isset($this->items[$key]);
+    }
+
+    public function value(string $key): Field|null
+    {
+        return $this->items[$key] ?? null;
+    }
+
+    public function clear(): void
+    {
+        $this->items = [];
     }
 
     /**
@@ -31,5 +45,16 @@ class Fields extends Collection
             $array[] = $item->asArray();
         }
         return $array;
+    }
+
+    /** @return Traversable<string, Field> */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->items);
+    }
+
+    public function count(): int
+    {
+        return count($this->items);
     }
 }

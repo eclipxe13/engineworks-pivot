@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace EngineWorks\Pivot;
 
-/**
- * @extends Collection<Aggregate>
- */
-class Aggregates extends Collection
-{
-    protected string $itemsInstanceOf = Aggregate::class;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use Traversable;
 
-    /**
-     * @param Aggregate $item
-     */
-    public function addItem(mixed $item, int|string|null $key = null): static
+/** @implements IteratorAggregate<string, Aggregate> */
+class Aggregates implements IteratorAggregate, Countable
+{
+    /** @var array<string, Aggregate> */
+    private array $items = [];
+
+    public function addItem(Aggregate $item): void
     {
-        $key = $item->getAsName();
-        return parent::addItem($item, $key);
+        $this->items[$item->getAsName()] = $item;
+    }
+
+    public function clear(): void
+    {
+        $this->items = [];
     }
 
     /**
@@ -32,9 +37,7 @@ class Aggregates extends Collection
         return $array;
     }
 
-    /**
-     * @return array<string, string>
-     */
+    /** @return array<string, string> */
     public function getOrderArray(): array
     {
         $array = [];
@@ -42,5 +45,16 @@ class Aggregates extends Collection
             $array[$item->getAsName()] = $item->getOrder();
         }
         return $array;
+    }
+
+    /** @return Traversable<string, Aggregate> */
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator($this->items);
+    }
+
+    public function count(): int
+    {
+        return count($this->items);
     }
 }

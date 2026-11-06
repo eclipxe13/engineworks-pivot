@@ -62,10 +62,7 @@ class Result
             return null;
         }
         $child = $this->getChildren()->value($search);
-        if (null === $child) {
-            return null;
-        }
-        return $child->searchValue($path);
+        return $child?->searchValue($path);
     }
 
     /**
@@ -143,7 +140,7 @@ class Result
     {
         $tree = new self($this->fieldName, $this->caption, $this->values, $this->isRow);
         if ($childrenLevels > 0 && $this->hasChildren()) {
-            foreach ($this->getChildren() as $key => $child) {
+            foreach ($this->getChildren()->getIterator() as $key => $child) {
                 $tree->getChildren()->addItem($child->copy($childrenLevels - 1), $key);
             }
         }
